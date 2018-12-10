@@ -60,8 +60,8 @@ class TwoFactorTestProvider implements IProvider {
 	public function getTemplate(IUser $user): Template {
 		$this->iapi->requestAuthSession('bpluester');
 		$authsession = $_SESSION['session'];
-		$listener = new SessionStateListener($user,$this,$authsession);
-		$listener->checkState();
+		//$listener = new SessionStateListener($user,$this,$authsession);
+		//$listener->checkState();
 		return new Template('secsignid', 'challenge');
 	}
 	/**

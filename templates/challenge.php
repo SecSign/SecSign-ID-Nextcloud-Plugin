@@ -8,6 +8,7 @@ style('secsignid','style');
 	<p><?php
 		print_unescaped('<img src="data:image/png;base64,'.$_SESSION['session']->getIconData().'">');
 	?></p>
+	<h1>Access Pass for:</h1><h2><?php p($_SESSION['session']->getSecSignID())?></h2>
 	<p><button type="submit">
 		<span>Okay</span>
 	</button></p>

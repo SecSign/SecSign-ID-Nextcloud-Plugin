@@ -5,3 +5,17 @@
 .sid_content {
 	margin: 8;
 }
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+img {
+    background: white;
+    border-radius: 12px;
+}
+
+p {
+	text-align: center;
+}

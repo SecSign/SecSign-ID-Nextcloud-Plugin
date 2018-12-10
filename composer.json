@@ -1,0 +1,15 @@
+{
+    "name": "Sec Sign I D",
+    "description": "SecSign 2FA for your NextCloud environment",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Björn Plüster"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

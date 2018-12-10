@@ -1,4 +1,5 @@
 <?php
+script('secsignid','login_polling');
 style('secsignid','style');
 ?>
 
@@ -13,3 +14,6 @@ style('secsignid','style');
 		<span>Okay</span>
 	</button></p>
 </form>
+<input type="hidden" id="hidden_session" value="<?php
+		$_SESSION['session']->getAuthSessionAsArray();
+	?>">

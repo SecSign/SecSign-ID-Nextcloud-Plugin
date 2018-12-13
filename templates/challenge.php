@@ -1,5 +1,5 @@
 <?php
-script('secsignid','login_polling');
+script('secsignid', 'login_polling');
 style('secsignid','style');
 ?>
 
@@ -9,11 +9,8 @@ style('secsignid','style');
 	<p><?php
 		print_unescaped('<img src="data:image/png;base64,'.$_SESSION['session']->getIconData().'">');
 	?></p>
-	<h1>Access Pass for:</h1><h2><?php p($_SESSION['session']->getSecSignID())?></h2>
+	<h1>Access Pass for:</h1><h2 id="secsignid"><?php p($_SESSION['session']->getSecSignID())?></h2>
 	<p><button type="submit">
 		<span>Okay</span>
 	</button></p>
 </form>
-<input type="hidden" id="hidden_session" value="<?php
-		$_SESSION['session']->getAuthSessionAsArray();
-	?>">

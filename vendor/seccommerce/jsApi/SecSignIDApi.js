@@ -454,17 +454,3 @@ function _merge(obj1, obj2){
 	}
 	return obj1;
 }
-
-
-let id = document.getElementById('secsignid').innerHTML;
-let options = {
-	secsignid: id,
-	servicename: 'SecSign Nextcloud plugin',
-	serviceaddress:'https://httpapi.secsign.com:443',
-	callbackFunction: function(response){
-		console.log(response);
-	}
-}
-let api = new SecSignIDApi(options);
-api.requestAuthSession(options);
-console.log(options);

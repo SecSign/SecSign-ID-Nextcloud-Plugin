@@ -1,0 +1,4 @@
+[submodule "phpApi"]
+	path = phpApi
+	url = git@git.seccommerce.com:secsign-phpapi
+	branch = master

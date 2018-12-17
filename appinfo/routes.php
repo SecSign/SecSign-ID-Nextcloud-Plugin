@@ -11,6 +11,7 @@ return [
     'routes' => [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
-	   ['name' => 'settings#test', 'url' => '/', 'verb' => 'POST']
+	   ['name' => 'settings#test', 'url' => '/', 'verb' => 'POST'],
+	   ['name' => 'login#authstate', 'url' => '/login/state', 'verb' => 'POST']
     ]
 ];

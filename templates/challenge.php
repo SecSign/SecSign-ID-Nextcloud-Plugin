@@ -1,5 +1,5 @@
 <?php
-script('secsignid', 'login_polling');
+//script('secsignid', 'login');
 style('secsignid','style');
 ?>
 

@@ -457,7 +457,17 @@ function _merge(obj1, obj2){
 
 
 let id = document.getElementById('secsignid').innerHTML;
-let options = {
+let url = OC.generateUrl('/apps/secsignid/login/state');
+let server_options = {
+		async : true,
+		posturl : url,
+		referer : 'SeSign Nextcloud plugin',
+		pluginname : 'SecSign Nextcloud',
+		version : "0.1",
+		optionalparams : null
+	};
+
+let id_options = {
 	secsignid: id,
 	servicename: 'SecSign Nextcloud plugin',
 	serviceaddress:'https://httpapi.secsign.com:443',

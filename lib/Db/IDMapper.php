@@ -30,14 +30,14 @@ class IDMapper extends Mapper {
         return $this->findEntities($sql);
     }
 
-    /*public function findAll() {
+    public function findAll() {
         $sql = 'SELECT * FROM *PREFIX*secsignid';
         return $this->findEntities($sql);
-    }*/
+    }
 
-    public function findAll($userId) {
+    /*public function findAll($userId) {
         $sql = 'SELECT * FROM *PREFIX*secsignid WHERE user_id = ?';
         return $this->findEntities($sql, [$userId]);
-    }
+    }*/
 
 }

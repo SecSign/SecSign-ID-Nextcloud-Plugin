@@ -11,7 +11,7 @@ class Personal implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse('secsignid', 'settings/test');
+		return new TemplateResponse('secsignid', 'personal');
 	}
 
 	/**

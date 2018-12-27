@@ -1,4 +1,4 @@
-$(function(){
+$(function(Backbone){
 
 	var User = Backbone.Model.extend({
 
@@ -46,9 +46,9 @@ $(function(){
     	}	
 	});
 
-	//List.create({uid: 0, secsignid: "testid1"});
-	//List.create({uid: 0, secsignid: "testid2"});
-	//List.create({uid: 0, secsignid: "testid3"});
-	//List.create({uid: 0, secsignid: "testid4"});
-	//document.findItemById("user-list").add(List).
+	List.create({uid: 0, secsignid: "testid1"});
+	List.create({uid: 0, secsignid: "testid2"});
+	List.create({uid: 0, secsignid: "testid3"});
+	List.create({uid: 0, secsignid: "testid4"});
+	document.findItemById("user-list").add(List);
 });

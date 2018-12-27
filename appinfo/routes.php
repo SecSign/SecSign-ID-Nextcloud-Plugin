@@ -12,6 +12,8 @@ return [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 	   ['name' => 'settings#test', 'url' => '/', 'verb' => 'POST'],
-	   ['name' => 'login#authstate', 'url' => '/login/state', 'verb' => 'POST']
+	   ['name' => 'login#authstate', 'url' => '/login/state', 'verb' => 'POST'],
+	   ['name' => 'id#create', 'url' => '/id/create/{id}', 'verb' => 'POST'],
+	   ['name' => 'id#index', 'url' => '/id/', 'verb' => 'GET']
     ]
 ];

@@ -5,8 +5,10 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use OCA\SecSignID\DB\IDMapper;
+use OCA\SecSignID\DB\ID;
 
-class SettingsController extends Controller {
+class IdController extends Controller {
 	private $userId;
 	private $mapper;
 
@@ -17,19 +19,19 @@ class SettingsController extends Controller {
 	}
 
 	
-	public function index() {
-		return new DataResponse($this->mapper->findAll())  // templates/index.php
+	public function index(): DataResponse {
+		return new DataResponse($this->mapper->findAll());  // templates/index.php
 	}
 
-	public function create($secsignid, $enabled){
+	public function create($secsignid): DataResponse{
 		$id = new ID();
 		$id->setUserId($this->userId);
 		$id->setSecsignid($secsignid);
-		$id->setEnabled($enabled);
+		$id->setEnabled(True);
 		return new DataResponse($this->mapper->insert($id));
 	}
 
-	public function update($userId,$enabled){
+	/*public function update($userId,$enabled): DataResponse{
 		try{
 			$id = $this->mapper->find($userId);
 		} catch(Exception $e){
@@ -37,6 +39,6 @@ class SettingsController extends Controller {
 		}
 		$id->setEnabled($enabled);
 		return new DataResponse($this->mapper->update($id));
-	}
+	}*/
 
 }

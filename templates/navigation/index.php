@@ -1,7 +1,7 @@
 <ul>
-	<li><a href="#">User Management</a></li>
+	<li><a href="#">Personal</a></li>
 	<li>
-		<a href="#">First level container</a>
+		<a href="#">Admin</a>
 		<ul>
 			<li><a href="#">Second level entry</a></li>
 			<li><a href="#">Second level entry</a></li>

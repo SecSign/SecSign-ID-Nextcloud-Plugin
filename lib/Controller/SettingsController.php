@@ -25,7 +25,7 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		return new TemplateResponse('secsignid', 'test');  // templates/index.php
+		return new TemplateResponse('secsignid', 'personal');  // templates/index.php
 	}
 
 }

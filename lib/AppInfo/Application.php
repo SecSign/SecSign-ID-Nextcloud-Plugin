@@ -25,6 +25,8 @@ namespace OCA\SecSignID\AppInfo;
 
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Service\API;
+use OCA\SecSignID\Controller\SecsignController;
+use OCA\SecSignID\Controller\IDController;
 use OCP\AppFramework\App;
 
 class Application extends App {
@@ -33,7 +35,11 @@ class Application extends App {
 		parent::__construct('secsignid', $urlParams);
 
 		$container = $this->getContainer();
+		$container->registerAlias('SecsignController', SecsignController::class);
+		$container->registerAlias('IDController', IDController::class);
 		$container->registerAlias(IAPI::class, API::class);
+
+        
 
 		$dispatcher = $container->getServer()->getEventDispatcher();
 		$dispatcher->addListener(StateChanged::class, function (StateChanged $event) use ($container) {

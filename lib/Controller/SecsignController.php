@@ -7,9 +7,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
 
-class LoginController extends Controller {
+class SecsignController extends Controller {
 	private $userId;
-	private §$iApi;
+	private $iApi;
 
 	public function __construct($AppName, IRequest $request, $UserId, IAPI $iApi){
 		parent::__construct($AppName, $request);
@@ -27,8 +27,14 @@ class LoginController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
-		//return new TemplateResponse('secsignid', 'test');  // templates/index.php
+	public function state() : DataResponse{
+		$accepted = $iApi->isSessionAccepted();
+		if(!$accepted){
+			return new DataResponse(array('data' => array('accepted' => $accepted),'status' => 'success'));	
+		}else{
+			return new DataResponse(array('data' => array('accepted' => $accepted),'status' => 'error'));
+		}
+		
 	}
 
 }

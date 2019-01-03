@@ -42,9 +42,30 @@ class API implements IAPI {
 	}
 
 	public function isSessionAccepted(): bool{
-		$authsession = $_SESSION['session'];
-		$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
-		$authSessionState = $secsignidapi->getAuthSessionState($authsession);
-		return $authSessionState == AuthSession::AUTHENTICATED;
+		try{
+			$authsession = $_SESSION['session'];
+			if($authsession == null){
+				return false;
+			}
+			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
+			return $authSessionState == AuthSession::AUTHENTICATED;
+		}catch(Exception $e){
+			throw $e;
+		}
+	}
+
+	public function isSessionPending(): bool{
+		try{
+			$authsession = $_SESSION['session'];
+			if($authsession == null){
+				return false;
+			}
+			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
+			return $authSessionState == AuthSession::PENDING;
+		}catch(Exception $e){
+			throw $e;
+		}
 	}
 }

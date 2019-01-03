@@ -7,13 +7,15 @@
  * The controller class has to be registered in the application.php file since
  * it's instantiated in there
  */
-return [
-    'routes' => [
+$application = new Application();
+
+$routes = [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 	   ['name' => 'settings#test', 'url' => '/', 'verb' => 'POST'],
 	   ['name' => 'login#authstate', 'url' => '/login/state', 'verb' => 'POST'],
 	   ['name' => 'id#create', 'url' => '/id/create/{id}', 'verb' => 'POST'],
-	   ['name' => 'id#index', 'url' => '/id/', 'verb' => 'GET']
-    ]
+	   ['name' => 'id#index', 'url' => '/id/', 'verb' => 'GET'],
+	   ['name' => 'secsign#state', 'url' => '/2fa_state', 'verb' => 'GET']
 ];
+
+$application->registerRoutes($this,['routes' => $routes]);

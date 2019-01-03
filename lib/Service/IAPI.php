@@ -33,4 +33,9 @@ interface IAPI {
 	 */
 	public function isSessionAccepted(): bool;
 
+	/**
+	 * @return bool
+	 */
+	public function isSessionPending(): bool;
+
 }

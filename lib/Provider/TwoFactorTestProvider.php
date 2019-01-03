@@ -58,7 +58,12 @@ class TwoFactorTestProvider implements IProvider {
 	 * Get the template for rending the 2FA provider view
 	 */
 	public function getTemplate(IUser $user): Template {
-		$this->iapi->requestAuthSession('bpluester');
+		if(!empty($_SESSION['session']))
+		{
+				$this->iapi->requestAuthSession('bpluester');
+		}else{
+			$this->iapi->requestAuthSession('bpluester');
+		}
 		return new Template('secsignid', 'challenge');
 	}
 	/**

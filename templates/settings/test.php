@@ -1,5 +1,0 @@
-<?php
-	script('secsignid','addToTwoFa');
-
-
-

@@ -1,0 +1,15 @@
+{
+    "name": "Sec Sign I D",
+    "description": "Plugin to enable use of SecSign 2FA",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Björn Plüster"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

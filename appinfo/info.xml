@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>secsignid</id>
+    <name>SecSign ID</name>
+    <summary>Plugin to enable use of SecSign 2FA</summary>
+    <description><![CDATA[This Plugin allow you to authenticate yourself and your users using your SecSign ID]]></description>
+    <version>0.0.12</version>
+    <licence>agpl</licence>
+    <author mail="bjoern@secsign.com" >Björn Plüster</author>
+    <namespace>SecSignID</namespace>
+    <category>security</category>
+    <bugs>https://jirasecsignidplugin.seccommerce.biz/issues/</bugs>
+    <dependencies>
+        <nextcloud min-version="14" max-version="15"/>
+    </dependencies>
+     <two-factor-providers>
+        <provider>OCA\SecSignID\Provider\TwoFactorTestProvider</provider>
+    </two-factor-providers>
+    <navigations>
+        <navigation role="admin">
+            <name>SecSign ID</name>
+            <route>secsignid.page.index</route>
+        </navigation>
+    </navigations>
+</info>

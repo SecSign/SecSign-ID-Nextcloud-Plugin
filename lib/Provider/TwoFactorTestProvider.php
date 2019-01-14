@@ -25,14 +25,26 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 use OCP\Template;
 use OCA\SecSignID\Service\AuthSession;
+use OCA\SecSignID\Db\IDMapper;
+use OCA\SecSignID\Db\ID;
 
 class TwoFactorTestProvider implements IProvider {
 
 	/** @var IAPI */
 	private $iapi;
+	
+	private $mapper;
 
-	public function __construct(IAPI $iapi){
+	private $userId;
+
+	private $id;
+
+
+	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper){
 		$this->iapi = $iapi;
+		$this->userId = $UserId;
+		$this->mapper = $mapper;
+		$this->id = $this->mapper->find($this->userId);
 	}
 	
 	public function getId(): string {
@@ -59,9 +71,9 @@ class TwoFactorTestProvider implements IProvider {
 	public function getTemplate(IUser $user): Template {
 		if(!empty($_SESSION['session']))
 		{
-			$this->iapi->requestAuthSession('bpluester');
+			$this->iapi->requestAuthSession($this->id->getSecsignid());
 		}else{
-			$this->iapi->requestAuthSession('bpluester');
+			$this->iapi->requestAuthSession($this->id->getSecsignid());
 		}
 		return new Template('secsignid', 'challenge');
 	}
@@ -79,6 +91,6 @@ class TwoFactorTestProvider implements IProvider {
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
 		// 2FA is enforced for all users
-		return true;
+		return $this->id != null && $this->id->getEnabled() == 1;
 	}
 }

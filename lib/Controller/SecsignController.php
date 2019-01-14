@@ -46,14 +46,24 @@ class SecsignController extends Controller {
 		$entity->setUserId($this->userId);
 		$entity->setSecsignid($secsignid);
 		$entity->setEnabled(1);
-		return new DataResponse($this->mapper->addUser($entity));
+		return $this->mapper->addUser($entity)->jsonSerialize();
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 */
 	public function getUsers(){
-		return new DataResponse($this->mapper->findAll());
+		$ids = $this->mapper->findAll();
+		foreach ($ids as &$id){
+			$id = $id->jsonSerialize();
+		}
+		return $ids;
 	}
 
+	/**
+	 * @NoCSRFRequired
+	 */
+	public function findCurrent(){
+		return $this->mapper->find($this->userId)->jsonSerialize();
+	}
 }

@@ -2,6 +2,7 @@
 namespace OCA\SecSignID\Db;
 
 use OCP\IDbConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\AppFramework\Db\QBMapper;
 use OCA\SecSignID\Db\ID;
 
@@ -12,12 +13,23 @@ class IDMapper extends QBMapper {
     }
 
     public function addUser($id){
-        return $this->insert($id);
+        try{
+            $user = $this->find($id->getUserId());
+            $id->setId($user->getId());
+            return $this->update($id);
+        }catch(Exception $e){
+            return $this->insert($id);
+        }
     }
 
     public function find($userId) {
-        $sql = 'SELECT * FROM *PREFIX*secsignid WHERE user_id = ?';
-        return $this->findEntity($sql, [$userId]);
+        $qb = $this->db->getQueryBuilder();
+        $qb ->select('*')
+            ->from('secsignid')
+            ->where(
+                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId,IQueryBuilder::PARAM_STR))
+            );
+        return $this->findEntity($qb);
     }
 
     public function findByName($secsignid) {
@@ -41,8 +53,10 @@ class IDMapper extends QBMapper {
     }
 
     public function findAll() {
-        $sql = 'SELECT * FROM *PREFIX*secsignid';
-        return $this->findEntities($sql);
+        $qb = $this->db->getQueryBuilder();
+        $qb ->select('*')
+            ->from('secsignid');
+        return $this->findEntities($qb);
     }
 
 }

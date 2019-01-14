@@ -25,18 +25,16 @@ class ID extends Entity {
 	/** @var int */
 	protected $enabled;
 
-	/*public function __construct($userId,$secsignid,$enabled){
-		$this->userId = $userId;
-		$this->secsignid = $secsignid;
-		$this->enabled = $enabled;
-	}*/
+	public function __construct(){
+		$this->addType('enabled','integer');
+	}
 
 	public function jsonSerialize(){
 		return [
 			'userId' => $this->userId,
 			'secsignid' => $this->secsignid,
-			'enabled' => $this->enabled
+			'enabled' => $this->enabled,
+			'id' => $this->id
 		];
 	}
-
 }

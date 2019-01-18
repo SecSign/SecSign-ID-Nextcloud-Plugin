@@ -14,6 +14,7 @@ return [
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
 	   ['name' => 'secsign#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
 	   ['name' => 'secsign#getUsers', 'url' => '/ids/', 'verb' => 'GET'],
-	   ['name' => 'secsign#findCurrent', 'url' => '/ids/current/', 'verb' => 'GET']
+	   ['name' => 'secsign#findCurrent', 'url' => '/ids/current/', 'verb' => 'GET'],
+	   ['name' => 'secsign#usersWithIds', 'url' => '/ids/users/', 'verb' => 'GET']
     ]
 ];

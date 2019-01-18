@@ -8,6 +8,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Db\IDMapper;
+use OCA\SecSignID\Db\UserMapper;
 use OCA\SecSignID\Db\ID;
 
 class SecsignController extends Controller {
@@ -18,11 +19,15 @@ class SecsignController extends Controller {
 
 	private $mapper;
 
-	public function __construct($AppName, IRequest $request, $UserId, IAPI $iapi, IDMapper $mapper){
+	private $userMapper;
+
+	public function __construct($AppName, IRequest $request, $UserId, IAPI $iapi,
+								IDMapper $mapper,UserMapper $userMapper){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
 		$this->mapper = $mapper;
+		$this->userMapper = $userMapper;
 	}
 
 	/**
@@ -47,6 +52,20 @@ class SecsignController extends Controller {
 		$entity->setSecsignid($secsignid);
 		$entity->setEnabled(1);
 		return $this->mapper->addUser($entity)->jsonSerialize();
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * 
+	 * @param string $secsignid
+	 */
+	public function usersWithIds(){
+		/*$ids = $this->userMapper->findAll();
+		foreach ($ids as &$id){
+			$id = $id->jsonSerialize();
+		}
+		return $ids;*/
+		return $this->mapper->getUsersAndIds();
 	}
 
 	/**

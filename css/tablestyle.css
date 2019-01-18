@@ -1,0 +1,29 @@
+table {
+    width: 170%;
+}
+
+.center{
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+input[type=text]{
+    color: #000;
+}
+
+th {
+    font-weight: bold;
+    font-size: 110%;
+    color: #0082c9;
+}
+
+td {
+    font-size: 100%
+}
+th,td {
+    text-align: center;
+    vertical-align: center;
+    padding: 15px;
+    border-bottom: 1px solid rgb(172, 225, 255);
+}

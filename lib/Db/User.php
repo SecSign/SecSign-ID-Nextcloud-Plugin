@@ -6,22 +6,39 @@ namespace OCA\SecSignID\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * method string getUid()
- * method void setUid(string $uid)
- * method string getDisplayname()
- * method void setDisplayname(string $uid)
- * method string getPassword()
- * method void setPassword(string $uid)
- * method string getUidLower()
- * method void setUidLower(string $uid)
+ * @method string getUid()
+ * @method void setUid(string $uid)
+ * @method string getDisplayname()
+ * @method void setDisplayname(string $displayname)
+ * @method string getPassword()
+ * @method void setPassword(string $password)
+ * @method string getUidLower()
+ * @method void setUidLower(string $uidLower)
  */
 class User extends Entity {
 
+	/** @var string */
 	protected $uid;
 
+	/** @var string */
 	protected $displayname;
 
+	/** @var string */
 	protected $password;
 
+	/** @var string */
 	protected $uidLower;
+
+	public function __construct(){
+		
+	}
+
+	public function jsonSerialize(){
+		return [
+			'uid' => $this->uid,
+			'displayname' => $this->displayname,
+			'password' => $this->password,
+			'uidLower' => $this->uidLower
+		];
+	}
 }

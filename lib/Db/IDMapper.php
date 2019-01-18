@@ -22,6 +22,21 @@ class IDMapper extends QBMapper {
         }
     }
 
+    public function getUsersAndIDs(){
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('u.uid','u.displayname','s.secsignid','s.enabled')
+            ->from('users','u')
+            ->leftJoin('u','secsignid','s','s.user_id = u.uid');
+        $value = $qb->execute();
+        $output = array();
+        $row = $value->fetch();
+        while($row !== false){
+            $output[] = $row;
+            $row = $value->fetch();
+        }
+        return $output;
+    }
+
     public function find($userId) {
         $qb = $this->db->getQueryBuilder();
         $qb ->select('*')
@@ -29,6 +44,7 @@ class IDMapper extends QBMapper {
             ->where(
                 $qb->expr()->eq('user_id', $qb->createNamedParameter($userId,IQueryBuilder::PARAM_STR))
             );
+            
         return $this->findEntity($qb);
     }
 

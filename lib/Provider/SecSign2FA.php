@@ -28,11 +28,12 @@ use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 
-class TwoFactorTestProvider implements IProvider {
+class SecSign2FA implements IProvider {
 
 	/** @var IAPI */
 	private $iapi;
 	
+
 	private $mapper;
 
 	private $userId;
@@ -90,7 +91,7 @@ class TwoFactorTestProvider implements IProvider {
 	 * Decides whether 2FA is enabled for the given user
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
-		// 2FA is enforced for all users
-		return $this->id != null && $this->id->getEnabled() == 1;
+		$id = $this->mapper->find($this->userId);
+		return $id != null && $id->getEnabled() == 1;
 	}
 }

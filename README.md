@@ -1,4 +1,4 @@
-# Sec Sign I D
+# SecSign ID
 Place this app in **nextcloud/apps/**
 
 ## Building the app

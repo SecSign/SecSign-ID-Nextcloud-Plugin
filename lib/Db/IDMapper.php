@@ -3,6 +3,7 @@ namespace OCA\SecSignID\Db;
 
 use OCP\IDbConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCA\SecSignID\Db\ID;
 
@@ -17,9 +18,15 @@ class IDMapper extends QBMapper {
             $user = $this->find($id->getUserId());
             $id->setId($user->getId());
             return $this->update($id);
-        }catch(Exception $e){
+        }catch(DoesNotExistException $e){
             return $this->insert($id);
         }
+    }
+
+    public function disableUser($uid){
+        $user = $this->find($uid);
+        $user->setEnabled(0);
+        return $this->update($user);
     }
 
     public function getUsersAndIDs(){
@@ -45,7 +52,12 @@ class IDMapper extends QBMapper {
                 $qb->expr()->eq('user_id', $qb->createNamedParameter($userId,IQueryBuilder::PARAM_STR))
             );
             
-        return $this->findEntity($qb);
+        try{
+            return $this->findEntity($qb);
+        }catch(DoesNotExistException $e){
+            return null;
+        }
+        
     }
 
     public function findByName($secsignid) {

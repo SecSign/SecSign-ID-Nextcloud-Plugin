@@ -12,7 +12,7 @@ use OCP\Migration\IOutput;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version6 extends SimpleMigrationStep {
+class Version8 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -37,7 +37,7 @@ class Version6 extends SimpleMigrationStep {
         //$schema->dropTable('secsignid');
 		if ($schema->hasTable('secsignid')) {
             $table = $schema->getTable('secsignid');
-			$table->addColumn('id', 'integer', [
+            $table->addColumn('id', 'integer', [
 				'notnull' => true,
 				'default' => 1,
 				'autoincrement' => true

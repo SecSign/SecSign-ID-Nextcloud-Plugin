@@ -11,7 +11,7 @@ class Security implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse('secsignid', 'content/setup');
+		return new TemplateResponse('secsignid', 'settings/setup');
 	}
 
 	/**

@@ -8,7 +8,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Db\IDMapper;
-use OCA\SecSignID\Db\UserMapper;
 use OCA\SecSignID\Db\ID;
 
 class SecsignController extends Controller {
@@ -19,15 +18,12 @@ class SecsignController extends Controller {
 
 	private $mapper;
 
-	private $userMapper;
-
 	public function __construct($AppName, IRequest $request, $UserId, IAPI $iapi,
-								IDMapper $mapper,UserMapper $userMapper){
+								IDMapper $mapper){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
 		$this->mapper = $mapper;
-		$this->userMapper = $userMapper;
 	}
 
 	/**
@@ -55,9 +51,16 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function disableID(){
+		return $this->mapper->disableUser($this->userId)->jsonSerialize();
+	}
+
+	/**
 	 * @NoCSRFRequired
 	 * 
-	 * @param string $secsignid
 	 */
 	public function usersWithIds(){
 		/*$ids = $this->userMapper->findAll();
@@ -66,6 +69,22 @@ class SecsignController extends Controller {
 		}
 		return $ids;*/
 		return $this->mapper->getUsersAndIds();
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * 
+	 * @param array $data
+	 */
+	public function saveChanges($data){
+		foreach($data as &$user){
+			$id = new ID();
+			$id->setUserId($user[uid]);
+			$id->setSecsignid($user[secsignid]);
+			$id->setEnabled($user[enabled]);
+			$this->mapper->addUser($id);
+		}
+		return $this->usersWithIds();
 	}
 
 	/**
@@ -80,9 +99,11 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function findCurrent(){
 		return $this->mapper->find($this->userId)->jsonSerialize();
 	}
+
 }

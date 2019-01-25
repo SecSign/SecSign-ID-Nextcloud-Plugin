@@ -18,7 +18,7 @@
 						if(data.accepted){
 							resolve(data);
 						}else{
-							console.log("retrying");
+							//console.log("retrying");
 							setTimeout(getState,500,attempts,resolve,reject);
 						}
 					},

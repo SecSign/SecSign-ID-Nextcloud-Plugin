@@ -6,27 +6,68 @@
                 secsignid: id
             },
             function (data) {
-                console.log(data);
+                $("#disabled").hide();
+                $("#enabled").show();
+                $("#disable").html("Disable");
+                $("#disable").click(function (){
+                    disable();
+                });
+                $("#enabled input").val(data.secsignid);
+                $("#description").text("You have already added a SecSign ID protecting your account.")
+                $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
             }
         ).fail(function () {
-            console.log("failed to save");
+            //console.log("failed to save");
+            alert("Failed to save SecSign ID, try again");
         });
     }
 
+    function disable() {
+        $.post(OC.generateUrl('/apps/secsignid/id/disable/'), null,
+            function (data) {
+                $("#enabled div").html("<p class='animated fadeOut' style='color: green'>2FA disabled</p>");
+                $("#disable").html("Enable");
+                $("#disable").click(function(){
+                    save($("#secsignid_input_en"));
+                })
+                $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
+                    
+            }
+        ).fail(function () {
+            //console.log("failed to save");
+            alert("Failed to save SecSign ID, try again");
+        });
+    }
+
+    function setOnClick() {
+        
+        
+    }
+
     let URL = OC.generateUrl('/apps/secsignid/ids/current/');
-    console.log(URL);
     $.ajax({
         type: "GET",
         url: URL,
         success: function (data) {
-            console.log(data);
             $(".lds-roller").hide();
-            if (data.enabled == 1) {
+            if (data.secsignid != null) {
                 $("#enabled").show();
-                $("#secsignid_input_en").val(data.secsignid)
+                $("#secsignid_input_en").val(data.secsignid);
+                if (data.enabled == 0) {
+                    $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
+                    $("#disable").html("Enable");
+                    $("#disable").click(function () {
+                        save($("#secsignid_input_en").val());
+                    });
+                }else{
+                    $("#disable").click(function (){
+                        disable();
+                    });
+                }
                 $("#change_id").click(function () {
                     save($("#secsignid_input_en").val());
                 });
+
             } else {
                 $("#disabled").show();
                 $("#change_id").click(function () {

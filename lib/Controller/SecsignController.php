@@ -119,9 +119,10 @@ class SecsignController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function findCurrent(){
-		try{
-			return $this->mapper->find($this->userId)->jsonSerialize();
-		}catch(Exception $e){
+		$current = $this->mapper->find($this->userId);
+		if($current != null){
+			return $current->jsonSerialize();
+		}else{
 			return null;
 		}
 	}

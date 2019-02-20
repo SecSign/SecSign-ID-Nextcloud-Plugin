@@ -81,7 +81,7 @@ class SecSign2FA implements IProvider {
 	/**
 	 * Verify the given challenge
 	 */
-	public function verifyChallenge(IUser $user,?string $challenge): bool {
+	public function verifyChallenge(IUser $user, $challenge): bool {
 		if ($challenge != null && $this->iapi->isSessionAccepted()) {
 			return true;
 		}

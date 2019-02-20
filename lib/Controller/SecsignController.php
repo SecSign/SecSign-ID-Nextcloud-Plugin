@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 namespace OCA\SecSignID\Controller;
 
 use OCP\IRequest;
@@ -13,6 +17,9 @@ use OCA\SecSignID\Db\ID;
 use OCA\SecSignID\Provider\SecSign2FA;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 
+/**
+ * The SecSignController links to required templates and handles requests to the server.
+ */
 class SecsignController extends Controller {
 	private $userId;
 
@@ -50,6 +57,8 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Sets a SecSign ID for the current user.
+	 * 
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * 
@@ -65,6 +74,8 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Disables the current users 2FA.
+	 * 
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -74,19 +85,17 @@ class SecsignController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
+	 * Gets all users joined with their corresponding SecSign IDs.
 	 * 
+	 * @NoCSRFRequired
 	 */
 	public function usersWithIds(){
-		/*$ids = $this->userMapper->findAll();
-		foreach ($ids as &$id){
-			$id = $id->jsonSerialize();
-		}
-		return $ids;*/
 		return $this->mapper->getUsersAndIds();
 	}
 
 	/**
+	 * Saves all changes made in the user management screen.
+	 * 
 	 * @NoCSRFRequired
 	 * 
 	 * @param array $data
@@ -104,6 +113,8 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Gets all users.
+	 * 
 	 * @NoCSRFRequired
 	 */
 	public function getUsers(){
@@ -115,19 +126,26 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Finds the SecSign ID for the current user.
+	 * 
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function findCurrent(){
 		$current = $this->mapper->find($this->userId);
-		if($current != null){
+		if($current !== null){
 			return $current->jsonSerialize();
 		}else{
 			return null;
 		}
 	}
 
-
+	/**
+	 * Enables or disables 2FA for the user with a given uid.
+	 * 
+	 * @param boolean $enable
+	 * @param string $uid
+	 */
 	private function changeUserState($enable, $uid){
 		$user = $this->manager->get($uid);
 		if($enable){

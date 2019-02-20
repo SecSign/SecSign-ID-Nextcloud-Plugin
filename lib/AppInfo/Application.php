@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * This class is required to prepare the use of SecSignController and API classes.
+ * 
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 declare(strict_types=1);
 
 namespace OCA\SecSignID\AppInfo;

@@ -1,7 +1,12 @@
+/**
+ * This script polls the server every 500ms to check if the user
+ * has been successfully authenticated.
+ * 
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 (function (OC, window, $) {
 	'use strict';
-
-
 
 	$(document).ready(function () {
 		let polling = new Promise((resolve, reject) => {
@@ -18,7 +23,6 @@
 						if(data.accepted){
 							resolve(data);
 						}else{
-							//console.log("retrying");
 							setTimeout(getState,500,attempts,resolve,reject);
 						}
 					},

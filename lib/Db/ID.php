@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 declare(strict_types = 1);
 
 namespace OCA\SecSignID\Db;

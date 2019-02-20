@@ -3,7 +3,7 @@
 //
 // SecSign ID Api in php.
 //
-// (c) 2014-2017 SecSign Technologies Inc.
+// (c) 2014-2019 SecSign Technologies Inc.
 //
 namespace OCA\SecSignID\Service;
 use Exception;    
@@ -15,7 +15,7 @@ define("SCRIPT_VERSION", '1.46');
 * user id which is called secsign id. Each authentication session generation needs a new instance of this class.
 *
 * @author SecSign Technologies Inc.
-* @copyright 2014-2017
+* @copyright 2014-2019
 */
 
 

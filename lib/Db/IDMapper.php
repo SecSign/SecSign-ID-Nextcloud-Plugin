@@ -16,7 +16,7 @@ class IDMapper extends QBMapper {
     public function addUser($id){
         try{
             $user = $this->find($id->getUserId());
-            if($user != null){
+            if($user !== null){
                 $id->setId($user->getId());
                 return $this->update($id);
             }else{

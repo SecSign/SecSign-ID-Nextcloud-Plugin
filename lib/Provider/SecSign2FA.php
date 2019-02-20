@@ -82,7 +82,7 @@ class SecSign2FA implements IProvider {
 	 * Verify the given challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge): bool {
-		if ($challenge != null && $this->iapi->isSessionAccepted()) {
+		if ($challenge !== null && $this->iapi->isSessionAccepted()) {
 			return true;
 		}
 		return false;
@@ -92,6 +92,6 @@ class SecSign2FA implements IProvider {
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
 		$id = $this->mapper->find($this->userId);
-		return $id != null && $id->getEnabled() == 1;
+		return $id !== null && $id->getEnabled() === 1;
 	}
 }

@@ -28,7 +28,7 @@ class API implements IAPI {
 	public function hasSecSignID(IUser $user): bool{
 		$id = $this->idmapper->find($user);
 		$this->secsignid = $id->getSecSignID();
-		return $secsignid!=null && $id->getEnabled();
+		return $secsignid !== null && $id->getEnabled();
 	}
 
 	/*public function requestAuthSession(){
@@ -44,12 +44,12 @@ class API implements IAPI {
 	public function isSessionAccepted(): bool{
 		try{
 			$authsession = $_SESSION['session'];
-			if($authsession == null){
+			if($authsession === null){
 				return false;
 			}
 			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
-			return $authSessionState == AuthSession::AUTHENTICATED;
+			return $authSessionState === AuthSession::AUTHENTICATED;
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -58,12 +58,12 @@ class API implements IAPI {
 	public function isSessionPending(): bool{
 		try{
 			$authsession = $_SESSION['session'];
-			if($authsession == null){
+			if($authsession === null){
 				return false;
 			}
 			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
-			return $authSessionState == AuthSession::PENDING;
+			return $authSessionState === AuthSession::PENDING;
 		}catch(Exception $e){
 			throw $e;
 		}

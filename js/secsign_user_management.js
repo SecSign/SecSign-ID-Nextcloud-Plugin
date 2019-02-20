@@ -1,5 +1,8 @@
 /**
  * This script is responsible for the logic behind the user management screen.
+ * 
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
  */
 (function (OC, window, $) {
     'use strict';

@@ -1,6 +1,19 @@
+/**
+ * This script is responsible for the SecSign ID settings for individual users.
+ * It allows adding a SecSign ID, changing the ID and enabling or disabling
+ * the 2FA.
+ * 
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 (function (OC, window, $) {
     'use strict';
 
+    /**
+     * This function saves a given string as the SecSign ID for the current user and
+     * updates the UI.
+     * @param {string} id 
+     */
     function save(id) {
         $.post(OC.generateUrl('/apps/secsignid/id/enable/'), {
                 secsignid: id
@@ -17,11 +30,13 @@
                     $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
                 }
         ).fail(function () {
-            //console.log("failed to save");
             alert("Failed to save SecSign ID, try again");
         });
     }
 
+    /**
+     * This function disables 2FA for the current user.
+     */
     function disable() {
         $.post(OC.generateUrl('/apps/secsignid/id/disable/'), null,
             function (data) {
@@ -34,16 +49,13 @@
 
             }
         ).fail(function () {
-            //console.log("failed to save");
             alert("Failed to save SecSign ID, try again");
         });
     }
 
-    function setOnClick() {
-
-
-    }
-
+    /**
+     * Gets SecSign ID status for current user from server and updates UI accordingly.
+     */
     let URL = OC.generateUrl('/apps/secsignid/ids/current/');
     $.ajax({
         type: "GET",

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Björn Plüster
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 namespace OCA\SecSignID\Db;
 
 use OCP\IDbConnection;
@@ -17,8 +21,6 @@ class UserMapper extends QBMapper {
         $qb ->select('*')
             ->from('users');
         return $this->findEntities($qb);
-        //$sql = 'SELECT * FROM *PREFIX*users';
-        //return $this->findEntities($sql);
     }
 
 }

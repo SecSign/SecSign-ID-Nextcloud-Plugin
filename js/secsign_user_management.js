@@ -61,13 +61,19 @@
         if (secsignid !== "-") {
             html += "   <td class='center ssid'><input type='text' value='" + secsignid + "'></td>";
             if (user.enabled == 1) {
-                html += "<td id='enabled' class='center'><input type='checkbox' checked></td>";
+                html += "<td id='enabled' class='center'>";
+                html += "<input type='checkbox' class='checkbox' checked id='cb"+user.uid+"'>"
+                html += "<label for='cb"+user.uid+"'></label></td>";
             } else {
-                html += "<td id='enabled' class='center'><input type='checkbox'></td>";
+                html += "<td id='enabled' class='center'>";
+                html += "<input type='checkbox' class='checkbox' id='cb"+user.uid+"'>"
+                html += "<label for='cb"+user.uid+"'></label></td>";
             }
         } else {
             html += "<td class='center ssid'><input type='text' placeholder='None'></td>";
-            html += "<td id='enabled' class='center'><input disabled type='checkbox'></td>";
+            html += "<td id='enabled' class='center'>";
+            html += "<input type='checkbox' class='checkbox' disabled id='cb"+user.uid+"'>"
+            html += "<label for='cb"+user.uid+"'></label></td>"
         }
         html += "<td id='check' class='icon-checkmark' hidden></td>";
         html += "</tr>";

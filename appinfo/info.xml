@@ -16,7 +16,7 @@
     <category>security</category>
     <bugs>https://jirasecsignidplugin.seccommerce.biz/issues/</bugs>
     <dependencies>
-        <nextcloud min-version="14" max-version="15"/>
+        <nextcloud min-version="11" max-version="15"/>
     </dependencies>
      <two-factor-providers>
         <provider>OCA\SecSignID\Provider\SecSign2FA</provider>

@@ -6,16 +6,16 @@
                 secsignid: id
             },
             function (data) {
-                $("#disabled").hide();
-                $("#enabled").show();
-                $("#disable").html("Disable");
-                $("#disable").click(function (){
-                    disable();
-                });
-                $("#enabled input").val(data.secsignid);
-                $("#description").text("You have already added a SecSign ID protecting your account.")
-                $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
-            }
+                    $("#disabled").hide();
+                    $("#enabled").show();
+                    $("#disable").html("Disable");
+                    $("#disable").click(function () {
+                        disable();
+                    });
+                    $("#enabled input").val(data.secsignid);
+                    $("#description").text("You have already added a SecSign ID protecting your account.")
+                    $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
+                }
         ).fail(function () {
             //console.log("failed to save");
             alert("Failed to save SecSign ID, try again");
@@ -27,11 +27,11 @@
             function (data) {
                 $("#enabled div").html("<p class='animated fadeOut' style='color: green'>2FA disabled</p>");
                 $("#disable").html("Enable");
-                $("#disable").click(function(){
+                $("#disable").click(function () {
                     save($("#secsignid_input_en"));
                 })
                 $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
-                    
+
             }
         ).fail(function () {
             //console.log("failed to save");
@@ -40,8 +40,8 @@
     }
 
     function setOnClick() {
-        
-        
+
+
     }
 
     let URL = OC.generateUrl('/apps/secsignid/ids/current/');
@@ -50,7 +50,7 @@
         url: URL,
         success: function (data) {
             $(".lds-roller").hide();
-            if (data.secsignid != null) {
+            if (data != null && data.secsignid != null) {
                 $("#enabled").show();
                 $("#secsignid_input_en").val(data.secsignid);
                 if (data.enabled == 0) {
@@ -59,8 +59,8 @@
                     $("#disable").click(function () {
                         save($("#secsignid_input_en").val());
                     });
-                }else{
-                    $("#disable").click(function (){
+                } else {
+                    $("#disable").click(function () {
                         disable();
                     });
                 }

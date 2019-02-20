@@ -26,6 +26,6 @@ style('secsignid','settings');
 	<div id="disabled" hidden>
 		<h1> Enable two factor authentication with your SecSign ID </h1>
 		SecSign ID: <input id="secsignid_input_dis" type="text" name="secsignid">
-		<button id="enable_id" type="button">Submit</button>
+		<button id="change_id" type="button">Submit</button>
 	</div>
 </div>

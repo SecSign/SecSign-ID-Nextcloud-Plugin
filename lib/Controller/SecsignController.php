@@ -5,7 +5,6 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IUserManager;
-use OCP\AppFramework\Db\DoesNotExistException;
 
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
@@ -120,9 +119,10 @@ class SecsignController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function findCurrent(){
-		try{
-			$this->mapper->find($this->userId)->jsonSerialize();
-		}catch(DoesNotExistException $e){
+		$current = $this->mapper->find($this->userId);
+		if($current != null){
+			return $current->jsonSerialize();
+		}else{
 			return null;
 		}
 	}

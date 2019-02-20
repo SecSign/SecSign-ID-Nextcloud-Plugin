@@ -16,8 +16,12 @@ class IDMapper extends QBMapper {
     public function addUser($id){
         try{
             $user = $this->find($id->getUserId());
-            $id->setId($user->getId());
-            return $this->update($id);
+            if($user != null){
+                $id->setId($user->getId());
+                return $this->update($id);
+            }else{
+                return $this->insert($id);
+            }
         }catch(DoesNotExistException $e){
             return $this->insert($id);
         }
@@ -55,7 +59,7 @@ class IDMapper extends QBMapper {
         try{
             return $this->findEntity($qb);
         }catch(DoesNotExistException $e){
-            throw $e;
+            return null;
         }
         
     }

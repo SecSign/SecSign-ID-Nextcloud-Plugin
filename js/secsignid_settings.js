@@ -70,7 +70,7 @@
 
             } else {
                 $("#disabled").show();
-                $("#change_id").click(function () {
+                $("#enable_id").click(function () {
                     save($("#secsignid_input_dis").val());
                 });
             }

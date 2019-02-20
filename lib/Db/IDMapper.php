@@ -55,7 +55,7 @@ class IDMapper extends QBMapper {
         try{
             return $this->findEntity($qb);
         }catch(DoesNotExistException $e){
-            return null;
+            throw $e;
         }
         
     }

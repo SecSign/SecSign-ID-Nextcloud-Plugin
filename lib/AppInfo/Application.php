@@ -2,7 +2,7 @@
 /**
  * This class is required to prepare the use of SecSignController and API classes.
  * 
- * @author Björn Plüster
+ * @author SecSign Technologies Inc.
  * @copyright 2019 SecSign Technologies Inc.
  */
 declare(strict_types=1);

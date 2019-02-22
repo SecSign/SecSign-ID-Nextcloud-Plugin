@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Björn Plüster
+ * @author SecSign Technologies Inc.
  * @copyright 2019 SecSign Technologies Inc.
  */
 namespace OCA\SecSignID\Db;

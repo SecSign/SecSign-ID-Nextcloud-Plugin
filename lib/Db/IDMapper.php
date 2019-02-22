@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 namespace OCA\SecSignID\Db;
 
 use OCP\IDbConnection;

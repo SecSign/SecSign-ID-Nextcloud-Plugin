@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Björn Plüster
+ * @author SecSign Technologies Inc.
  * @copyright 2019 SecSign Technologies Inc.
  */
 namespace OCA\SecSignID\Controller;
@@ -82,6 +82,17 @@ class SecsignController extends Controller {
 	public function disableID(){
 		$this->changeUserState(false, $this->userId);
 		return $this->mapper->disableUser($this->userId)->jsonSerialize();
+	}
+
+	/**
+	 * Cancels the pending authsession-.
+	 * 
+	 * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+	 */
+	public function cancel(){
+		$this->iapi->cancelAuthSession();
 	}
 
 	/**

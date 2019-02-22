@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 
 namespace OCA\SecSignID\Db;
 
@@ -14,9 +17,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPassword(string $password)
  * @method string getUidLower()
  * @method void setUidLower(string $uidLower)
- * 
- * @author Björn Plüster
- * @copyright 2019 SecSign Technologies Inc.
  */
 class User extends Entity {
 

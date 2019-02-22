@@ -3,7 +3,7 @@
  * It allows adding a SecSign ID, changing the ID and enabling or disabling
  * the 2FA.
  * 
- * @author Björn Plüster
+ * @author SecSign Technologies Inc.
  * @copyright 2019 SecSign Technologies Inc.
  */
 (function (OC, window, $) {

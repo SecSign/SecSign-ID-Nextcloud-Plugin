@@ -7,6 +7,7 @@ return [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
+	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
 	   ['name' => 'secsign#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
 	   ['name' => 'secsign#disableID', 'url' => '/id/disable/', 'verb' => 'POST'],
 	   ['name' => 'secsign#getUsers', 'url' => '/ids/', 'verb' => 'GET'],

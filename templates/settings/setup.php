@@ -1,3 +1,7 @@
+<!--
+- @author SecSign Technologies Inc.
+- @copyright 2019 SecSign Technologies Inc.
+-->
 <?php
 script('secsignid','secsignid_settings');
 style('secsignid','lds_roller');

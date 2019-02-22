@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 namespace OCA\SecSignID\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -8,6 +11,7 @@ use OCP\Settings\ISettings;
 class Security implements ISettings {
 
 	/**
+	 * Returns the template for the personal settings
 	 * @return TemplateResponse
 	 */
 	public function getForm() {

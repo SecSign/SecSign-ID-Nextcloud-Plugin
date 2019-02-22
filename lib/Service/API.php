@@ -1,11 +1,9 @@
 <?php
-
-declare(strict_types = 1);
-
 /**
- * Copyright SecSign 2018
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
  */
-
+declare(strict_types = 1);
 namespace OCA\SecSignID\Service;
 
 use OCP\IUser;
@@ -25,22 +23,33 @@ class API implements IAPI {
 		$this->idmapper = $idmapper;
 	}
 
+	/**
+	 * Checks if user has a SecSign ID
+	 * 
+	 * @param $user is the user to be checked
+	 * @return true if a user has a SecSign ID and it is enabled, else false
+	 */
 	public function hasSecSignID(IUser $user): bool{
 		$id = $this->idmapper->find($user);
 		$this->secsignid = $id->getSecSignID();
 		return $secsignid !== null && $id->getEnabled();
 	}
 
-	/*public function requestAuthSession(){
-		$secsignidapi = new SecSignIDApi();
-		$authsession = $secsignidapi->requestAuthSession($_POST[$secsignid],'SecSign Nextcloud Plugin',$_Server['https://httpapi.secsign.com']);
-	}*/
-
-	public function requestAuthSession($secsignid){
+	/**
+	 * Requests an authentication session for a given SecSign ID
+	 * 
+	 * @param secsignid
+	 */
+	public function requestAuthSession(String $secsignid){
 		$secsignidapi = new SecSignIDApi();
 		$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin','https://httpapi.secsign.com');
 	}
 
+	/**
+	 * Checks if an authentication session has been accepted.
+	 * 
+	 * @return boolean
+	 */
 	public function isSessionAccepted(): bool{
 		try{
 			$authsession = $_SESSION['session'];
@@ -49,12 +58,17 @@ class API implements IAPI {
 			}
 			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
-			return $authSessionState === AuthSession::AUTHENTICATED;
+			return $authSessionState == AuthSession::AUTHENTICATED;
 		}catch(Exception $e){
 			throw $e;
 		}
 	}
 
+	/**
+	 * Checks if there is an existing pending authentication session.
+	 * 
+	 * @return boolean
+	 */
 	public function isSessionPending(): bool{
 		try{
 			$authsession = $_SESSION['session'];
@@ -64,6 +78,22 @@ class API implements IAPI {
 			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
 			return $authSessionState === AuthSession::PENDING;
+		}catch(Exception $e){
+			throw $e;
+		}
+	}
+
+	/**
+	 * Cancels an existion authentication session.
+	 */
+	public function cancelAuthSession(){
+		try{
+			$authsession = $_SESSION['session'];
+			if($authsession === null){
+				return;
+			}
+			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$authSessionState = $secsignidapi->cancelAuthSession($authsession);
 		}catch(Exception $e){
 			throw $e;
 		}

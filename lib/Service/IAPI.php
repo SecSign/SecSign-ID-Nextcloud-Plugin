@@ -1,10 +1,9 @@
 <?php
-
-declare(strict_types = 1);
-
 /**
- * Copyright SecSign 2018
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
  */
+declare(strict_types = 1);
 
 namespace OCA\SecSignID\Service;
 
@@ -17,25 +16,37 @@ interface IAPI {
 	const STATE_ENABLED = 2;
 
 	/**
-	 * Checks if given User has created a SecSign ID
-	 * @param IUser $user
-	 * @return bool if the user has a secsign id registered
+	 * Checks if user has a SecSign ID
+	 * 
+	 * @param $user is the user to be checked
+	 * @return true if a user has a SecSign ID and it is enabled, else false
 	 */
 	public function hasSecSignID(IUser $user): bool;
 
 	/**
-	 * @param string some secsignid
+	 * Requests an authentication session for a given SecSign ID
+	 * 
+	 * @param secsignid
 	 */
-	public function requestAuthSession($secsignid);
+	public function requestAuthSession(String $secsignid);
 
 	/**
-	 * @return bool
+	 * Checks if an authentication session has been accepted.
+	 * 
+	 * @return boolean
 	 */
 	public function isSessionAccepted(): bool;
 
 	/**
-	 * @return bool
+	 * Checks if there is an existing pending authentication session.
+	 * 
+	 * @return boolean
 	 */
 	public function isSessionPending(): bool;
+
+	/**
+	 * Cancels an existion authentication session.
+	 */
+	public function cancelAuthSession();
 
 }

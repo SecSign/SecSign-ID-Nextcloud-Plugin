@@ -9,12 +9,12 @@
     
     To use the SecSign 2FA, simply create a SecSign ID and
     link it to your NextCloud via the settings. To find out more, visit www.secsign.com.]]></description>
-    <version>0.0.15</version>
+    <version>0.1.0</version>
     <licence>agpl</licence>
-    <author mail="bjoern@secsign.com" >SecSign Technologies Inc.</author>
+    <author mail="support@secsign.com" >SecSign Technologies Inc.</author>
     <namespace>SecSignID</namespace>
     <category>security</category>
-    <bugs>https://jirasecsignidplugin.seccommerce.biz/issues/</bugs>
+    <bugs>https://github.com/SecSign/SecSign-ID-Nextcloud-Plugin/issues</bugs>
     <dependencies>
         <nextcloud min-version="14" max-version="15"/>
     </dependencies>

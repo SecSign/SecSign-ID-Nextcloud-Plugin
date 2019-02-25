@@ -9,6 +9,8 @@
 (function (OC, window, $) {
     'use strict';
 
+    let allowEdit = false;
+
     /**
      * This function saves a given string as the SecSign ID for the current user and
      * updates the UI.
@@ -19,16 +21,17 @@
                 secsignid: id
             },
             function (data) {
-                    $("#disabled").hide();
-                    $("#enabled").show();
-                    $("#disable").html("Disable");
-                    $("#disable").click(function () {
-                        disable();
-                    });
-                    $("#enabled input").val(data.secsignid);
-                    $("#description").text("You have already added a SecSign ID protecting your account.")
-                    $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
-                }
+                $("#disabled").hide();
+                $("#enabled").show();
+                $("#disable").html("Disable");
+                $("#disable").unbind("click");
+                $("#disable").click(function () {
+                    disable();
+                });
+                $("#enabled input").val(data.secsignid);
+                $("#description").text("You have already added a SecSign ID protecting your account.")
+                $("#enabled div").html("<p class='animated fadeOut' style='color: green'>Successfully updated</p>");
+            }
         ).fail(function () {
             alert("Failed to save SecSign ID, try again");
         });
@@ -42,8 +45,9 @@
             function (data) {
                 $("#enabled div").html("<p class='animated fadeOut' style='color: green'>2FA disabled</p>");
                 $("#disable").html("Enable");
+                $("#disable").unbind("click");
                 $("#disable").click(function () {
-                    save($("#secsignid_input_en"));
+                    save($("#secsignid_input_en").val());
                 })
                 $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
 
@@ -53,43 +57,55 @@
         });
     }
 
-    /**
-     * Gets SecSign ID status for current user from server and updates UI accordingly.
-     */
-    let URL = OC.generateUrl('/apps/secsignid/ids/current/');
-    $.ajax({
-        type: "GET",
-        url: URL,
-        success: function (data) {
-            $(".lds-roller").hide();
-            if (data != null && data.secsignid != null) {
-                $("#enabled").show();
-                $("#secsignid_input_en").val(data.secsignid);
-                if (data.enabled == 0) {
-                    $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
-                    $("#disable").html("Enable");
-                    $("#disable").click(function () {
-                        save($("#secsignid_input_en").val());
-                    });
-                } else {
-                    $("#disable").click(function () {
-                        disable();
-                    });
+    $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
+        function (allow) {
+            allowEdit = allow;
+            /**
+             * Gets SecSign ID status for current user from server and updates UI accordingly.
+             */
+            let URL = OC.generateUrl('/apps/secsignid/ids/current/');
+            $.ajax({
+                type: "GET",
+                url: URL,
+                success: function (data) {
+                    $(".lds-roller").hide();
+                    if (allowEdit) {
+                        if (data != null && data.secsignid != null) {
+                            $("#enabled").show();
+                            $("#secsignid_input_en").val(data.secsignid);
+                            if (data.enabled == 0) {
+                                $("#description").text("You have a SecSign ID linked with your account, but 2FA is disabled. Press enable to activate 2FA.")
+                                $("#disable").html("Enable");
+                                $("#disable").click(function () {
+                                    save($("#secsignid_input_en").val());
+                                });
+                            } else {
+                                $("#disable").click(function () {
+                                    disable();
+                                });
+                            }
+                            $("#change_id").click(function () {
+                                save($("#secsignid_input_en").val());
+                            });
+
+                        } else {
+                            $("#disabled").show();
+                            $("#enable_id").click(function () {
+                                save($("#secsignid_input_dis").val());
+                            });
+                        }
+                    } else {
+                        if (data != null && data.secsignid != null) {
+                            $("#noedit_enabled").show();
+                            $(".id").append(data.secsignid);
+                        } else {
+                            $("#noedit_disabled").show();
+                        }
+                    }
+
                 }
-                $("#change_id").click(function () {
-                    save($("#secsignid_input_en").val());
-                });
-
-            } else {
-                $("#disabled").show();
-                $("#enable_id").click(function () {
-                    save($("#secsignid_input_dis").val());
-                });
-            }
-        }
-    }).fail(function () {
-        console.log("failed");
-    });
-
-
+            }).fail(function () {
+                console.log("failed");
+            });
+        });
 })(OC, window, jQuery);

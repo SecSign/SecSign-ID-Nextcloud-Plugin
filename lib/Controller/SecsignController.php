@@ -9,13 +9,14 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IUserManager;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
 
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 use OCA\SecSignID\Provider\SecSign2FA;
-use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCA\SecSignID\Service\PermissionService;
 
 /**
  * The SecSignController links to required templates and handles requests to the server.
@@ -34,9 +35,11 @@ class SecsignController extends Controller {
 
 	private $provider;
 
+	private $permissions;
+
 	public function __construct($AppName, IRequest $request, $UserId, IAPI $iapi,
 								IDMapper $mapper, IUserManager $manager, IRegistry $registry,
-								SecSign2FA $provider){
+								SecSign2FA $provider, PermissionService $permission){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
@@ -44,6 +47,7 @@ class SecsignController extends Controller {
 		$this->manager = $manager;
 		$this->registry = $registry;
 		$this->provider = $provider;
+		$this->permissions = $permission;
 	}
 
 	/**
@@ -149,6 +153,29 @@ class SecsignController extends Controller {
 		}else{
 			return null;
 		}
+	}
+
+	/**
+	 * Allows users to edit the settings of their SecSign 2FA
+	 * 
+	 * @NoCSRFRequired
+	 * 
+	 * @param boolean $allow
+	 */
+	public function allowUserEdit($allow){
+		$this->permissions->setAppValue("allowEdit", $allow);
+	}
+
+
+	/**
+	 * Gets status of editing permissions.
+	 * 
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getAllowUserEdit(){
+		$allow =  $this->permissions->getAppValue("allowEdit");
+		return allow == "" ? true : $allow == 1;
 	}
 
 	/**

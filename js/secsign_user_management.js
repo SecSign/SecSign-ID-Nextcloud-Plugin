@@ -65,18 +65,18 @@
             html += "   <td class='center ssid'><input type='text' value='" + secsignid + "'></td>";
             if (user.enabled == 1) {
                 html += "<td id='enabled' class='center'>";
-                html += "<input type='checkbox' class='checkbox' checked id='cb"+user.uid+"'>"
-                html += "<label for='cb"+user.uid+"'></label></td>";
+                html += "<input type='checkbox' class='checkbox' checked id='cb" + user.uid + "'>"
+                html += "<label for='cb" + user.uid + "'></label></td>";
             } else {
                 html += "<td id='enabled' class='center'>";
-                html += "<input type='checkbox' class='checkbox' id='cb"+user.uid+"'>"
-                html += "<label for='cb"+user.uid+"'></label></td>";
+                html += "<input type='checkbox' class='checkbox' id='cb" + user.uid + "'>"
+                html += "<label for='cb" + user.uid + "'></label></td>";
             }
         } else {
             html += "<td class='center ssid'><input type='text' placeholder='None'></td>";
             html += "<td id='enabled' class='center'>";
-            html += "<input type='checkbox' class='checkbox' disabled id='cb"+user.uid+"'>"
-            html += "<label for='cb"+user.uid+"'></label></td>"
+            html += "<input type='checkbox' class='checkbox' disabled id='cb" + user.uid + "'>"
+            html += "<label for='cb" + user.uid + "'></label></td>"
         }
         html += "<td id='check' class='icon-checkmark' hidden></td>";
         html += "</tr>";
@@ -196,6 +196,32 @@
             });
     }
 
+    function getPermissions() {
+        $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
+            function (allow) {
+                console.log(allow);
+                let check = $("#allow_user_enable");
+                check.prop("disabled", false);
+                check.prop("checked", allow);
+                check.change(function () {
+                    if (this.checked) {
+                        $.post(OC.generateUrl("/apps/secsignid/allowEdit/1/"), null, function () {
+                            console.log("successflly enabled");
+                        }).fail(function () {
+                            this.prop("checked", !this.checked);
+                        });
+                    } else {
+                        $.post(OC.generateUrl("/apps/secsignid/allowEdit/0/"), null, function () {
+                            console.log("successflly disabled");
+                        }).fail(function () {
+                            this.prop("checked", !this.checked);
+                        });
+                    }
+                })
+            });
+    }
+
     getUsers();
+    getPermissions();
 
 })(OC, window, jQuery);

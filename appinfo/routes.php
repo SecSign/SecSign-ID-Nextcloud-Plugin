@@ -13,6 +13,9 @@ return [
 	   ['name' => 'secsign#getUsers', 'url' => '/ids/', 'verb' => 'GET'],
 	   ['name' => 'secsign#findCurrent', 'url' => '/ids/current/', 'verb' => 'GET'],
 	   ['name' => 'secsign#usersWithIds', 'url' => '/ids/users/', 'verb' => 'GET'],
-	   ['name' => 'secsign#saveChanges', 'url' => '/ids/update/', 'verb' => 'POST']
+	   ['name' => 'secsign#saveChanges', 'url' => '/ids/update/', 'verb' => 'POST'],
+	   /* User Permissions */
+	   ['name' => 'secsign#allowUserEdit', 'url' => '/allowEdit/{allow}/', 'verb' => 'POST'],
+	   ['name' => 'secsign#getAllowUserEdit', 'url' => '/allowEdit/', 'verb' => 'GET']
     ]
 ];

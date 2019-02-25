@@ -12,6 +12,7 @@ namespace OCA\SecSignID\AppInfo;
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Service\API;
 use OCA\SecSignID\Controller\SecsignController;
+use OCA\SecSignID\Service\PermissionService;
 use OCP\AppFramework\App;
 
 class Application extends App {
@@ -22,5 +23,16 @@ class Application extends App {
 		$container = $this->getContainer();
 		$container->registerAlias('SecsignController', SecsignController::class);
 		$container->registerAlias(IAPI::class, API::class);
+
+		$container->registerService('PermissionService', function($c) {
+            return new PermissionService(
+                $c->query('Config'),
+                $c->query('secsignid')
+            );
+        });
+
+        $container->registerService('Config', function($c) {
+            return $c->query('ServerContainer')->getConfig();
+        });
 	}
 }

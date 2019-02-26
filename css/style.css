@@ -1,4 +1,17 @@
-img {
-    background: white;
-    border-radius: 10px;
+#secsignid-accesspass-img {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    padding-top: 25px;
+    display: block;
+    border: 0;    
+}
+
+#secsignid-accesspass-container{
+    width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	margin: 0 auto;
+    background-color: #fff;
+    margin-bottom: 15px;
 }

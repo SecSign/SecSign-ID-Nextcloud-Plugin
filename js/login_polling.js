@@ -21,7 +21,7 @@
 		let polling = new Promise((resolve, reject) => {
 			var getState = function (attempts, resolve, reject) {
 				attempts += 1;
-				if (attempts > 20) {
+				if (attempts > 50) {
 					reject('Login not authenticated. Please try again');
 					return;
 				}

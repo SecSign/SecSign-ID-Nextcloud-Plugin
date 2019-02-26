@@ -1,5 +1,5 @@
 {
-    "name": "secsign_technologies_inc/secsign_id",
+    "name": "secsign_technologies_inc/secsignid",
     "description": "Plugin to enable use of SecSign 2FA",
     "type": "project",
     "license": "AGPL",

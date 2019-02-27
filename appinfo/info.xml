@@ -4,17 +4,21 @@
     <id>secsignid</id>
     <name>SecSign ID</name>
     <summary>Plugin to enable use of SecSign 2FA</summary>
-    <description><![CDATA[This Plugin allow you to authenticate yourself 
-    and your users using SecSign two-factor authentication. 
+    <description><![CDATA[This Plugin enables the use of the SecSign ID two-factor authentication, to provide
+a safe and easy to use additional layer of security.
     
-    To use the SecSign 2FA, simply create a SecSign ID and
-    link it to your NextCloud via the settings. To find out more, visit www.secsign.com.]]></description>
+To use the SecSign 2FA, simply create a SecSign ID and
+link it to your NextCloud via the settings. To find out more, visit www.secsign.com.]]></description>
     <version>0.1.0</version>
     <licence>agpl</licence>
-    <author mail="support@secsign.com" >SecSign Technologies Inc.</author>
+    <author mail="support@secsign.com" homepage="www.secsign.com">SecSign Technologies Inc.</author>
     <namespace>SecSignID</namespace>
     <category>security</category>
     <bugs>https://github.com/SecSign/SecSign-ID-Nextcloud-Plugin/issues</bugs>
+    <repository>https://github.com/SecSign/SecSign-ID-Nextcloud-Plugin.git</repository>
+    <screenshot small-thumbnail="add link">
+        <![CDATA[add link]]>
+    </screenshot>
     <dependencies>
         <nextcloud min-version="14" max-version="15"/>
     </dependencies>

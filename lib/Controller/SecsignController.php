@@ -8,7 +8,9 @@ namespace OCA\SecSignID\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IGroupManager;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 
 use OCP\AppFramework\Controller;
@@ -37,9 +39,12 @@ class SecsignController extends Controller {
 
 	private $permissions;
 
-	public function __construct($AppName, IRequest $request, $UserId, IAPI $iapi,
+	private $groupmanager;
+
+	public function __construct($AppName, IRequest $request,		
+								$UserId, IAPI $iapi,
 								IDMapper $mapper, IUserManager $manager, IRegistry $registry,
-								SecSign2FA $provider, PermissionService $permission){
+								SecSign2FA $provider, PermissionService $permission, IGroupManager $groupmanager){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
@@ -48,6 +53,7 @@ class SecsignController extends Controller {
 		$this->registry = $registry;
 		$this->provider = $provider;
 		$this->permissions = $permission;
+		$this->groupmanager = $groupmanager;
 	}
 
 	/**
@@ -168,12 +174,20 @@ class SecsignController extends Controller {
 
 
 	/**
-	 * Gets status of editing permissions.
+	 * Gets status of editing permissions. Always returns true if user is an
+	 * admin.
 	 * 
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function getAllowUserEdit(){
+		$user = $this->manager->get($this->userId);
+		$groups = $this->groupmanager->getUserGroups($user);
+		foreach ($groups as &$group){
+			if($group->getGID() === "admin"){
+				return true;
+			}
+		}
 		$allow =  $this->permissions->getAppValue("allowEdit");
 		return allow == "" ? true : $allow == 1;
 	}

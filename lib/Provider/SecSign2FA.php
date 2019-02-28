@@ -5,10 +5,13 @@
  */
 namespace OCA\SecSignID\Provider;
 
+use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCA\SecSignID\Service\IAPI;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 use OCP\Template;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
+
 use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
@@ -17,11 +20,12 @@ use OCA\SecSignID\Db\ID;
  * SecSign2FA is starts an authentication session once a user has
  * entered a correct username password combination.
  */
-class SecSign2FA implements IProvider {
+class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 
 	/** @var IAPI */
 	private $iapi;
 	
+	private $registry;
 
 	private $mapper;
 
@@ -30,11 +34,13 @@ class SecSign2FA implements IProvider {
 	private $id;
 
 
-	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper){
+	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper, 
+								IRegistry $registry){
 		$this->iapi = $iapi;
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
 		$this->id = $this->mapper->find($this->userId);
+		$this->registry = $registry;
 	}
 	
 	public function getId(): string {
@@ -82,5 +88,13 @@ class SecSign2FA implements IProvider {
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
 		$id = $this->mapper->find($this->userId);
 		return $id !== null && $id->getEnabled() === 1;
+	}
+
+	/**
+	 * Allows an admin to deactivate 2FA for a given user via occ command line tool
+	 */
+	public function disableFor(IUser $user){
+		$this->mapper->disableUser($user->getUID());
+		$this->registry->disableProviderFor($this, $user);
 	}
 }

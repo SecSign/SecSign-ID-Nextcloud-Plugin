@@ -49,6 +49,11 @@ class Version5 extends SimpleMigrationStep {
 				'notnull' => true,
 				'default' => 1,
 			]);
+			$table->addColumn('id', 'integer', [
+				'notnull' => true,
+				'autoincrement' => true,
+				'customSchemaOptions' => ['unique' => true],
+			]);
 			$table->setPrimaryKey(['user_id']);
 		}
 		return $schema;

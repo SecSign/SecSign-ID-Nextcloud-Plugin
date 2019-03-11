@@ -12,7 +12,7 @@ use OCP\Migration\IOutput;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version8 extends SimpleMigrationStep {
+class Version9 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -34,13 +34,12 @@ class Version8 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
         $schema = $schemaClosure();
-        //$schema->dropTable('secsignid');
 		if ($schema->hasTable('secsignid')) {
             $table = $schema->getTable('secsignid');
-            $table->addColumn('id', 'integer', [
+            $table->changeColumn('id',[
 				'notnull' => true,
-				'default' => 1,
-				'autoincrement' => true
+				'autoincrement' => true,
+				'customSchemaOptions' => ['unique' => true],
 			]);
 		}
 		return $schema;

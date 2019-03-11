@@ -9,7 +9,7 @@ a safe and easy to use additional layer of security.
     
 To use the SecSign 2FA, simply create a SecSign ID and
 link it to your NextCloud via the settings. To find out more, visit [www.secsign.com](https://www.secsign.com/developers/nextcloud-two-factor-authentication/).]]></description>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <licence>agpl</licence>
     <author mail="support@secsign.com" homepage="https://www.secsign.com">SecSign Technologies Inc.</author>
     <namespace>SecSignID</namespace>

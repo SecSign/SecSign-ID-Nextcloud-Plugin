@@ -105,7 +105,7 @@
 
                 }
             }).fail(function () {
-                console.log("failed");
+                //console.log("failed");
             });
         });
 })(OC, window, jQuery);

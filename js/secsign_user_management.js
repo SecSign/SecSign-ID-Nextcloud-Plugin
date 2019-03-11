@@ -46,7 +46,7 @@
                 $("#edited").hide();
                 showChanges();
             }).fail(function (data) {
-            console.log("an error occurred while saving");
+            console.log("An error occurred while saving changes");
         });
     }
 
@@ -199,20 +199,19 @@
     function getPermissions() {
         $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
             function (allow) {
-                console.log(allow);
                 let check = $("#allow_user_enable");
                 check.prop("disabled", false);
                 check.prop("checked", allow);
                 check.change(function () {
                     if (this.checked) {
                         $.post(OC.generateUrl("/apps/secsignid/allowEdit/1/"), null, function () {
-                            console.log("successflly enabled");
+                            //console.log("successfully enabled");
                         }).fail(function () {
                             this.prop("checked", !this.checked);
                         });
                     } else {
                         $.post(OC.generateUrl("/apps/secsignid/allowEdit/0/"), null, function () {
-                            console.log("successflly disabled");
+                            //console.log("successfully disabled");
                         }).fail(function () {
                             this.prop("checked", !this.checked);
                         });

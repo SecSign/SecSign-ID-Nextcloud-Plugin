@@ -11,7 +11,7 @@
 	function addCancelListener(){
 		$(".two-factor-secondary").click(function (){
 			$.post(OC.generateUrl('/apps/secsignid/cancel/')), function (){
-				console.log("cancelled auth session");
+				//console.log("cancelled auth session");
 			}
 		})
 	}

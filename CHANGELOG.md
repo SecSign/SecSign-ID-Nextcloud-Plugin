@@ -3,6 +3,10 @@
 - Onboarding for users
 - Choose a specific SecSign ID server to query
 
+## 0.1.2 - 2019-03-11
+### Added
+- MySQL / MariaDB support
+
 ## 0.1.1 - 2019-02-28
 ### Added
 - Deactivation of SecSign 2FA via command line

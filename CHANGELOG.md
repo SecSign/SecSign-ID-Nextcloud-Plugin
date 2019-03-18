@@ -3,6 +3,11 @@
 - Onboarding for users
 - Choose a specific SecSign ID server to query
 
+## 0.1.3 - 2019-03-18
+### Added
+- Fixed an SQL error that was preventing users from installing correctly
+- Checks for enforced two-factor authentication
+
 ## 0.1.2 - 2019-03-11
 ### Added
 - MySQL / MariaDB support

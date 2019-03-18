@@ -12,6 +12,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
@@ -39,12 +40,14 @@ class SecsignController extends Controller {
 
 	private $permissions;
 
+	private $enforce;
+
 	private $groupmanager;
 
 	public function __construct($AppName, IRequest $request,		
 								$UserId, IAPI $iapi,
 								IDMapper $mapper, IUserManager $manager, IRegistry $registry,
-								SecSign2FA $provider, PermissionService $permission, IGroupManager $groupmanager){
+								SecSign2FA $provider, PermissionService $permission, IGroupManager $groupmanager, MandatoryTwoFactor $enforce){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
@@ -54,6 +57,7 @@ class SecsignController extends Controller {
 		$this->provider = $provider;
 		$this->permissions = $permission;
 		$this->groupmanager = $groupmanager;
+		$this->enforce = $enforce;
 	}
 
 	/**
@@ -111,7 +115,23 @@ class SecsignController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function usersWithIds(){
-		return $this->mapper->getUsersAndIds();
+		$data = $this->mapper->getUsersAndIds();
+		foreach($data as &$user){
+			$user['enabled'] = $this->getUserState($user['uid']) ? "1" : "0";
+			$user['enforced'] = $this->enforcedForUser($user['uid']) ? "1":"0";
+		}
+		return $data;
+	}
+
+	/**
+	 * Checks if 2FA is enforced for a given user
+	 * 
+	 * @param string $uid of user
+	 * @return bool
+	 */
+	private function enforcedForUser($uid): bool {
+		$user = $this->manager->get($uid);
+		return $this->enforce->isEnforcedFor($user);
 	}
 
 	/**
@@ -205,6 +225,22 @@ class SecsignController extends Controller {
 		}else{
 			$this->registry->disableProviderFor($this->provider,$user);
 		}
+	}
+
+	/**
+	 * Gets the state of 2FA for the user with a given uid.
+	 * 
+	 * @param string $uid
+	 */
+	private function getUserState($uid): bool {
+		$user = $this->manager->get($uid);
+		$states = $this->registry->getProviderStates($user);
+		if(array_key_exists('secsignid',$states)){
+			return $states['secsignid'];
+		}else{
+			return False;
+		}
+		
 	}
 
 }

@@ -21,6 +21,7 @@ style('secsignid','tablestyle');
 		<h2>User Management</h2>
 		<p>View all users and manage their SecSign ID two-factor authentication. Changes can be saved using the "Save" button
 		below.</p>
+		<p id="enforced_warning" hidden style="color: var(--color-warning);">Some users with enforced two-factor authentication do not have a SecSign ID assigned. This will prevent them from logging in.</p>
 		<div id="changes" >
 			<h2 id="total_changes">Total changes: 0</h2><button id="save_changes">Save changes</button> 
 		</div>

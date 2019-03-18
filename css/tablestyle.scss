@@ -1,3 +1,27 @@
+// Examples
+.icon-error {
+    @include icon-color('error', 'actions', ff00000, 1, true);
+    // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
+    // background-image: var(--icon-menu)
+    float: right;
+    position: absolute;
+    margin-top: 10px;
+    z-index: 2;
+}
+
+.tooltip {
+    visibility: hidden;
+    float: right;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 20px;
+    z-index: 2;
+}
+
+.ssid:hover .tooltip{
+    visibility: visible;
+}
+
 table {
     width: 100%;
 }
@@ -7,11 +31,15 @@ table {
     margin-bottom: 10px;
 }
 
-#save_changes{
+.enforce {
+    color: var(--color-primary);
+}
+
+#save_changes {
     float: right;
 }
 
-#total_changes{
+#total_changes {
     display: inline-block;
 }
 

@@ -35,12 +35,21 @@ class Version9 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
         $schema = $schemaClosure();
 		if ($schema->hasTable('secsignid')) {
-            $table = $schema->getTable('secsignid');
-            $table->changeColumn('id',[
-				'notnull' => true,
-				'autoincrement' => true,
-				'customSchemaOptions' => ['unique' => true],
-			]);
+			$table = $schema->getTable('secsignid');
+			if($table->hasColumn('id')){
+				$table->changeColumn('id',[
+					'notnull' => true,
+					'autoincrement' => true,
+					'customSchemaOptions' => ['unique' => true],
+					]);
+			}else{
+				$table->addColumn('id', 'integer', [
+					'notnull' => true,
+					'autoincrement' => true,
+					'customSchemaOptions' => ['unique' => true],
+				]);
+			}
+            
 		}
 		return $schema;
 	}

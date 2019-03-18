@@ -66,17 +66,17 @@
             if (user.enabled == 1) {
                 html += "<td id='enabled' class='center'>";
                 html += "<input type='checkbox' class='checkbox' checked id='cb" + user.uid + "'>"
-                html += "<label for='cb" + user.uid + "'></label></td>";
+                html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
             } else {
                 html += "<td id='enabled' class='center'>";
                 html += "<input type='checkbox' class='checkbox' id='cb" + user.uid + "'>"
-                html += "<label for='cb" + user.uid + "'></label></td>";
+                html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
             }
         } else {
             html += "<td class='center ssid'><input type='text' placeholder='None'></td>";
             html += "<td id='enabled' class='center'>";
             html += "<input type='checkbox' class='checkbox' disabled id='cb" + user.uid + "'>"
-            html += "<label for='cb" + user.uid + "'></label></td>"
+            html += "<label class='enforce' for='cb" + user.uid + "'></label></td>"
         }
         html += "<td id='check' class='icon-checkmark' hidden></td>";
         html += "</tr>";
@@ -139,7 +139,7 @@
                 $("#edited").hide();
             }
             showChanges();
-            if (user.secsignid == null) {
+            if (user.secsignid == null && user.enforced != "1") {
                 let check = row.find("#enabled input");
                 check.prop("disabled", true);
                 check.prop("checked", false);
@@ -172,10 +172,20 @@
         });
         $("#tbody").html(html);
         users.forEach(user => {
-            $("#" + user.uid).find(".ssid input").change(function () {
+            let row = $("#" + user.uid);
+            if(user.enforced === "1"){
+                row.find(".checkbox").prop("disabled",true);
+                row.find(".checkbox").prop("checked",true);
+                row.find("label").html("2FA enforced");
+                if(!user.secsignid){
+                    row.find(".ssid").append("<span class='icon-error '></span>");
+                    $("#enforced_warning").show();
+                }
+            }
+            row.find(".ssid input").change(function () {
                 changedID($(this).val(), user);
             });
-            $("#" + user.uid).find("#enabled").change(function () {
+            row.find("#enabled").change(function () {
                 changedEnabled($('input', this).is(":checked"), user);
             });
         });

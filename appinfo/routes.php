@@ -16,6 +16,9 @@ return [
 	   ['name' => 'secsign#saveChanges', 'url' => '/ids/update/', 'verb' => 'POST'],
 	   /* User Permissions */
 	   ['name' => 'secsign#allowUserEdit', 'url' => '/allowEdit/{allow}/', 'verb' => 'POST'],
-	   ['name' => 'secsign#getAllowUserEdit', 'url' => '/allowEdit/', 'verb' => 'GET']
+	   ['name' => 'secsign#getAllowUserEdit', 'url' => '/allowEdit/', 'verb' => 'GET'],
+	   /* Server addresses */
+	   ['name' => 'secsign#saveServer', 'url' => '/server/', 'verb' => 'POST'],
+	   ['name' => 'secsign#getServer', 'url' => '/server/', 'verb' => 'GET'],
     ]
 ];

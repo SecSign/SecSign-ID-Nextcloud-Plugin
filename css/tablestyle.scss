@@ -18,7 +18,7 @@
     z-index: 2;
 }
 
-.ssid:hover .tooltip{
+.ssid:hover .tooltip {
     visibility: visible;
 }
 
@@ -78,4 +78,52 @@ td {
 
 td.icon-checkmark {
     border-bottom: 0px;
+}
+
+
+.tab {
+    overflow: hidden;
+    border-bottom: 1px solid #0082c9;
+}
+
+
+.tab button {
+    color: var(--color-text-light);
+    font-size: 16px;
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+
+.tab button:hover {
+    text-decoration: underline;
+}
+
+
+.tab button.active {
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
+#secsign_settings input{
+    margin-left: 8px;
+}
+
+.port {
+    width: 60px;
+}
+
+.server {
+    width: 200px;
 }

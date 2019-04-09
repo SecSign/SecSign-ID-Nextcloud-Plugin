@@ -154,6 +154,44 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Saves changes to server address
+	 * 
+	 * @NoCSRFRequired
+	 * 
+	 * @param array $address
+	 */
+	public function saveServer($server){
+		if(!empty($server)){
+			if(!empty($server[server])){
+				$this->permissions->setAppValue("server",$server[server]);
+			}
+			if(!empty($server[fallback])){
+				$this->permissions->setAppValue("fallback",$server[fallback]);
+			}
+			if(!empty($server[serverport])){
+				$this->permissions->setAppValue("serverport",$server[serverport]);
+			}
+			if(!empty($server[fallbackport])){
+				$this->permissions->setAppValue("fallbackport",$server[fallbackport]);
+			}
+		}
+	}
+
+	/**
+	 * Gets server data
+	 * 
+	 * @NoCSRFRequired
+	 */
+	public function getServer(){
+		return [
+			server => $this->permissions->getAppValue("server"),
+			fallback => $this->permissions->getAppValue("fallback"),
+			serverport => $this->permissions->getAppValue("serverport"),
+			fallbackport => $this->permissions->getAppValue("fallbackport")
+		];
+	}
+
+	/**
 	 * Gets all users.
 	 * 
 	 * @NoCSRFRequired

@@ -21,7 +21,7 @@
 		let polling = new Promise((resolve, reject) => {
 			var getState = function (attempts, resolve, reject) {
 				attempts += 1;
-				if (attempts > 50) {
+				if (attempts > 100) {
 					reject('Login not authenticated. Please try again');
 					return;
 				}
@@ -46,6 +46,7 @@
 		polling.then((message) => {
 			if(message.accepted){
 				$("button").click();
+				$("button").prop("disabled", true);
 			}
 		});
 

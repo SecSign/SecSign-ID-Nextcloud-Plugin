@@ -8,6 +8,8 @@
 */
 namespace OCA\SecSignID\Service;
 
+
+
 class AuthSession
 {
         /*
@@ -165,28 +167,28 @@ class AuthSession
         function createAuthSessionFromArray($array, $ignoreOptionalParameter = false)
         {
             if(! isset($array)){
-                throw new Exception("Parameter array is NULL.");
+                throw new \Exception("Parameter array is NULL.");
             }
 
             if(! is_array($array)){
-                throw new Exception("Parameter array is not an array. (array=" . $array . ")");
+                throw new \Exception("Parameter array is not an array. (array=" . $array . ")");
             }
 
             // check mandatory parameter
             if(! isset($array['secsignid'])){
-                throw new Exception("Parameter array does not contain a value 'secsignid'.");
+                throw new \Exception("Parameter array does not contain a value 'secsignid'.");
             }
             if(! isset($array['authsessionid'])){
-                throw new Exception("Parameter array does not contain a value 'authsessionid'.");
+                throw new \Exception("Parameter array does not contain a value 'authsessionid'.");
             }
             if(! isset($array['servicename']) && !$ignoreOptionalParameter){
-                throw new Exception("Parameter array does not contain a value 'servicename'.");
+                throw new \Exception("Parameter array does not contain a value 'servicename'.");
             }
             if(! isset($array['serviceaddress']) && !$ignoreOptionalParameter){
-                throw new Exception("Parameter array does not contain a value 'serviceaddress'.");
+                throw new \Exception("Parameter array does not contain a value 'serviceaddress'.");
             }
             if(! isset($array['requestid'])){
-                throw new Exception("Parameter array does not contain a value 'requestid'.");
+                throw new \Exception("Parameter array does not contain a value 'requestid'.");
             }
 
             $this->secSignID                = $array['secsignid'];

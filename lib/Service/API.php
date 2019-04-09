@@ -10,6 +10,7 @@ use OCP\IUser;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Service\SecSignIDApi;
 use OCA\SecSignID\Service\AuthSession;
+use OCA\SecSignID\Service\PermissionService;
 
 class API implements IAPI {
 
@@ -19,8 +20,27 @@ class API implements IAPI {
 
 	private $authsession;
 
-	public function __construct(IDMapper $idmapper){
+	private $server;
+	private $fallback;
+	private $serverport;
+	private $fallbackport;
+
+	public function __construct(IDMapper $idmapper, PermissionService $permissions){
 		$this->idmapper = $idmapper;
+		$this->server = $permissions->getAppValue("server");
+		$this->fallback = $permissions->getAppValue("fallback");
+		$this->serverport = $permissions->getAppValue("serverport");
+		$this->fallbackport = $permissions->getAppValue("fallbackport");
+		if($this->server === ""){
+			$this->server     = (string) "https://httpapi.secsign.com";
+            $this->fallback = (int) 443;
+            $this->serverport = (string) "https://httpapi2.secsign.com";
+			$this->fallbackport = (int) 443;
+			$permissions->setAppValue("server",$this->server);
+			$permissions->setAppValue("fallback",$this->fallback);
+			$permissions->setAppValue("serverport",$this->serverport);
+			$permissions->setAppValue("fallbackport",$this->fallbackport);
+		}
 	}
 
 	/**
@@ -41,8 +61,9 @@ class API implements IAPI {
 	 * @param secsignid
 	 */
 	public function requestAuthSession(String $secsignid){
-		$secsignidapi = new SecSignIDApi();
-		$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin','https://httpapi.secsign.com');
+		$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
+		$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
 	}
 
 	/**
@@ -56,7 +77,8 @@ class API implements IAPI {
 			if($authsession === null){
 				return false;
 			}
-			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
 			return $authSessionState == AuthSession::AUTHENTICATED;
 		}catch(Exception $e){
@@ -75,7 +97,8 @@ class API implements IAPI {
 			if($authsession === null){
 				return false;
 			}
-			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
 			return $authSessionState === AuthSession::PENDING;
 		}catch(Exception $e){
@@ -92,7 +115,8 @@ class API implements IAPI {
 			if($authsession === null){
 				return;
 			}
-			$secsignidapi = new SecSignIDApi('https://httpapi.secsign.com',443);
+			$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
 			$authSessionState = $secsignidapi->cancelAuthSession($authsession);
 		}catch(Exception $e){
 			throw $e;

@@ -173,11 +173,11 @@
         $("#tbody").html(html);
         users.forEach(user => {
             let row = $("#" + user.uid);
-            if(user.enforced === "1"){
-                row.find(".checkbox").prop("disabled",true);
-                row.find(".checkbox").prop("checked",true);
+            if (user.enforced === "1") {
+                row.find(".checkbox").prop("disabled", true);
+                row.find(".checkbox").prop("checked", true);
                 row.find("label").html("2FA enforced");
-                if(!user.secsignid){
+                if (!user.secsignid) {
                     row.find(".ssid").append("<span class='icon-error '></span>");
                     $("#enforced_warning").show();
                 }
@@ -230,6 +230,60 @@
             });
     }
 
+    function openTab(evt, tabName) {
+        $(".tabcontent").css("display", "none");
+        $(".tablinks").removeClass("active");
+
+        $("#" + tabName).css("display", "block");
+        evt.addClass("active");
+        console.log(tabName);
+    }
+
+    function save_server() {
+        $.post(OC.generateUrl('/apps/secsignid/server/'), {
+            server: {
+                server: $("#ssid_server").val(),
+                serverport: $("#ssid_server_port").val(),
+                fallback: $("#ssid_fallback").val(),
+                fallbackport: $("#ssid_fallback_port").val()
+            }
+        }).success(function () {
+            $("#save_server").html("Saved");
+            $("#save_server").fadeOut(3000);
+        }).fail(function () {
+            alert("An error has occured, please try again");
+        })
+    }
+
+    function getServer() {
+        $.get(OC.generateUrl("/apps/secsignid/server/")).success(function (data) {
+            $("#ssid_server").val(data.server);
+            $("#ssid_server_port").val(data.serverport);
+            $("#ssid_fallback").val(data.fallback);
+            $("#ssid_fallback_port").val(data.fallbackport);
+        });
+        $(".server_input").change(function () {
+            $("#save_server").show();
+        })
+    }
+
+    function addOnClicks() {
+        $("#btn_management").click(function () {
+            openTab($("#btn_management"), "user_management");
+        });
+        $("#btn_permissions").click(function () {
+            openTab($("#btn_permissions"), "user_permissions");
+        });
+        $("#btn_settings").click(function () {
+            openTab($("#btn_settings"), "secsign_settings");
+        });
+        $("#save_server").click(function () {
+            save_server();
+        })
+    }
+
+    getServer();
+    addOnClicks();
     getUsers();
     getPermissions();
 

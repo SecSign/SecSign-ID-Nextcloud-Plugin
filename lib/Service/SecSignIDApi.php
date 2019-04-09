@@ -38,13 +38,13 @@ class SecSignIDApi
         /*
          * Constructor
          */
-        function __construct()
+        function __construct($server, $port, $fallback, $fallback_port)
         {
             // secsign id server: hostname and port
-            $this->secSignIDServer     = (string) "https://httpapi.secsign.com";
-            $this->secSignIDServerPort = (int) 443;
-            $this->secSignIDServer_fallback = (string) "https://httpapi2.secsign.com";
-            $this->secSignIDServerPort_fallback = (int) 443;
+            $this->secSignIDServer     = (string) $server;
+            $this->secSignIDServerPort = (int) $port;
+            $this->secSignIDServer_fallback = (string) $fallback;
+            $this->secSignIDServerPort_fallback = (int) $fallback_port;
 
             // script version from cvs revision string
             $this->scriptVersion = SCRIPT_VERSION;
@@ -53,6 +53,10 @@ class SecSignIDApi
             // because this could cause problems when the class is in a submodule
             $this->referer = "SecSignIDApi_PHP";
         }
+
+        
+
+
 
         /*
          * Destructor

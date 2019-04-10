@@ -14,8 +14,8 @@ class PermissionService {
         $this->appName = $appName;
     }
 
-    public function getAppValue($key) {
-        return $this->config->getAppValue($this->appName, $key);
+    public function getAppValue($key, $default = '') {
+        return $this->config->getAppValue($this->appName, $key, $default);
     }
 
     public function setAppValue($key, $value) {

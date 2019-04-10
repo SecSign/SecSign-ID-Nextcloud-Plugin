@@ -7,7 +7,7 @@
 // (c) 2014-2019 SecSign Technologies Inc.
 //
 namespace OCA\SecSignID\Service;
-use Exception;    
+use \Exception;    
 define("SCRIPT_VERSION", '1.47');
 
 /*
@@ -152,17 +152,17 @@ class SecSignIDApi
 
             if(empty($servicename)){
                 $this->log("Parameter \$servicename must not be null.");
-                throw new Exception("Parameter \$servicename must not be null.");
+                throw new \Exception("Parameter \$servicename must not be null.");
             }
 
             if(empty($serviceadress)){
                 $this->log("Parameter \$serviceadress must not be null.");
-                throw new Exception("Parameter \$serviceadress must not be null.");
+                throw new \Exception("Parameter \$serviceadress must not be null.");
             }
 
             if(empty($secsignid)){
                 $this->log("Parameter \$secsignid must not be null.");
-                throw new Exception("Parameter \$secsignid must not be null.");
+                throw new \Exception("Parameter \$secsignid must not be null.");
             }
 
 			// secsign id is always key insensitive. comvert to lower case and trim whitespace
@@ -171,7 +171,7 @@ class SecSignIDApi
             // check again. probably just spacess which will ne empty after trim()
             if(empty($secsignid)){
                 $this->log("Parameter \$secsignid must not be null.");
-                throw new Exception("Parameter \$secsignid must not be null.");
+                throw new \Exception("Parameter \$secsignid must not be null.");
             }
 
             $requestParameter = array('request' => 'ReqRequestAuthSession',
@@ -206,7 +206,7 @@ class SecSignIDApi
             if($authSession === NULL || !($authSession instanceof AuthSession)){
                 $message = "Parameter \$authSession is not an instance of AuthSession. get_class(\$authSession)=" . get_class($authSession);
                 $this->log($message);
-                throw new Exception($message);
+                throw new \Exception($message);
             }
 
             $requestParameter = array('request' => 'ReqGetAuthSessionState');
@@ -226,7 +226,7 @@ class SecSignIDApi
             if($authSession === NULL || !($authSession instanceof AuthSession)){
                 $message = "Parameter \$authSession is not an instance of AuthSession. get_class(\$authSession)=" . get_class($authSession);
                 $this->log($message);
-                throw new Exception($message);
+                throw new \Exception($message);
             }
 
             $requestParameter = array('request' => 'ReqCancelAuthSession');
@@ -298,7 +298,7 @@ class SecSignIDApi
                     {
                         $this->log("output is NULL. Fallback server " . $this->secSignIDServer_fallback . ":" . $this->secSignIDServerPort_fallback . " has not been reached.");
                         $this->log("curl_error: " . curl_error($ch));
-                        throw new Exception("curl_exec error: can't connect to Server - " . curl_error($ch));
+                        throw new \Exception("curl_exec error: can't connect to Server - " . curl_error($ch));
                     }
 
                     // close curl resource to free up system resources
@@ -314,7 +314,7 @@ class SecSignIDApi
             $this->log("curl_exec response: " . ($output === NULL ? "NULL" : $output));
             $this->lastResponse = $output;
 
-            return $this->checkResponse($output, TRUE); // will throw an exception in case of an error
+            return $this->checkResponse($output, TRUE); // will throw an \Exception in case of an error
         }
 
 
@@ -328,7 +328,7 @@ class SecSignIDApi
                 $this->log("Could not connect to host '" . $this->secSignIDServer . ":" . $this->secSignIDServerPort . "'");
                 if($throwExcIfError)
                 {
-                    throw new Exception("Could not connect to server.");
+                    throw new \Exception("Could not connect to server.");
                 }
             }
 
@@ -353,7 +353,7 @@ class SecSignIDApi
                 $this->log("SecSign ID server sent error. code=" . $responseArray['error'] . " message=" . $responseArray['errormsg']);
                 if($throwExcIfError)
                 {
-                    throw new Exception($responseArray['errormsg'], $responseArray['error']);
+                    throw new \Exception($responseArray['errormsg'], $responseArray['error']);
                 }
             }
             return $responseArray;

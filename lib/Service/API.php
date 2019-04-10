@@ -27,20 +27,10 @@ class API implements IAPI {
 
 	public function __construct(IDMapper $idmapper, PermissionService $permissions){
 		$this->idmapper = $idmapper;
-		$this->server = $permissions->getAppValue("server");
-		$this->fallback = $permissions->getAppValue("fallback");
-		$this->serverport = $permissions->getAppValue("serverport");
-		$this->fallbackport = $permissions->getAppValue("fallbackport");
-		if($this->server === ""){
-			$this->server     = (string) "https://httpapi.secsign.com";
-            $this->fallback = (int) 443;
-            $this->serverport = (string) "https://httpapi2.secsign.com";
-			$this->fallbackport = (int) 443;
-			$permissions->setAppValue("server",$this->server);
-			$permissions->setAppValue("fallback",$this->fallback);
-			$permissions->setAppValue("serverport",$this->serverport);
-			$permissions->setAppValue("fallbackport",$this->fallbackport);
-		}
+		$this->server = (string) $permissions->getAppValue("server", "https://httpapi.secsign.com");
+		$this->fallback = (string) $permissions->getAppValue("fallback", "https://httpapi2.secsign.com");
+		$this->serverport =  (int) $permissions->getAppValue("serverport", 443);
+		$this->fallbackport = (int) $permissions->getAppValue("fallbackport", 443);
 	}
 
 	/**
@@ -62,7 +52,8 @@ class API implements IAPI {
 	 */
 	public function requestAuthSession(String $secsignid){
 		$secsignidapi = new SecSignIDApi($this->server,
-											 $this->serverport, 				$this->fallback, $this->fallbackport);
+										 $this->serverport, 				$this->fallback, 
+										 $this->fallbackport);
 		$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
 	}
 
@@ -107,7 +98,7 @@ class API implements IAPI {
 	}
 
 	/**
-	 * Cancels an existion authentication session.
+	 * Cancels an existing authentication session.
 	 */
 	public function cancelAuthSession(){
 		try{

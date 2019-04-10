@@ -21,7 +21,9 @@ class Application extends App {
 		parent::__construct('secsignid', $urlParams);
 
 		$container = $this->getContainer();
-		$container->registerAlias('SecsignController', SecsignController::class);
+        $container->registerAlias('SecsignController', SecsignController::class);
+        $container->registerAlias('SecsignController', ConfigController::class);
+        $container->registerAlias('SecsignController', UserController::class);
 		$container->registerAlias(IAPI::class, API::class);
 
 		$container->registerService('PermissionService', function($c) {

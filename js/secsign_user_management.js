@@ -213,29 +213,33 @@
                 check.prop("disabled", false);
                 check.prop("checked", allow);
                 check.change(function () {
-                    if (this.checked) {
-                        $.post(OC.generateUrl("/apps/secsignid/allowEdit/1/"), null, function () {
-                            //console.log("successfully enabled");
-                        }).fail(function () {
-                            this.prop("checked", !this.checked);
-                        });
-                    } else {
-                        $.post(OC.generateUrl("/apps/secsignid/allowEdit/0/"), null, function () {
-                            //console.log("successfully disabled");
-                        }).fail(function () {
-                            this.prop("checked", !this.checked);
-                        });
-                    }
+                    $("#save_allow_enable").show();
                 })
             });
     }
 
+    function save_allow_enable() {
+        let check = $("#allow_user_enable");
+        let save = $("#save_allow_enable");
+        console.log(check.prop("checked"));
+        $.post(OC.generateUrl("/apps/secsignid/allowEdit/"), {
+                allow: check.prop("checked")
+            },
+            function () {
+                save.html("Saved");
+                save.fadeOut(3000);
+            }).fail(function () {
+            alert("An error occured while saving. Try again");
+            check.prop("checked", !check.checked);
+        });
+    }
+
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
-        $(".tablinks").removeClass("active");
+        $(".nav-ul a").removeClass("selected");
 
         $("#" + tabName).css("display", "block");
-        evt.addClass("active");
+        evt.addClass("selected");
         console.log(tabName);
     }
 
@@ -255,6 +259,17 @@
         })
     }
 
+    function save_server_mobile() {
+        $.post(OC.generateUrl('/apps/secsignid/server/mobile/'), {
+            server: $("#ssid_server_mobile").val()
+        }).success(function () {
+            $("#save_server_mobile").html("Saved");
+            $("#save_server_mobile").fadeOut(3000);
+        }).fail(function () {
+            alert("An error has occured, please try again");
+        })
+    }
+
     function getServer() {
         $.get(OC.generateUrl("/apps/secsignid/server/")).success(function (data) {
             $("#ssid_server").val(data.server);
@@ -262,8 +277,14 @@
             $("#ssid_fallback").val(data.fallback);
             $("#ssid_fallback_port").val(data.fallbackport);
         });
+        $.get(OC.generateUrl("/apps/secsignid/server/mobile/")).success(function (data) {
+            $("#ssid_server_mobile").val(data);
+        });
         $(".server_input").change(function () {
             $("#save_server").show();
+        })
+        $("#ssid_server_mobile").change(function () {
+            $("#save_server_mobile").show();
         })
     }
 
@@ -279,6 +300,12 @@
         });
         $("#save_server").click(function () {
             save_server();
+        });
+        $("#save_server_mobile").click(function () {
+            save_server_mobile();
+        });
+        $("#save_allow_enable").click(function () {
+            save_allow_enable();
         })
     }
 

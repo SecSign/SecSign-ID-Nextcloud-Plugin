@@ -61,7 +61,7 @@ button {
 th {
     font-weight: bold;
     font-size: 110%;
-    color: #0082c9;
+    color:   var(--color-primary);
 }
 
 td {
@@ -126,4 +126,47 @@ td.icon-checkmark {
 
 .server {
     width: 200px;
+}
+
+.nav-ul {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    color: var(--color-primary);
+    background: #e5e5ff;
+    border-bottom: 2px solid var(--color-border-dark);
+}
+
+.nav-ul a{
+    padding: 14px 16px;
+    transition: 0.3s;
+    float: left;
+    font-weight: bold;
+}
+
+a{
+    transition: var(--animation-quick);
+}
+
+.nav-ul a {
+    color: var(--color-primary);
+}
+
+.nav-ul a:hover {
+    background: var(--color-border-dark);
+}
+
+.nav-ul a:hover:active {
+    background: var(--color-primary);
+    color: var(--color-primary-text);
+}
+
+.selected span {
+    color: var(--color-text-light);
+    font-size: 110%;
+}
+
+.secsign-content {
+    border: 2px solid var(--color-border-dark);
+    max-width: 1200px;
 }

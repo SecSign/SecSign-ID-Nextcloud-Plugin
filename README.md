@@ -10,3 +10,5 @@ two-factor authentication.
 
 If you do not already have a SecSign ID, go to [secsign.com](https://www.secsign.com/try-secsign-id-now/) to learn
 how to create and use one.
+
+[PHP QR Code library](http://phpqrcode.sourceforge.net/) was used for the creating QR codes. Many thanks to the developers.

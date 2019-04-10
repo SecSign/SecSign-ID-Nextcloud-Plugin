@@ -57,7 +57,7 @@
         });
     }
 
-    $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
+    $.get(OC.generateUrl('/apps/secsignid/canEdit/'),
         function (allow) {
             allowEdit = allow;
             /**

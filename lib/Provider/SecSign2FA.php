@@ -15,6 +15,7 @@ use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
+use OCA\SecSignID\Service\PermissionService;
 
 /**
  * SecSign2FA is starts an authentication session once a user has
@@ -33,14 +34,20 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 
 	private $id;
 
+	private $permission;
+
+	private $onboarding;
+
 
 	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper, 
-								IRegistry $registry){
+								IRegistry $registry, PermissionService $permission){
 		$this->iapi = $iapi;
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
 		$this->id = $this->mapper->find($this->userId);
 		$this->registry = $registry;
+		$this->permission = $permission;
+		$this->onboarding = $this->permission->getAppValue("onboarding_enabled", false);
 	}
 	
 	public function getId(): string {
@@ -86,8 +93,7 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Decides whether 2FA is enabled for the given user
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
-		$id = $this->mapper->find($this->userId);
-		return $id !== null && $id->getEnabled() === 1;
+		return $this->onboarding || ($this->id !== null && $this->id->getEnabled() === 1);
 	}
 
 	/**

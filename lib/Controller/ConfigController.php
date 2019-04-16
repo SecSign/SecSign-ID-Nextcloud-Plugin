@@ -149,4 +149,30 @@ class ConfigController extends Controller {
 		}
 		return $this->permissions->getAppValue("allowEdit", false);
 	}
+
+	/**
+	 * Gets the status of user onbaording
+	 * 
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getOnboarding(){
+		return [
+			enabled => $this->permissions->getAppValue("onboarding_enabled", false),
+			suffix => $this->permissions->getAppValue("onboarding_suffix","")
+		];
+	}
+
+	/**
+	 * Changes the status of user onbaording
+	 * 
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * 
+	 * @param array data
+	 */
+	public function changeOnboarding($data){
+		$this->permissions->setAppValue("onboarding_enabled", $data[enabled]);
+		$this->permissions->setAppValue("onboarding_suffix", $data[suffix]);
+	}
 }

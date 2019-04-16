@@ -18,8 +18,7 @@
             let row = $("#" + uid);
             let secsignid = row.find(".ssid input").val();
             let enabled = row.find("#enabled input").is(':checked') ? 1 : 0;
-            if (secsignid == '') {
-                secsignid = null;
+            if (!secsignid) {
                 enabled = 0;
             }
             updates.push({
@@ -57,7 +56,7 @@
     function addUserRow(user) {
         let html = '';
         let displayname = user.displayname == null ? user.uid : user.displayname;
-        let secsignid = user.secsignid == null ? "-" : user.secsignid;
+        let secsignid = !user.secsignid ? "-" : user.secsignid;
         html += "<tr id='" + user.uid + "'>";
         html += "   <td>" + user.uid + "</td>";
         html += "   <td class='displayname'>" + displayname + "</td>";
@@ -197,6 +196,7 @@
     function getUsers() {
         $.get(OC.generateUrl('/apps/secsignid/ids/users/'),
             function (data) {
+                console.log(data);
                 showTable(data);
                 $(".lds-roller").hide();
                 $("#table").show();
@@ -231,6 +231,21 @@
             }).fail(function () {
             alert("An error occured while saving. Try again");
             check.prop("checked", !check.checked);
+        });
+    }
+
+    function save_onboarding() {
+        $.post(OC.generateUrl("/apps/secsignid/onboarding/"),
+        {
+            data: {
+                enabled: $("#enable_onboarding").prop("checked"),
+                suffix: $("#onboarding_suffix").val()
+            }
+        }).success(function (){
+            $("#save_onboarding").html("Saved");
+            $("#save_onboarding").fadeOut(3000);
+        }).fail(function () {
+            alert("An error has occured, please try again");
         });
     }
 
@@ -270,6 +285,35 @@
         })
     }
 
+    function getOnboarding() {
+        let check = $("#enable_onboarding");
+        let input = $(".onboarding_input");
+        let suffix = $("#onboarding_suffix");
+        let save = $("#save_onboarding");
+        $.get(OC.generateUrl("/apps/secsignid/onboarding/"))
+            .success(function (data) {
+                check.prop("checked", data.enabled);
+                suffix.val(data.suffix);
+                if (data.enabled) {
+                    input.show();
+                }
+            });
+        check.change(function () {
+            save.val("Save");
+            save.show();
+            if (check.prop("checked")) {
+                input.show();
+            } else {
+                input.hide();
+            }
+        });
+        suffix.change(function (){
+            $("#onboarding_example").html("Schema example: john.doe@"+suffix.val())
+            save.val("Save");
+            save.show();
+        })
+    }
+
     function getServer() {
         $.get(OC.generateUrl("/apps/secsignid/server/")).success(function (data) {
             $("#ssid_server").val(data.server);
@@ -298,6 +342,9 @@
         $("#btn_settings").click(function () {
             openTab($("#btn_settings"), "secsign_settings");
         });
+        $("#btn_onboarding").click(function () {
+            openTab($("#btn_onboarding"), "user_onboarding");
+        });
         $("#save_server").click(function () {
             save_server();
         });
@@ -306,10 +353,14 @@
         });
         $("#save_allow_enable").click(function () {
             save_allow_enable();
+        });
+        $("#save_onboarding").click(function () {
+            save_onboarding();
         })
     }
 
     getServer();
+    getOnboarding();
     addOnClicks();
     getUsers();
     getPermissions();

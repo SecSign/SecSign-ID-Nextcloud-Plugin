@@ -18,6 +18,8 @@ return [
 	   ['name' => 'config#allowUserEdit', 'url' => '/allowEdit/', 'verb' => 'POST'],
 	   ['name' => 'config#getAllowUserEdit', 'url' => '/allowEdit/', 'verb' => 'GET'],
 	   ['name' => 'config#canUserEdit', 'url' => '/canEdit/', 'verb' => 'GET'],
+	   ['name' => 'config#getOnboarding', 'url' => '/onboarding/', 'verb' => 'GET'],
+	   ['name' => 'config#changeOnboarding', 'url' => '/onboarding/', 'verb' => 'POST'],
 	   /* Server addresses */
 	   ['name' => 'config#saveServer', 'url' => '/server/', 'verb' => 'POST'],
 	   ['name' => 'config#saveServerMobile', 'url' => '/server/mobile/', 'verb' => 'POST'],

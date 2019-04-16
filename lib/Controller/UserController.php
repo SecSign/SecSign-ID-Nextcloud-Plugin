@@ -34,17 +34,20 @@ class UserController extends Controller {
 
 	private $registry;
 
+	private $provider;
+
 	private $enforce;
 
 	public function __construct($AppName, IRequest $request,		
 								$UserId, 
-								IDMapper $mapper, IUserManager $manager, IRegistry $registry, MandatoryTwoFactor $enforce){
+								IDMapper $mapper, IUserManager $manager, IRegistry $registry, MandatoryTwoFactor $enforce, SecSign2FA $provider){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
 		$this->manager = $manager;
 		$this->registry = $registry;
 		$this->enforce = $enforce;
+		$this->provider = $provider;
 	}
 
 
@@ -113,10 +116,10 @@ class UserController extends Controller {
 	public function saveChanges($data){
 		foreach($data as &$user){
 			$id = new ID();
-			$id->setUserId($user[uid]);
-			$id->setSecsignid($user[secsignid]);
-			$id->setEnabled($user[enabled]);
-			$this->changeUserState($user[enabled], $user[uid]);
+			$id->setUserId($user['uid']);
+			$id->setSecsignid($user['secsignid']);
+			$id->setEnabled($user['enabled']);
+			$this->changeUserState($user['enabled'], $user['uid']);
 			$this->mapper->addUser($id);
 		}
 		return $this->usersWithIds();

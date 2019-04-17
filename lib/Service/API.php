@@ -54,7 +54,11 @@ class API implements IAPI {
 		$secsignidapi = new SecSignIDApi($this->server,
 										 $this->serverport, 				$this->fallback, 
 										 $this->fallbackport);
-		$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
+		try{
+			$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
+		}catch(\Exception $e){
+			throw($e);
+		}
 	}
 
 	/**
@@ -95,6 +99,28 @@ class API implements IAPI {
 		}catch(Exception $e){
 			throw $e;
 		}
+	}
+
+	/**
+	 * Checks if an ID exists on the server by requesting an auth session. If an error occurs,
+	 * it returns false, else it returns the Authsession that was started.
+	 * 
+	 * @param secsignid
+	 * 
+	 * @return bool
+	 */
+	public function idExists(String $secsignid): bool{
+		try{
+			$this->requestAuthSession($secsignid);
+			return true;
+		}catch(\Exception $e){
+			if($e->getCode() === 500 && strpos($e->getMessage(),"exist") !== false){
+				return false;
+			}else{
+				throw($e);
+			}
+		}
+		
 	}
 
 	/**

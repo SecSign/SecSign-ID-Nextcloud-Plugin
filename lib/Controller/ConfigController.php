@@ -102,11 +102,11 @@ class ConfigController extends Controller {
 	/**
 	 * Gets QR code for given secsignid.
 	 * 
+	 * @NoAdminRequired
 	 * @NoCSRFRequired
-     * 
-     * @param string $secsignid
 	 */
-	public function getQR($secsignid){
+	public function getQR(){
+		$secsignid = $this->userId . "@" . $this->permissions->getAppValue("onboarding_suffix","test");		
 		$serverurl = $this->permissions->getAppValue("mobileurl","id1.secsign.com");
 		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
 		QRCode::png($uri);
@@ -166,7 +166,6 @@ class ConfigController extends Controller {
 	/**
 	 * Changes the status of user onbaording
 	 * 
-	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * 
 	 * @param array data

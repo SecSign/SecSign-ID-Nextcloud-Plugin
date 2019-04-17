@@ -8,6 +8,7 @@ return [
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
 	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
+	   ['name' => 'secsign#idExists', 'url' => '/exists/', 'verb' => 'GET'],
 	   ['name' => 'user#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
 	   ['name' => 'user#disableID', 'url' => '/id/disable/', 'verb' => 'POST'],
 	   ['name' => 'user#getUsers', 'url' => '/ids/', 'verb' => 'GET'],
@@ -25,6 +26,6 @@ return [
 	   ['name' => 'config#saveServerMobile', 'url' => '/server/mobile/', 'verb' => 'POST'],
 	   ['name' => 'config#getServer', 'url' => '/server/', 'verb' => 'GET'],
 	   ['name' => 'config#getServerMobile', 'url' => '/server/mobile/', 'verb' => 'GET'],
-	   ['name' => 'config#getQR', 'url' => '/qr/{secsignid}/', 'verb' => 'GET'],
+	   ['name' => 'config#getQR', 'url' => '/qr/', 'verb' => 'GET'],
     ]
 ];

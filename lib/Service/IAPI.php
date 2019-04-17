@@ -45,6 +45,16 @@ interface IAPI {
 	public function isSessionPending(): bool;
 
 	/**
+	 * Checks if an ID exists on the server by requesting an auth session. If an error occurs,
+	 * it returns false, else it returns the Authsession that was started.
+	 * 
+	 * @param secsignid
+	 * 
+	 * @return bool
+	 */
+	public function idExists(String $secsignid): bool;
+
+	/**
 	 * Cancels an existion authentication session.
 	 */
 	public function cancelAuthSession();

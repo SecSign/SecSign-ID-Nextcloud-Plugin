@@ -15,6 +15,8 @@ use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 
+use OCA\SecSignID\Service\PermissionService;
+
 /**
  * The SecSignController links to required templates and handles requests to the server.
  */
@@ -26,13 +28,16 @@ class SecsignController extends Controller {
 
 	private $mapper;
 
+	private $permission;
+
 	public function __construct($AppName, IRequest $request,		
 								$UserId, IAPI $iapi,
-								IDMapper $mapper){
+								IDMapper $mapper, PermissionService $permission){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
 		$this->mapper = $mapper;
+		$this->permission = $permission;
 	}
 
 	/**
@@ -45,6 +50,15 @@ class SecsignController extends Controller {
 		return array('accepted' => $accepted);
 	}
 
+	/**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+	public function idExists(){
+		$secsignid = $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
+		return $this->iapi->idExists($secsignid);
+	}
 
 	/**
 	 * Cancels the pending authsession-.

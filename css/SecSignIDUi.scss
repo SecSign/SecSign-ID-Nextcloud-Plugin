@@ -1,0 +1,351 @@
+/* global */
+.secUi-custcolor {
+    color: var(--color-primary);
+}
+
+.secUi-custbutton {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.secUi-custbutton:hover {
+    color: #fff;
+    background-color: var(--color-primary);
+}
+
+.secUi-custbgcolor {
+    background-color: var(--color-primary);
+}
+
+.secUi-custappcolor:hover {
+    color: #fff;
+    background-color: var(--color-primary);
+}
+
+/* main */
+#secUi-main__container {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    color: #4a4a4a;
+}
+
+.secUi-main__wrapper {
+    width: 100%;
+    max-width: 350px;
+    position: relative;
+    margin: 30px auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 20px #0000004d;
+    min-height: 420px;
+    background-color: #fff;
+    transition: all 1s;
+}
+
+.secUi-main__badge {
+    position: absolute;
+    right: -35px;
+    width: 35px;
+    height: 200px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    top: 150px;
+    box-shadow: 5px 0px 10px #0000004d;
+    display: block;
+    background-image: url("../img/secsign-company-logo.png");
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-size: auto auto;
+    background-size: auto auto;
+    background-size: auto 90%;
+    background-position: 10px left;
+    background-repeat: no-repeat;
+    background-position-y: 10px;
+    cursor: pointer;
+}
+
+.secUi-main__helplink {
+    float: right;
+    text-decoration: none;
+    margin: -20px 0 0 0;
+}
+
+.secUi-main__helplink:hover {
+    text-decoration: underline;
+}
+
+.secUi-main__button {
+    width: 100%;
+    border: 1px solid black;
+    background-color: transparent;
+    border-radius: 30px;
+    padding: 4px;
+    margin: 10px auto 0 auto;
+    cursor: pointer;
+    font-size: 1em;
+    display: block;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.secUi-main__logoicon {
+    display: block;
+    margin: 20px auto;
+    height: 50px;
+    width: 50px;
+    background-image: url("../img/secsign-logo-icon.png");
+    background-size: contain;
+    cursor: pointer;
+}
+
+.secUi-main__text {
+    text-align: center;
+}
+
+.secUi-main__textsmall {
+    font-size: 0.9em;
+    margin-bottom: 30px;
+}
+
+.spinner {}
+
+/* header */
+.secUi-header {
+    background-color: #f6f6f6;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 10px 5%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.secUi-header__logo {
+    max-width: 50%;
+    display: block;
+    margin-right: 5%;
+    max-height: 125px;
+    background-image: url("../../svg/core/logo/logo?color=000&v=1");
+}
+
+.secUi-header__container {
+    min-width: 50%;
+    display: block;
+}
+
+.secUi-header__heading {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.secUi-header__companyname {}
+
+.secUi-header__subheading {}
+
+.secUi-header__username {
+    font-weight: bold;
+}
+
+/* progress */
+.secUi-progress {
+    height: 2px;
+    width: 100%;
+    background-color: #b9b9b9;
+    position: relative;
+}
+
+.secUi-progress__bar {
+    position: absolute;
+    width: 10%;
+    height: 2px;
+    transition: width 1s;
+}
+
+/* page */
+.secUi-page {
+    display: none;
+    min-height: 220px;
+    padding: 40px 20px 40px 20px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    transition: height 0.4s;
+}
+
+.secUi-pageApps__appcontainer {
+    margin: 30px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.secUi-pageApps__appbtn {
+    width: 48%;
+    height: 40px;
+    line-height: 34px;
+    background-color: black;
+    border-radius: 3px;
+    color: #fff;
+    padding: 3px;
+    margin: 2% 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.secUi-pageApps__appbtnicon {
+    max-height: 30px;
+    fill: white;
+    float: left;
+    max-height: 30px;
+    padding: 5px 6px;
+}
+
+.secUi-pageQr__code,
+.secUi-pageQrRestore__code,
+.secUi-pageAccesspass__accesspass {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    max-width: 200px;
+}
+
+#secUi-pageAccesspass__noaccesspassicon,
+#secUi-pageAccesspass__accesspassicon {
+    display: none;
+}
+
+.secUi-pageAccesspass__apcontainer {
+    width: 80px;
+    padding: 20px;
+    background-color: #f6f6f6;
+    margin: 30px auto;
+    border-radius: 100px;
+    border: 2px solid #b9b9b9;
+}
+
+
+.secUi-main__textinput {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 0;
+    background-color: #f6f6f6;
+    border-radius: 30px;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.secUi-pageError__errorCodeContainer {
+    color: red;
+    font-weight: bold;
+}
+
+#secUi-pageError__errorCode {}
+
+#secUi-pageError__errorMsg {
+    padding: 20px;
+    background-color: #ffeaea;
+    border-radius: 3px;
+    margin: 30px auto 30px;
+}
+
+#secUi-pageAbout {
+    text-align: center;
+}
+
+#secUi-pageAccesspass {
+    text-align: center;
+}
+
+#secUi-pageLoad {
+    display: none;
+    min-height: 220px;
+    padding: 40px 20px 40px 20px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    transition: height 0.4s;
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.secUi-main__barload {
+    display: block;
+    position: relative;
+    margin: 30px auto 10px auto;
+    width: 64px;
+    height: 60px;
+}
+
+.secUi-main__barload div {
+    display: inline-block;
+    position: absolute;
+    left: 6px;
+    width: 13px;
+    background: red;
+    animation: secUi-main__barload 1.5s infinite;
+    border-radius: 3px;
+}
+
+.secUi-main__barload div:nth-child(1) {
+    left: 6px;
+    animation-delay: -0.24s;
+}
+
+.secUi-main__barload div:nth-child(2) {
+    left: 26px;
+    animation-delay: -0.12s;
+}
+
+.secUi-main__barload div:nth-child(3) {
+    left: 45px;
+    animation-delay: 0;
+}
+
+@keyframes secUi-main__barload {
+    0% {
+        top: 0px;
+        height: 60px;
+    }
+
+    50% {
+        top: 10px;
+        height: 40px;
+    }
+
+    100% {
+        top: 0px;
+        height: 60px;
+    }
+}
+
+#secUi-main__pageContainer {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+
+
+
+
+
+
+
+
+
+/* uifixes */
+
+#secUi-pageClaim .secUi-main__text {
+    margin-bottom: 75px;
+}
+
+/*#secUi-pagePw #secUi-pageApps #secUi-pageQr #secUi-pageQrDesktop #secUi-pageNewOrExistingID #secUi-pageEnterEmail #secUi-pageEmailConfirm*/

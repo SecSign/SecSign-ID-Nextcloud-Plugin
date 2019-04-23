@@ -8,11 +8,12 @@
 (function (OC, window, $) {
 	'use strict';
 
-	function addCancelListener(){
-		$(".two-factor-secondary").click(function (){
-			$.post(OC.generateUrl('/apps/secsignid/cancel/')), function (){
-				//console.log("cancelled auth session");
-			}
+	function addCancelListener() {
+		$(".two-factor-secondary").click(function () {
+			$.post(OC.generateUrl('/apps/secsignid/cancel/')),
+				function () {
+					//console.log("cancelled auth session");
+				}
 		})
 	}
 
@@ -25,26 +26,21 @@
 					reject('Login not authenticated. Please try again');
 					return;
 				}
-				$.ajax({
-					url: OC.generateUrl('/apps/secsignid/state/'),
-					type: 'GET',
-					success: function (data) {
-						if(data.accepted){
-							resolve(data);
-						}else{
-							setTimeout(getState,500,attempts,resolve,reject);
-						}
-					},
-					error: function (data) {
-						reject(data);
-						setTimeout(getState,500,attempts,resolve,reject);
+				$.get(OC.generateUrl('/apps/secsignid/state/')).success(function (data) {
+					if (data.accepted) {
+						resolve(data);
+					} else {
+						setTimeout(getState, 500, attempts, resolve, reject);
 					}
+				}).error(function (data) {
+					reject(data);
+					setTimeout(getState, 500, attempts, resolve, reject);
 				});
 			}
 			getState(0, resolve, reject);
 		});
 		polling.then((message) => {
-			if(message.accepted){
+			if (message.accepted) {
 				$("button").click();
 				$("button").prop("disabled", true);
 			}

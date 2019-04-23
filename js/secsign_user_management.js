@@ -294,6 +294,7 @@
             .success(function (data) {
                 check.prop("checked", data.enabled);
                 suffix.val(data.suffix);
+                $("#onboarding_example").html("Schema example: john.doe@"+suffix.val())
                 if (data.enabled) {
                     input.show();
                 }

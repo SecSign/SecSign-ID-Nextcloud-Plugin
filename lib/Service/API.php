@@ -41,7 +41,7 @@ class API implements IAPI {
 	 */
 	public function hasSecSignID(IUser $user): bool{
 		$id = $this->idmapper->find($user);
-		$this->secsignid = $id->getSecSignID();
+		$this->secsignid = $id->getSecsignid();
 		return $secsignid !== null && $id->getEnabled();
 	}
 
@@ -50,12 +50,13 @@ class API implements IAPI {
 	 * 
 	 * @param secsignid
 	 */
-	public function requestAuthSession(String $secsignid){
+	public function requestAuthSession(String $secsignid): AuthSession{
 		$secsignidapi = new SecSignIDApi($this->server,
 										 $this->serverport, 				$this->fallback, 
 										 $this->fallbackport);
 		try{
 			$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
+			return $_SESSION['session'];
 		}catch(\Exception $e){
 			throw($e);
 		}
@@ -79,6 +80,19 @@ class API implements IAPI {
 		}catch(Exception $e){
 			throw $e;
 		}
+	}
+
+	/**
+	 * Checks the state of a given AuthSession
+	 * 
+	 * @return string
+	 */
+	public function getAuthState($session): string{
+		$authsession = new AuthSession();
+		$authsession->createAuthSessionFromArray($session);
+		$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
+		return $secsignidapi->getAuthSessionState($authsession);
 	}
 
 	/**
@@ -107,15 +121,15 @@ class API implements IAPI {
 	 * 
 	 * @param secsignid
 	 * 
-	 * @return bool
+	 * @return array
 	 */
-	public function idExists(String $secsignid): bool{
+	public function idExists(String $secsignid): array{
 		try{
-			$this->requestAuthSession($secsignid);
-			return true;
+			$session = $this->requestAuthSession($secsignid);
+			return array("session" => $session->getAuthSessionAsArray(), "exists" => true);
 		}catch(\Exception $e){
 			if($e->getCode() === 500 && strpos($e->getMessage(),"exist") !== false){
-				return false;
+				return array(null, "exists" => false);
 			}else{
 				throw($e);
 			}

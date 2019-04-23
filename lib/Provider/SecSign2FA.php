@@ -16,6 +16,7 @@ use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 use OCA\SecSignID\Service\PermissionService;
+use OCA\SecSignID\Controller\OnboardingController;
 
 /**
  * SecSign2FA is starts an authentication session once a user has
@@ -38,9 +39,11 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 
 	private $onboarding;
 
+	private $onboardingController;
+
 
 	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper, 
-								IRegistry $registry, PermissionService $permission){
+								IRegistry $registry, PermissionService $permission, OnboardingController $onboardingController){
 		$this->iapi = $iapi;
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
@@ -48,6 +51,7 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 		$this->registry = $registry;
 		$this->permission = $permission;
 		$this->onboarding = $this->permission->getAppValue("onboarding_enabled", false);
+		$this->onboardingController = $onboardingController;
 	}
 	
 	public function getId(): string {
@@ -72,7 +76,7 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Get the template for rending the 2FA provider view
 	 */
 	public function getTemplate(IUser $user): Template {
-		if($this->onboarding && $this->id->getSecsignid() === null){
+		if($this->onboarding && $this->id === null){
 			return new Template('secsignid', 'content/onboarding');
 		}else{
 			if(!empty($_SESSION['session']))
@@ -88,7 +92,16 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Verify the given challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge): bool {
-		if ($challenge !== null && $this->iapi->isSessionAccepted()) {
+		
+		if($challenge !== "testtest"){
+			$session =  json_decode($challenge, true);
+			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
+				$this->onboardingController->setOnboardingID($this);
+				return true;
+			}else{
+				return false;
+			}		
+		}else if ($challenge !== null && $this->iapi->isSessionAccepted()) {
 			return true;
 		}
 		return false;

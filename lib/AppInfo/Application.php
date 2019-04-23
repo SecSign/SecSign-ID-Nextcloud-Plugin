@@ -22,8 +22,9 @@ class Application extends App {
 
 		$container = $this->getContainer();
         $container->registerAlias('SecsignController', SecsignController::class);
-        $container->registerAlias('SecsignController', ConfigController::class);
-        $container->registerAlias('SecsignController', UserController::class);
+        $container->registerAlias('ConfigController', ConfigController::class);
+        $container->registerAlias('UserController', UserController::class);
+        $container->registerAlias('OnboardingController', OnboardingController::class);
 		$container->registerAlias(IAPI::class, API::class);
 
 		$container->registerService('PermissionService', function($c) {

@@ -69,6 +69,8 @@ class UserController extends Controller {
 		return $this->mapper->addUser($entity)->jsonSerialize();
 	}
 
+
+
 	/**
 	 * Disables the current users 2FA.
 	 * 

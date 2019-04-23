@@ -10,18 +10,7 @@ style('secsignid','SecSignIDUi');
 include ('../../phpapi/SecSignIDApi.php');
 ?>
 <html>
-    <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    	<title>SecSignID 2FA and Enrollment Demo</title>
-<!-- Start SecSignID Template Parts -->
-        
-<!-- End SecSignID HTML Template Parts -->
-
-    </head>
-    <body style="background-color:#f9f9f9; margin: 0 20px 100px 20px;">
-
-<!-- Start SecSignID HTML Template -->
-
+    <body style="margin: 0 20px 50px 20px;">
         <div id="secUi-main__container">
             <div class="secUi-main__wrapper">
 
@@ -226,6 +215,7 @@ include ('../../phpapi/SecSignIDApi.php');
 <!-- Authentication Page for Accesspass (2) -->
                 <div id="secUi-pageAccesspass" class="secUi-page">
                     <a target="_blank" href="https://secsign.com/help#accesspass" class="secUi-main__helplink secUi-custcolor">Help</a>
+                    
 
                     <div id="secUi-pageAccesspass__noaccesspassicon">
                         <p class="secUi-main__text">
@@ -238,11 +228,10 @@ include ('../../phpapi/SecSignIDApi.php');
                     </div>
                     <div id="secUi-pageAccesspass__accesspassicon">
                         <p class="secUi-main__text">
-                             Access pass for <strong class="secUi-main__displayid"><?php p($_SESSION['session']->getSecSignID()); ?></strong>
+                             Access pass for <strong class="secUi-main__displayid"></strong>
                         <p>
                         <div class="secUi-pageAccesspass__apcontainer">
-                        <?php
-		                    print_unescaped('<img class="secUi-pageAccesspass__accesspass" id="secUi-pageAccesspass__accesspass" src="data:image/png;base64,'.$_SESSION['session']->getIconData().'">');?>
+                        <img class="secUi-pageAccesspass__accesspass" id="secUi-pageAccesspass__accesspass">
                             <!--<img class="secUi-pageAccesspass__accesspass" id="secUi-pageAccesspass__accesspass" src="">-->
                         </div>
                         <p class="secUi-main__textsmall">
@@ -284,6 +273,7 @@ include ('../../phpapi/SecSignIDApi.php');
 </div>
 
                 <form id="secUi-main__loginform" action="" method="post">
+                    <input id="secUi-pageAccesspass_session" type="hidden" name="challenge">
                     <input type="hidden" id="secUi-main__appstate" name="appstate" value="enrollment_done">
                     <input type="hidden" id="secUi-main__authsessionid" name="authsessionid" value="${authsessionid}">
                     <input type="hidden" id="secUi-main__servicename" name="servicename" value="${servicename}">

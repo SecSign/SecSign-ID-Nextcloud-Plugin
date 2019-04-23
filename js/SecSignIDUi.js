@@ -168,14 +168,12 @@
 
         //check the auth session for polling
         var checkAuthSessionStateFunc = function () {
-            secSignIdApi.getAuthSessionState({
-                secsignid: $("#secUi-main__secsignid").val(),
-                requestid: $("#secUi-main__requestid").val(),
-                authsessionid: $("#secUi-main__authsessionid").val(),
-                callbackFunction: function (responseMap) {
-                    if (responseMap) {
-                        var authSessionState = parseInt(responseMap["authsessionstate"]);
-
+            var array = JSON.parse($("#secUi-pageAccesspass_session").val());
+            console.log(array);
+            $.post(OC.generateUrl("/apps/secsignid/state/"), {session: array}).success(
+                function (data){
+                    if (data) {
+                        var authSessionState = parseInt(data);
                         switch (authSessionState) {
                             //authn cases
                             case SESSION_STATE_AUTHENTICATED:
@@ -207,22 +205,15 @@
                         }
                     }
                 }
-            });
+            )
         };
 
 
         //cancel the auth session
         var cancelAuthSession = function () {
-            secSignIdApi.cancelAuthSession({
-                secsignid: $("#secsignid").val(),
-                requestid: $("#requestid").val(),
-                authsessionid: $("#authsessionid").val(),
-                callbackFunction: function (responseMap) {
-                    if (responseMap) {
-                        var error = parseInt(responseMap["error"]);
-                    }
-                }
-            });
+            $.post(OC.generateUrl('/apps/secsignid/cancel/')), function (){
+				//console.log("cancelled auth session");
+			}
         };
 
 
@@ -287,12 +278,15 @@
             logger(DEBUG, 'request if id exists to ' + settings.restApiEnrollment);
             $.get(OC.generateUrl("/apps/secsignid/exists/"))
                 .done(function (data) {
+                    console.log(data)
                     logger(DEBUG, 'api response while testing if ID exists: ' + data);
-                    if (data === "true" || data === true) {
+                    if (data.exists === "true" || data.exists === true) {
+                        $('.secUi-pageAccesspass__accesspass').prop("src", "data:image/png;base64," + data.session.authsessionicondata);
+                        $("#secUi-pageAccesspass_session").val(JSON.stringify(data.session));
                         callback(true);
                         return;
                     }
-                    if (data === "false" || data === false) {
+                    if (data.exists === "false" || data.exists === false) {
                         callback(false);
                         return;
                     }
@@ -525,6 +519,10 @@
                     $('.secUi-page').hide();
                     $('.secUi-main__displayid').text(settings.userSecSignId);
                     $('#secUi-pageAccesspass').show();
+                    $("#secUi-pageAccesspass__accesspassicon").show();
+                    pollingAuthSessionState =  checkAuthSessionStateFunc();
+                    console.log(settings);
+                    loader(false, function () {});
                     //has loader in callback
                     //requestAuthSession();
                     break;
@@ -549,6 +547,7 @@
                 case "prepareQr":
                     setProgress(50);
                     //check if there is an ID otherwise error
+                    console.log(settings);
                     if (settings.userSecSignId == null || settings.userSecSignId == "") {
                         setError(2001);
                         return;

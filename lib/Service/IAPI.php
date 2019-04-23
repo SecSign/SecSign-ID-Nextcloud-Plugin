@@ -38,6 +38,13 @@ interface IAPI {
 	public function isSessionAccepted(): bool;
 
 	/**
+	 * Checks the state of a given AuthSession
+	 * 
+	 * @return string
+	 */
+	public function getAuthState($session): string;
+
+	/**
 	 * Checks if there is an existing pending authentication session.
 	 * 
 	 * @return boolean
@@ -50,9 +57,9 @@ interface IAPI {
 	 * 
 	 * @param secsignid
 	 * 
-	 * @return bool
+	 * @return array
 	 */
-	public function idExists(String $secsignid): bool;
+	public function idExists(String $secsignid): array;
 
 	/**
 	 * Cancels an existion authentication session.

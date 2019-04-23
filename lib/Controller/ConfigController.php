@@ -102,6 +102,7 @@ class ConfigController extends Controller {
 	/**
 	 * Gets QR code for given secsignid.
 	 * 
+	 * @PublicPage
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */

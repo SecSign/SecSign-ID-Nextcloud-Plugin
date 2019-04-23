@@ -6,6 +6,7 @@
 namespace OCA\SecSignID\Controller;
 
 use OCP\IRequest;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IUser;
@@ -54,9 +55,20 @@ class SecsignController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+	 * 
+	 * @param array $session 
+     */
+	public function sessionState($session){
+		return $this->iapi->getAuthState($session);
+	}
+
+	/**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
      */
 	public function idExists(){
-		$secsignid = $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
+		$secsignid = $this->getID();
 		return $this->iapi->idExists($secsignid);
 	}
 
@@ -71,4 +83,14 @@ class SecsignController extends Controller {
 		$this->iapi->cancelAuthSession();
 	}
 
+	/**
+	 * Return the current secsignid
+	 * 
+	 * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+	 */
+	public function getID(){
+		return $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
+	}
 }

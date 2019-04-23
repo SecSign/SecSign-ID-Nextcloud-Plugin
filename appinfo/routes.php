@@ -5,10 +5,14 @@
 return [
     'routes' => [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'], 
+		/* Secsign stuff */
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
+	   ['name' => 'secsign#sessionState', 'url' => '/state/', 'verb' => 'POST'],
 	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
 	   ['name' => 'secsign#idExists', 'url' => '/exists/', 'verb' => 'GET'],
+	   ['name' => 'secsign#getID', 'url' => '/id/', 'verb' => 'GET'],
+	   /* Config */
 	   ['name' => 'user#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
 	   ['name' => 'user#disableID', 'url' => '/id/disable/', 'verb' => 'POST'],
 	   ['name' => 'user#getUsers', 'url' => '/ids/', 'verb' => 'GET'],

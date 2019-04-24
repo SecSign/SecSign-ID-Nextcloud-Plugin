@@ -84,6 +84,19 @@ class SecsignController extends Controller {
 	}
 
 	/**
+	 * Cancels the pending authsession-.
+	 * 
+	 * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+	 * 
+	 * @param array $session
+	 */
+	public function cancelSession($session){
+		$this->iapi->cancelSession($session);
+	}
+
+	/**
 	 * Return the current secsignid
 	 * 
 	 * @NoAdminRequired
@@ -91,6 +104,11 @@ class SecsignController extends Controller {
      * @PublicPage
 	 */
 	public function getID(){
-		return $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
+		$current = $this->mapper->find($this->userId);
+		if(isset($current)){
+			return $current->getSecsignid();
+		}else{
+			return $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
+		}		
 	}
 }

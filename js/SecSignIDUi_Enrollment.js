@@ -63,7 +63,7 @@
             enrollmentForceEmail: "false", //if userEmail empty it will show email input
             enrollmentCustomIdAllowed: true,
             appUrlIos: "https://itunes.apple.com/us/app/secsign-id/id581467871?mt=8",
-            appUrlAndroid: "",
+            appUrlAndroid: "https://play.google.com/store/apps/details?id=com.secsign.secsignid&hl=en",
             appUrlWinMobile: "",
             appUrlWin: "",
             appUrlOsx: "",
@@ -73,22 +73,24 @@
             userName: "",
             userEmail: "",
             userSecSignId: null,
-            customLogoUrl: "",
             customColor: "#1d9ad6",
             logMode: 1, //1:error, 2:info, 3:debug
             pollingInterval: 3000, //1000 = 1sec
+            supportText: "Support",
+            supportLink: "mailto:support@secsign.com",
             onError: null
         };
 
         //private functions
-        var sanitizeInput = function (params) {
-            //...
-            return params;
+        var sanitizeInput = function (input) {
+            return input.replace(/[^0-9a-zA-Z#-@_.:?=&/\+%]/g, '');
         };
-        var settings = $.extend({}, defaults, sanitizeInput(options));
-        var secSignIdApi = new SecSignIDApi({
-            posturl: settings.restApiAuthentication,
-            pluginname: settings.pluginName
+
+        var settings = $.extend({}, defaults, options);
+        $.each(settings, function (index, value) {
+            if (typeof value == 'string') {
+                settings[index] = sanitizeInput(value);
+            }
         });
 
         var preCheck = function () {
@@ -118,60 +120,13 @@
 
         //AUTHENTICATION FUNCTIONS START (uses SecSignIDApi.js)
 
-        //request Auth Session and get the accesspass
-        var requestAuthSession = function () {
-            console.log("ACCESSPASS: " + settings.showAccesspass);
-            secSignIdApi.requestAuthSession({
-                secsignid: settings.userSecSignId,
-                servicename: settings.serviceName,
-                serviceaddress: SERVICEADDRESS,
-                callbackFunction: function (responseMap) {
-                    console.log(responseMap);
-                    if (responseMap) {
-                        if (responseMap["error"] != undefined) {
-                            //show error
-                            setErrorMessage(responseMap["errormsg"]);
-                        } else {
-                            //display accesspass
-                            var authsessionicondata = responseMap["authsessionicondata"];
-                            console.log("AP: " + settings.showAccesspass);
-                            if (settings.showAccesspass == "true") {
-                                $("#secUi-pageAccesspass__noaccesspassicon").hide();
-                                $("#secUi-pageAccesspass__accesspassicon").show();
-                                $("#secUi-pageAccesspass__accesspass").attr("src", "data:image/png;base64," + authsessionicondata);
-                            } else {
-                                $("#secUi-pageAccesspass__accesspass").hide();
-                                $("#secUi-pageAccesspass__noaccesspassicon").show();
-                                $("#secUi-pageAccesspass__accesspassicon").hide();
-                                $("#secUi-pageAccesspass__noaccesspass").fadeIn();
-                            }
-
-                            //set fields
-                            $("#secUi-main__authsessionid").val(responseMap["authsessionid"]);
-                            $("#secUi-main__requestid").val(responseMap["requestid"]);
-                            $("#secUi-main__secsignid").val(responseMap["secsignid"]);
-
-                            // start polling
-                            checkAuthSessionStateFunc();
-
-                            //show the open App button if mobile device
-                            handleDeviceButton();
-
-                            //hide loader
-                            loader(false, function () {});
-                        }
-                    }
-                }
-            });
-        }
-
-
         //check the auth session for polling
         var checkAuthSessionStateFunc = function () {
             var array = JSON.parse($("#secUi-pageAccesspass_session").val());
-            console.log(array);
-            $.post(OC.generateUrl("/apps/secsignid/state/"), {session: array}).success(
-                function (data){
+            $.post(OC.generateUrl("/apps/secsignid/state/"), {
+                session: array
+            }).success(
+                function (data) {
                     if (data) {
                         var authSessionState = parseInt(data);
                         switch (authSessionState) {
@@ -208,12 +163,15 @@
             )
         };
 
-
         //cancel the auth session
         var cancelAuthSession = function () {
-            $.post(OC.generateUrl('/apps/secsignid/cancel/')), function (){
-				//console.log("cancelled auth session");
-			}
+            var array = JSON.parse($("#secUi-pageAccesspass_session").val());
+            $.post(OC.generateUrl('/apps/secsignid/cancelSession/'), {
+                session: array
+            }),
+                function () {
+                    logger(DEBUG, "Canceled AuthSession");
+                }
         };
 
 
@@ -222,57 +180,6 @@
         //----------------------------
 
         //ENROLLMENT FUNCTIONS START
-
-        //polling for restore status during enrollment
-        var testRestoreOnServer = function (id) {
-            $.post("/idp/Authn/Secsign/", {
-                    "appstate": "enrollment_getqrrestore",
-                    "secsignid": id
-                })
-                .done(function (data) {
-                    if (data == 'true') {
-                        $("#secsignid-qrscan-form").submit();
-                    } else {
-                        window.setInterval(testRestoreOnServer(id), 5000);
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown, data) {
-                    console.log("fail");
-                    window.setInterval(testRestoreOnServer(id), 5000);
-                });
-        };
-
-        //gets a qr code from the id server via bridge (create or restore)
-        var requestCode = function (options, callback) {
-
-            if (options.secsignid) {
-                if (options.type == QRSIMPLE) {
-                    logger(DEBUG, 'get simple QR code for ' + options.secsignid);
-                    options.appstate = "enrollment_getqrsimple";
-
-                } else if (options.type == QRRESTORE) {
-                    logger(DEBUG, 'get restore QR code for ' + options.secsignid);
-                    options.appstate = "enrollment_getqrrestore";
-                }
-
-                //make request
-                $.post(settings.restApiEnrollment, options, null, "json")
-                    .done(function (data) {
-                        callback(data);
-                        return;
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown, data) {
-                        logger(ERROR, 'api response failed while getting qr code: ' + errorThrown + " - " + data);
-                        callback(null);
-                        return;
-                    });
-            } else {
-                return {
-                    "error": "no secsignid"
-                };
-            }
-        }
-
         //checks if id does exist on the server
         var requestIdExistsOnServer = function (id, callback) {
             logger(DEBUG, 'request if id exists to ' + settings.restApiEnrollment);
@@ -307,47 +214,6 @@
                 } else if (idexists === false) {
                     pollingEnrollmentExist = window.setTimeout(function () {
                         requestIdExistsOnServerPolling(id, function (idexists) {});
-                    }, settings.pollingInterval);
-                } else {
-                    setError(2001);
-                }
-            });
-        }
-
-        //checks if id was restored on server
-        var requestIdRestoredOnServer = function (id, callback) {
-            logger(DEBUG, 'request if id is restored to ' + settings.restApiEnrollment);
-            $.post(settings.restApiEnrollment, {
-                    "appstate": "enrollment_idrestored",
-                    "secsignid": id
-                })
-                .done(function (data) {
-                    logger(DEBUG, 'api response while testing if ID already restored: ' + data);
-                    if (data == "true") {
-                        callback(true);
-                        return;
-                    }
-                    if (data == "false") {
-                        callback(false);
-                        return;
-                    }
-                    logger(ERROR, 'unknown api response while testing if ID was restored: ' + data);
-                    callback(null);
-                    return;
-                })
-                .fail(function (jqXHR, textStatus, errorThrown, data) {
-                    logger(ERROR, 'api response failed while testing if ID restored: ' + errorThrown + " - " + data);
-                    callback(null);
-                    return;
-                });
-        };
-        var requestIdRestoredOnServerPolling = function (id, callback) {
-            requestIdRestoredOnServer(id, function (idrestored) {
-                if (idrestored === true) {
-                    setAppState('pageAccesspass');
-                } else if (idrestored === false) {
-                    pollingEnrollmentRestored = window.setTimeout(function () {
-                        requestIdRestoredOnServerPolling(id, function (idrestored) {});
                     }, settings.pollingInterval);
                 } else {
                     setError(2001);
@@ -403,6 +269,13 @@
             //add secsign badge
             $('.secUi-main__wrapper').append('<div class="secUi-main__badge secUi-custbgcolor"></div>');
 
+            //show support Links
+            if (settings.supportText != "" && settings.supportLink != "") {
+                $('<a target="_blank" href="' + settings.supportLink + '" class="secUi-main__supportlink secUi-custcolor secUi-custborder">' + settings.supportText + '</a>').
+                insertBefore('.secUi-main__helplink');
+
+            }
+
             //remove unused pages
             if (settings.enrollmentCustomIdAllowed) {
                 $('#secUi-pageApps__newIDbtn').remove();
@@ -421,13 +294,10 @@
                 '.secUi-custbutton:hover{color: #fff !important; background-color: ' + c + ' !important;}' +
                 '.secUi-custbgcolor{background-color: ' + c + ' !important;}' +
                 '.secUi-custappcolor:hover{color: #fff !important; background-color: ' + c + ' !important;}' +
+                '.secUi-custborder{border-color: ' + c + ' !important;}' +
                 '</style>'
             ).appendTo('head');
             logger(DEBUG, 'set up custom color');
-
-            //set up header logo & service name
-            $('.secUi-header__companyname').text(settings.serviceName);
-
         }
 
         //logger for controlling debug, info and error messages
@@ -520,13 +390,9 @@
                     $('.secUi-main__displayid').text(settings.userSecSignId);
                     $('#secUi-pageAccesspass').show();
                     $("#secUi-pageAccesspass__accesspassicon").show();
-                    pollingAuthSessionState =  checkAuthSessionStateFunc();
-                    console.log(settings);
+                    pollingAuthSessionState = checkAuthSessionStateFunc();
                     loader(false, function () {});
-                    //has loader in callback
-                    //requestAuthSession();
                     break;
-
                 case "cancelAuth":
                     setProgress(10);
                     cancelAuthSession();
@@ -643,6 +509,14 @@
                     loader(false, function () {});
                     break;
 
+                case "pageQrRestoreDesktop":
+                    //if called, always after prepareQrRestore so polling etc is also enabled
+                    setProgress(50);
+                    $('.secUi-page').hide();
+                    $('#secUi-pageQrRestoreDesktop').show();
+                    loader(false, function () {});
+                    break;
+
                 case "pageClaim":
                     setProgress(30);
                     $('.secUi-page').hide();
@@ -709,7 +583,7 @@
         $('#secUi-main__container').on('click', '#secUi-pageExistingID__newbtn', function () {
             if ($('#secUi-main__newId').val()) {
                 loader(true, function () {
-                    settings.userSecSignId = $('#secUi-main__newId').val();
+                    settings.userSecSignId = sanitizeInput($('#secUi-main__newId').val());
                     setAppState("prepareQr");
                 });
             } else {
@@ -740,9 +614,9 @@
 
         //button to show no QR for desktop apps points to manual/link restore page
         $('#secUi-main__container').on('click', '#secUi-pageQrRestore__desktopbtn', function () {
-            //    loader(true, function(){
-            //        setAppState('pageQrRestoreDesktop');
-            //    });
+            loader(true, function () {
+                setAppState('pageQrRestoreDesktop');
+            });
         });
 
         //button to go back to QR code points to QR restore page
@@ -783,6 +657,7 @@
             });
         });
 
+
         //public functions
         return {
 
@@ -790,7 +665,11 @@
             startApp: function (appstate, error) {
 
                 //save initial appstate
-                initialAppstate = appstate;
+                if (appstate == 'pageAccesspass') {
+                    initialAppstate = 'pageUserCredentials';
+                } else {
+                    initialAppstate = appstate;
+                }
 
                 //initialize UI
                 init();

@@ -10,6 +10,7 @@ return [
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
 	   ['name' => 'secsign#sessionState', 'url' => '/state/', 'verb' => 'POST'],
 	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
+	   ['name' => 'secsign#cancelSession', 'url' => '/cancelSession/', 'verb' => 'POST'],
 	   ['name' => 'secsign#idExists', 'url' => '/exists/', 'verb' => 'GET'],
 	   ['name' => 'secsign#getID', 'url' => '/id/', 'verb' => 'GET'],
 	   /* Config */

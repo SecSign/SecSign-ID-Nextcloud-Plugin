@@ -45,6 +45,18 @@ class OnboardingController extends Controller {
 		$this->secsignController = $secsignController;
 	}
 
+	/**
+	 * Checks if the user already has a secsign id assigned
+	 * 
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 */
+	public function hasID(): bool{
+		$current = $this->mapper->find($this->userId);
+		return isset($current) && $current->getSecsignid() != null;		
+	}
+
 
 	/**
 	 * Sets a SecSign ID for the current user following successful onboarding.

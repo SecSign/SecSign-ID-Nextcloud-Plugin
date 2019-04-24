@@ -148,7 +148,27 @@ class API implements IAPI {
 			}
 			$secsignidapi = new SecSignIDApi($this->server,
 											 $this->serverport, 				$this->fallback, $this->fallbackport);
-			$authSessionState = $secsignidapi->cancelAuthSession($authsession);
+			$secsignidapi->cancelAuthSession($authsession);
+		}catch(Exception $e){
+			throw $e;
+		}
+	}
+
+	/**
+	 * Cancels given authentication session.
+	 * 
+	 * @param $session
+	 */
+	public function cancelSession($session){
+		try{
+			$authsession = new AuthSession();
+			$authsession->createAuthSessionFromArray($session);
+			if($authsession === null){
+				return;
+			}
+			$secsignidapi = new SecSignIDApi($this->server,
+											 $this->serverport, 				$this->fallback, $this->fallbackport);
+			$secsignidapi->cancelAuthSession($authsession);
 		}catch(Exception $e){
 			throw $e;
 		}

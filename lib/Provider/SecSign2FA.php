@@ -73,30 +73,25 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	}
 
 	/**
-	 * Get the template for rending the 2FA provider view
+	 * Returns either the enrollment or the authentication template
 	 */
 	public function getTemplate(IUser $user): Template {
 		if($this->onboarding && $this->id === null){
-			return new Template('secsignid', 'content/onboarding');
+			return new Template('secsignid', 'login/enrollment');
 		}else{
-			if(!empty($_SESSION['session']))
-			{
-				$this->iapi->requestAuthSession($this->id->getSecsignid());
-			}else{
-				$this->iapi->requestAuthSession($this->id->getSecsignid());
-			}
-			return new Template('secsignid', 'challenge');
+			return new Template('secsignid', 'login/authentication');
 		}
 	}
 	/**
-	 * Verify the given challenge
+	 * Checks if the challenge (the json encoded Authsession) is authenticated
 	 */
 	public function verifyChallenge(IUser $user, $challenge): bool {
-		
 		if($challenge !== "testtest"){
 			$session =  json_decode($challenge, true);
 			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
-				$this->onboardingController->setOnboardingID($this);
+				if(!$this->onboardingController->hasID()){
+					$this->onboardingController->setOnboardingID($this);
+				}				
 				return true;
 			}else{
 				return false;

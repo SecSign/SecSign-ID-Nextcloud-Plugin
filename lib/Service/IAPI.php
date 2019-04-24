@@ -62,8 +62,15 @@ interface IAPI {
 	public function idExists(String $secsignid): array;
 
 	/**
-	 * Cancels an existion authentication session.
+	 * Cancels an existing authentication session.
 	 */
 	public function cancelAuthSession();
+
+	/**
+	 * Cancels given authentication session.
+	 * 
+	 * @param $session
+	 */
+	public function cancelSession($session);
 
 }

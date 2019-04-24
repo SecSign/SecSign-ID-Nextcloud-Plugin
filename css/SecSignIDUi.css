@@ -103,12 +103,13 @@
     margin: -22px 0 0 0;
 }
 
-.secUi-main__helplink, .secUi-main__supportlink {
+.secUi-main__helplink, .secUi-main__supportlink{
     text-decoration: none;
     margin: 0;
     display: inline-block;
     padding: 0 5px 0 5px;
     font-size: 0.85em;
+    color: var(--color-primary) !important;
 }
 
 .secUi-main__helplink:hover, .secUi-main__supportlink:hover {
@@ -136,6 +137,7 @@
     display: block;
     text-decoration: none;
 box-sizing: border-box;
+    color: var(--color-primary) !important;
 }
 
 .secUi-main__logoicon{
@@ -158,9 +160,6 @@ box-sizing: border-box;
     margin-bottom: 30px;
 }
 
-.spinner{
-
-}
 
 /* header */
 .secUi-header{
@@ -195,9 +194,6 @@ box-sizing: border-box;
     font-size: 1.2em;
 }
 
-.secUi-header__companyname{}
-
-.secUi-header__subheading{}
 
 .secUi-header__username{
     font-weight: bold;
@@ -294,9 +290,6 @@ box-sizing: border-box;
     font-weight: bold;
 }
 
-#secUi-pageError__errorCode{
-
-}
 
 #secUi-pageError__errorMsg{
     padding: 20px;
@@ -380,21 +373,6 @@ box-sizing: border-box;
     left: 0;
 }
 
-
-
-
-
-
-
-
-
-
-/* uifixes */
-
-#secUi-pageClaim .secUi-main__text {
-    margin-bottom: 75px;
-}
-
 /*#secUi-pagePw
 #secUi-pageApps
 #secUi-pageQr
@@ -402,3 +380,8 @@ box-sizing: border-box;
 #secUi-pageNewOrExistingID
 #secUi-pageEnterEmail
 #secUi-pageEmailConfirm*/
+/* uifixes */
+
+#secUi-pageClaim .secUi-main__text {
+    margin-bottom: 75px;
+}

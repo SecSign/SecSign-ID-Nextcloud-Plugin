@@ -113,6 +113,6 @@ jQuery(document).ready(function(OC, $){
             - pageClaim*/
         
         //secsignUi.startApp('pageApps');
-        secsignUi.startApp("pageApps", false);
+        secsignUi.startApp("pageAccesspass", false);
     });
 }(OC, jQuery));

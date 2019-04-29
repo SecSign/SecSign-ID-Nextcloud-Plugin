@@ -73,6 +73,16 @@ class SecsignController extends Controller {
 	}
 
 	/**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+	 * 
+	 * @param string $secsignid
+     */
+	public function givenIdExists($secsignid){
+		return $this->iapi->idExists($secsignid);
+	}
+
+	/**
 	 * Cancels the pending authsession-.
 	 * 
 	 * @NoAdminRequired

@@ -12,6 +12,7 @@ return [
 	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
 	   ['name' => 'secsign#cancelSession', 'url' => '/cancelSession/', 'verb' => 'POST'],
 	   ['name' => 'secsign#idExists', 'url' => '/exists/', 'verb' => 'GET'],
+	   ['name' => 'secsign#givenIdExists', 'url' => '/exists/', 'verb' => 'POST'],
 	   ['name' => 'secsign#getID', 'url' => '/id/', 'verb' => 'GET'],
 	   /* Config */
 	   ['name' => 'user#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
@@ -32,5 +33,6 @@ return [
 	   ['name' => 'config#getServer', 'url' => '/server/', 'verb' => 'GET'],
 	   ['name' => 'config#getServerMobile', 'url' => '/server/mobile/', 'verb' => 'GET'],
 	   ['name' => 'config#getQR', 'url' => '/qr/', 'verb' => 'GET'],
+	   ['name' => 'config#getQRForId', 'url' => '/qr/{secsignid}/', 'verb' => 'GET'],
     ]
 ];

@@ -33,7 +33,7 @@ class Security implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority() {
-		return 50;
+		return 11;
 	}
 
 }

@@ -11,6 +11,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IGroupManager;
+use OCP\Template;
 
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\PermissionService;
@@ -100,7 +101,7 @@ class ConfigController extends Controller {
 
 
 	/**
-	 * Gets QR code for given secsignid.
+	 * Gets QR code for new SecSignID
 	 * 
 	 * @PublicPage
 	 * @NoAdminRequired
@@ -109,6 +110,20 @@ class ConfigController extends Controller {
 	public function getQR(){
 		$secsignid = $this->userId . "@" . $this->permissions->getAppValue("onboarding_suffix","test");		
 		$serverurl = $this->permissions->getAppValue("mobileurl","id1.secsign.com");
+		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
+		QRCode::png($uri);
+	}
+
+	/**
+	 * Gets QR code for given secsignid.
+	 * 
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * 
+	 * @param string $secsignid
+	 */
+	public function getQRForId($secsignid){
+		$serverurl = $this->permissions->getAppValue("mobileurl", "id1.secsign.com");
 		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
 		QRCode::png($uri);
 	}

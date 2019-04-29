@@ -13,20 +13,27 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 
+use OCA\SecSignID\Db\IDMapper;
+
 class PageController extends Controller {
 	private $userId;
+	private $secsignid;
 
-	public function __construct($AppName, IRequest $request, $UserId){
+	public function __construct($AppName, IRequest $request, $UserId, IDMapper $mapper){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
+		$this->secsignid = $mapper->find($UserId);
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		return new TemplateResponse('secsignid', 'content/users');  // templates/index.php
+		if(!isset($this->secsignid)){
+			return new TemplateResponse('secsignid', 'content/setup_id_first');
+		}else{
+			return new TemplateResponse('secsignid', 'content/users');
+		}		
 	}
 
 }

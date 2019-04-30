@@ -1,3 +1,4 @@
 ./secsignid/build/tools/
 .vscode/
 tests/
+vendor/

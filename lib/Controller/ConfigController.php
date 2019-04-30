@@ -49,16 +49,16 @@ class ConfigController extends Controller {
 	public function saveServer($server){
 		if(!empty($server)){
 			if(!empty($server[server])){
-				$this->permissions->setAppValue("server",$server[server]);
+				$this->permissions->setAppValue("server",$server["server"]);
 			}
 			if(!empty($server[fallback])){
-				$this->permissions->setAppValue("fallback",$server[fallback]);
+				$this->permissions->setAppValue("fallback",$server["fallback"]);
 			}
 			if(!empty($server[serverport])){
-				$this->permissions->setAppValue("serverport",$server[serverport]);
+				$this->permissions->setAppValue("serverport",$server["serverport"]);
 			}
 			if(!empty($server[fallbackport])){
-				$this->permissions->setAppValue("fallbackport",$server[fallbackport]);
+				$this->permissions->setAppValue("fallbackport",$server["fallbackport"]);
 			}
 		}
 	}
@@ -175,7 +175,7 @@ class ConfigController extends Controller {
 	public function getOnboarding(){
 		return [
 			enabled => $this->permissions->getAppValue("onboarding_enabled", false),
-			suffix => $this->permissions->getAppValue("onboarding_suffix","")
+			suffix => $this->permissions->getAppValue("onboarding_suffix", "")
 		];
 	}
 
@@ -187,7 +187,9 @@ class ConfigController extends Controller {
 	 * @param array data
 	 */
 	public function changeOnboarding($data){
-		$this->permissions->setAppValue("onboarding_enabled", $data[enabled]);
-		$this->permissions->setAppValue("onboarding_suffix", $data[suffix]);
+		$enabled = $data["enabled"] === "true" ? true : false;
+		$suffix = $data["suffix"];
+		$this->permissions->setAppValue("onboarding_enabled", $enabled);
+		$this->permissions->setAppValue("onboarding_suffix", $suffix);
 	}
 }

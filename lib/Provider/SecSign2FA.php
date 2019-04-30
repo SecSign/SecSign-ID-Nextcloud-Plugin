@@ -16,6 +16,7 @@ use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 use OCA\SecSignID\Service\PermissionService;
+use OCA\SecSignID\Service\UserService;
 use OCA\SecSignID\Controller\OnboardingController;
 
 /**
@@ -41,9 +42,10 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 
 	private $onboardingController;
 
+	private $userService;
 
 	public function __construct(IAPI $iapi, $UserId, IDMapper $mapper, 
-								IRegistry $registry, PermissionService $permission, OnboardingController $onboardingController){
+								IRegistry $registry, PermissionService $permission, OnboardingController $onboardingController, UserService $userService){
 		$this->iapi = $iapi;
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
@@ -52,6 +54,7 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 		$this->permission = $permission;
 		$this->onboarding = $this->permission->getAppValue("onboarding_enabled", false);
 		$this->onboardingController = $onboardingController;
+		$this->userService = $userService;
 	}
 	
 	public function getId(): string {
@@ -76,7 +79,8 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Returns either the enrollment or the authentication template
 	 */
 	public function getTemplate(IUser $user): Template {
-		if($this->onboarding && $this->id === null){
+		if( ($this->onboarding && $this->id === null) ||
+			($this->id !== null && !$this->userService->getUserValue("logged_in", $this->userId, 0) === 1)){
 			return new Template('secsignid', 'login/enrollment');
 		}else{
 			return new Template('secsignid', 'login/authentication');
@@ -91,7 +95,10 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
 				if(!$this->onboardingController->hasID()){
 					$this->onboardingController->setOnboardingID($this);
-				}				
+				}
+				if(!$this->userService->getUserValue("logged_in", $this->userId, 0) === 1){
+					$this->userService->setUserValue("logged_in", $this->userId, 1);
+				}
 				return true;
 			}else{
 				return false;

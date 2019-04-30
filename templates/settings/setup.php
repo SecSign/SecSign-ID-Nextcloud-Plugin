@@ -31,8 +31,7 @@ style('secsignid', 'SecSignIDUi');
 	</div>
 	<div id="disabled" hidden>
 		<h1> Enable two factor authentication with your SecSign ID </h1>
-		SecSign ID: <input id="secsignid_input_dis" type="text" name="secsignid">
-		<button id="enable_id" type="button">Submit</button>
+		<button id="enable_id" type="button">Enable</button>
 	</div>
 	<div id="noedit_enabled" hidden>
 		<h1> You currently have a SecSign ID protecting your account. To change this ID or disable SecSign 2FA, contact your administrator.</h1>

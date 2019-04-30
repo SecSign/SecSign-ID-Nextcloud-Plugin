@@ -196,7 +196,6 @@
     function getUsers() {
         $.get(OC.generateUrl('/apps/secsignid/ids/users/'),
             function (data) {
-                console.log(data);
                 showTable(data);
                 $(".lds-roller").hide();
                 $("#table").show();
@@ -221,7 +220,6 @@
     function save_allow_enable() {
         let check = $("#allow_user_enable");
         let save = $("#save_allow_enable");
-        console.log(check.prop("checked"));
         $.post(OC.generateUrl("/apps/secsignid/allowEdit/"), {
                 allow: check.prop("checked")
             },
@@ -255,7 +253,6 @@
 
         $("#" + tabName).css("display", "block");
         evt.addClass("selected");
-        console.log(tabName);
     }
 
     function save_server() {

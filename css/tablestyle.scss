@@ -9,6 +9,10 @@
     z-index: 2;
 }
 
+td > input {
+    width: 180px;
+}
+
 .tooltip {
     visibility: hidden;
     float: right;

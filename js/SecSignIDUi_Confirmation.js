@@ -240,7 +240,6 @@
                 secsignid: settings.userSecSignId
             })
                 .done(function (data) {
-                    console.log(data)
                     logger(DEBUG, 'api response while testing if ID exists: ' + data);
                     if (data.exists === "true" || data.exists === true) {
                         $('.secUi-pageAccesspass__accesspass').prop("src", "data:image/png;base64," + data.session.authsessionicondata);
@@ -475,7 +474,6 @@
                 case "prepareQr":
                     setProgress(50);
                     //check if there is an ID otherwise error
-                    console.log(settings);
                     if (settings.userSecSignId == null || settings.userSecSignId == "") {
                         setError(2001);
                         return;

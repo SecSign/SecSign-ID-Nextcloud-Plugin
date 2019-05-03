@@ -11,6 +11,7 @@ use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Service\SecSignIDApi;
 use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Service\PermissionService;
+use OCP\IURLGenerator;
 
 class API implements IAPI {
 
@@ -24,13 +25,15 @@ class API implements IAPI {
 	private $fallback;
 	private $serverport;
 	private $fallbackport;
+	private $url;
 
-	public function __construct(IDMapper $idmapper, PermissionService $permissions){
+	public function __construct(IDMapper $idmapper, IURLGenerator $url, PermissionService $permissions){
 		$this->idmapper = $idmapper;
 		$this->server = (string) $permissions->getAppValue("server", "https://httpapi.secsign.com");
 		$this->fallback = (string) $permissions->getAppValue("fallback", "https://httpapi2.secsign.com");
 		$this->serverport =  (int) $permissions->getAppValue("serverport", 443);
 		$this->fallbackport = (int) $permissions->getAppValue("fallbackport", 443);
+		$this->url = $url->getBaseUrl();
 	}
 
 	/**
@@ -55,7 +58,7 @@ class API implements IAPI {
 										 $this->serverport, 				$this->fallback, 
 										 $this->fallbackport);
 		try{
-			$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->server);
+			$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->url);
 			return $_SESSION['session'];
 		}catch(\Exception $e){
 			throw($e);

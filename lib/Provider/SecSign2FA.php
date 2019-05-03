@@ -55,6 +55,7 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 		$this->onboarding = $this->permission->getAppValue("onboarding_enabled", false);
 		$this->onboardingController = $onboardingController;
 		$this->userService = $userService;
+		$GLOBALS['mobile_url'] = (string) $this->permission->getAppValue("mobileurl", "id1.secsign.com");
 	}
 	
 	public function getId(): string {

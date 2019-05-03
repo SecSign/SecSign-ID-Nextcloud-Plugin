@@ -52,7 +52,7 @@ style('secsignid','tablestyle');
 				"Save" button
 				below.</p>
 			<p id="enforced_warning" hidden style="color: var(--color-warning);">Some users with enforced two-factor
-				authentication do not have a SecSign ID assigned. This will prevent them from logging in.</p>
+				authentication do not have a SecSign ID assigned. This will prevent them from logging in unless Onboarding is activated.</p>
 			<div id="changes">
 				<h1 id="total_changes">Total changes: 0</h2><button id="save_changes">Save changes</button>
 			</div>
@@ -124,7 +124,7 @@ style('secsignid','tablestyle');
 				</div>
 				<div>
 					<label class="onboarding_input" style="margin-right: 9px" for="onboarding_suffix">Suffix:</label>
-					<input class="server onboarding_input" type='text' placeholder="for example: 'accounting'" id='onboarding_suffix'>
+					<input class="server onboarding_input" type='text' placeholder="for example: 'accounting'" id='onboarding_suffix' maxlength="30">
 					<p class="onboarding_input" id="onboarding_example">Schema example: john.doe@accounting</p>
 					<button id="save_onboarding" hidden>Save</button>
 				</div>

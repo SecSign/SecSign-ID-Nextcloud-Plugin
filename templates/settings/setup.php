@@ -138,6 +138,27 @@ style('secsignid', 'SecSignIDUi');
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageAccesspass__cancelbtn">Cancel</button>
                 </div>
 
+                <div id="secUi-pageQrDesktop" class="secUi-page">
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrdesktop" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <p class="secUi-main__text">
+                        <a href="#" class="secUi-pageQr__link secUi-main__button secUi-custbutton">Create your new ID on <strong>this</strong> device</a>
+                    <p>
+                    <p class="secUi-main__text">
+                        To create your ID manually on another device, open the SecSignID app and perform the following steps
+                    <p>
+                    <ol>
+                        <li>Click on <strong>More</strong> tab and choose <strong>New identity on other server</strong></li>
+                        <li>Insert the server address: <strong id="secUi-pageQrDesktop__serveraddress"><?php p($GLOBALS['mobile_url']);?></strong></li>
+                        <li>Click on next</li>
+                        <li>Insert your new SecSignID: <strong class="secUi-main__displayid"></strong></li>
+                        <li>Click on next, your new SecSignID will be set up.</li>
+                    </ol>
+                    <p class="secUi-main__text">
+                        This screen will proceed automatically after ID creation
+                    <p>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageQrDesktop__appbtn">Back to the QR-Code</button>
+                </div>
+
 <!-- About Page -->
                 <div id="secUi-pageAbout" class="secUi-page">
                     <a class="secUi-main__logoicon" target="_blank" href="https://secsign.com"></a>

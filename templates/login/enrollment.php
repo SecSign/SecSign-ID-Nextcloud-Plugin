@@ -145,8 +145,8 @@ session_start();
                         To create your ID manually on another device, open the SecSignID app and perform the following steps
                     <p>
                     <ol>
-                        <li>Click on <strong>...more</strong> and choose <strong>New identity on other server</strong></li>
-                        <li>Insert the server address: <strong id="secUi-pageQrDesktop__serveraddress"><?php echo $host; ?></strong></li>
+                        <li>Click on <strong>More</strong> tab and choose <strong>New identity on other server</strong></li>
+                        <li>Insert the server address: <strong id="secUi-pageQrDesktop__serveraddress"><?php p($GLOBALS['mobile_url']);?></strong></li>
                         <li>Click on next</li>
                         <li>Insert your new SecSignID: <strong class="secUi-main__displayid"></strong></li>
                         <li>Click on next, your new SecSignID will be set up.</li>

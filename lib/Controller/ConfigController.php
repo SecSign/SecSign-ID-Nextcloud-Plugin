@@ -42,7 +42,6 @@ class ConfigController extends Controller {
 	/**
 	 * Saves changes to server address
 	 * 
-	 * @NoCSRFRequired
 	 * 
 	 * @param array $address
 	 */
@@ -66,7 +65,6 @@ class ConfigController extends Controller {
 	/**
 	 * Saves changes to mobile server address
 	 * 
-	 * @NoCSRFRequired
 	 * 
 	 * @param array $address
 	 */
@@ -79,7 +77,6 @@ class ConfigController extends Controller {
 	/**
 	 * Gets server data
 	 * 
-	 * @NoCSRFRequired
 	 */
 	public function getServer(){
 		return [
@@ -118,7 +115,6 @@ class ConfigController extends Controller {
 	 * Gets QR code for given secsignid.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * 
 	 * @param string $secsignid
 	 */
@@ -131,7 +127,6 @@ class ConfigController extends Controller {
 	/**
 	 * Allows users to edit the settings of their SecSign 2FA
 	 * 
-	 * @NoCSRFRequired
 	 * 
 	 * @param boolean $allow
 	 */
@@ -142,7 +137,6 @@ class ConfigController extends Controller {
     /**
 	 * Gets status of editing permissions for all users.
 	 * 
-	 * @NoCSRFRequired
 	 */
 	public function getAllowUserEdit(){
 		return $this->permissions->getAppValue("allowEdit", false);
@@ -153,7 +147,6 @@ class ConfigController extends Controller {
 	 * Gets status of editing permissions for current user. Always returns true if user is an admin.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function canUserEdit(){
 		$user = $this->manager->get($this->userId);
@@ -170,7 +163,6 @@ class ConfigController extends Controller {
 	 * Gets the status of user onbaording
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function getOnboarding(){
 		return [
@@ -182,7 +174,6 @@ class ConfigController extends Controller {
 	/**
 	 * Changes the status of user onbaording
 	 * 
-	 * @NoCSRFRequired
 	 * 
 	 * @param array data
 	 */

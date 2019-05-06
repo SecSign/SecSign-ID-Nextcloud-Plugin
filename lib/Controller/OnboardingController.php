@@ -49,7 +49,6 @@ class OnboardingController extends Controller {
 	 * Checks if the user already has a secsign id assigned
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
 	public function hasID(): bool{
@@ -62,7 +61,6 @@ class OnboardingController extends Controller {
 	 * Sets a SecSign ID for the current user following successful onboarding.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @PublicPage
 	 * 
 	 */

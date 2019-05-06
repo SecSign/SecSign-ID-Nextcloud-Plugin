@@ -117,7 +117,7 @@ session_start();
                         This screen will proceed automatically after creating your SecSignID: <strong class="secUi-main__displayid"></strong>
                     <p>
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageQr__desktopbtn">No camera / desktop apps</button>
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageQr__cancelbtn">Cancel</button>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageQr__cancelbtn">Back</button>
                 </div>
 
 <!-- Enrollment Page for displaying QR Code Restore with polling (2a) -->
@@ -131,7 +131,7 @@ session_start();
                         This screen will proceed automatically after creating your SecSignID: <strong class="secUi-main__displayid"></strong> and enter the email confirmation code sent to <strong class="secUi-main__displayemail"></strong>
                     <p>
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageQrRestore__desktopbtn">No camera / desktop apps</button>
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageQrRestore__cancelbtn">Cancel</button>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageQrRestore__cancelbtn">Back</button>
                 </div>
 
 
@@ -247,7 +247,7 @@ session_start();
                         </p>
                     </div>
 
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageAccesspass__cancelbtn">Cancel</button>
+                    <button style='display: none' class="secUi-main__button secUi-custbutton" id="secUi-pageAccesspass__cancelbtn">Cancel</button>
                 </div>
 
 <!-- About Page (1) -->

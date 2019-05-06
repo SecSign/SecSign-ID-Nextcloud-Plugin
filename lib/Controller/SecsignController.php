@@ -10,6 +10,8 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IUser;
+use OCP\ISession;
+use OCA\SecSignID\Service\AuthSession;
 
 use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
@@ -31,19 +33,21 @@ class SecsignController extends Controller {
 
 	private $permission;
 
+	private $session;
+
 	public function __construct($AppName, IRequest $request,		
 								$UserId, IAPI $iapi,
-								IDMapper $mapper, PermissionService $permission){
+								IDMapper $mapper, PermissionService $permission, ISession $session){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->iapi = $iapi;
 		$this->mapper = $mapper;
 		$this->permission = $permission;
+		$this->session = $session;
 	}
 
 	/**
      * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
      */
 	public function state(){
@@ -53,7 +57,6 @@ class SecsignController extends Controller {
 
 	/**
      * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
 	 * 
 	 * @param array $session 
@@ -64,29 +67,31 @@ class SecsignController extends Controller {
 
 	/**
      * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
+	 * @UseSession
      */
 	public function idExists(){
 		$secsignid = $this->getID();
-		return $this->iapi->idExists($secsignid);
+		return $this->givenIdExists($secsignid);
 	}
 
 	/**
      * @NoAdminRequired
-     * @NoCSRFRequired
-	 * 
+	 * @UseSession
 	 * @param string $secsignid
      */
 	public function givenIdExists($secsignid){
-		return $this->iapi->idExists($secsignid);
+		$values = $this->iapi->idExists($secsignid);
+		if(!empty($values['session'])){
+			$this->session['session'] = $values['session'];
+		}
+		return $values;
 	}
 
 	/**
 	 * Cancels the pending authsession-.
 	 * 
 	 * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
 	 */
 	public function cancel(){
@@ -97,7 +102,6 @@ class SecsignController extends Controller {
 	 * Cancels the pending authsession-.
 	 * 
 	 * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
 	 * 
 	 * @param array $session
@@ -110,7 +114,6 @@ class SecsignController extends Controller {
 	 * Return the current secsignid
 	 * 
 	 * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
 	 */
 	public function getID(){

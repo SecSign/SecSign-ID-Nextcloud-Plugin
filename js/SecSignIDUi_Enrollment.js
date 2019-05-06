@@ -165,13 +165,15 @@
 
         //cancel the auth session
         var cancelAuthSession = function () {
-            var array = JSON.parse($("#secUi-pageAccesspass_session").val());
-            $.post(OC.generateUrl('/apps/secsignid/cancelSession/'), {
-                session: array
-            }),
-                function () {
-                    logger(DEBUG, "Canceled AuthSession");
-                }
+            var val = $("#secUi-pageAccesspass_session").val();
+            if(val){
+                var array = JSON.parse(val);
+                            $.post(OC.generateUrl('/apps/secsignid/cancelSession/'), {
+                                session: array
+                            }).success(function () {
+                                    logger(DEBUG, "Canceled AuthSession");
+                                });
+            }
         };
 
 
@@ -395,9 +397,10 @@
                 case "cancelAuth":
                     setProgress(10);
                     cancelAuthSession();
+                    window.location.href =  $('a.two-factor-secondary:eq(1)').attr("href");
                     $('.secUi-page').hide();
-                    $('#secUi-' + initialAppstate).show();
-                    loader(false, function () {});
+                    //$('#secUi-' + initialAppstate).show();
+                    loader(true, function () {});
                     break;
 
                     //enrollment related appstates
@@ -654,6 +657,12 @@
                 overlayState = 0;
             });
         });
+
+        $('a.two-factor-secondary').on('click', function (){
+            loader(true, function(){});
+            cancelAuthSession();
+        });
+
 
 
         //public functions

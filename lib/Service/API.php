@@ -11,6 +11,7 @@ use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Service\SecSignIDApi;
 use OCA\SecSignID\Service\AuthSession;
 use OCA\SecSignID\Service\PermissionService;
+use OCP\ISession;
 use OCP\IURLGenerator;
 
 class API implements IAPI {
@@ -27,12 +28,15 @@ class API implements IAPI {
 	private $fallbackport;
 	private $url;
 
-	public function __construct(IDMapper $idmapper, IURLGenerator $url, PermissionService $permissions){
+	private $session;
+
+	public function __construct(IDMapper $idmapper, IURLGenerator $url, PermissionService $permissions, ISession $session){
 		$this->idmapper = $idmapper;
 		$this->server = (string) $permissions->getAppValue("server", "https://httpapi.secsign.com");
 		$this->fallback = (string) $permissions->getAppValue("fallback", "https://httpapi2.secsign.com");
 		$this->serverport =  (int) $permissions->getAppValue("serverport", 443);
 		$this->fallbackport = (int) $permissions->getAppValue("fallbackport", 443);
+		$this->session = $session;
 		$this->url = $url->getBaseUrl();
 	}
 
@@ -50,16 +54,20 @@ class API implements IAPI {
 
 	/**
 	 * Requests an authentication session for a given SecSign ID
-	 * 
+	 * @UseSession
 	 * @param secsignid
 	 */
 	public function requestAuthSession(String $secsignid): AuthSession{
 		$secsignidapi = new SecSignIDApi($this->server,
 										 $this->serverport, 				$this->fallback, 
 										 $this->fallbackport);
+		if($this->isSessionPending()){
+			$authsession = new AuthSession();
+			$authsession->createAuthSessionFromArray($this->session['session']);
+			return $authsession;
+		}
 		try{
-			$_SESSION['session'] = $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->url);
-			return $_SESSION['session'];
+			return $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->url);
 		}catch(\Exception $e){
 			throw($e);
 		}
@@ -72,9 +80,11 @@ class API implements IAPI {
 	 */
 	public function isSessionAccepted(): bool{
 		try{
-			$authsession = $_SESSION['session'];
-			if($authsession === null){
+			if(empty($this->session['session'])){
 				return false;
+			}else{
+				$authsession = new AuthSession();
+				$authsession->createAuthSessionFromArray($this->session['session']);
 			}
 			$secsignidapi = new SecSignIDApi($this->server,
 											 $this->serverport, 				$this->fallback, $this->fallbackport);
@@ -105,15 +115,21 @@ class API implements IAPI {
 	 */
 	public function isSessionPending(): bool{
 		try{
-			$authsession = $_SESSION['session'];
-			if($authsession === null){
+			
+			if(empty($this->session['session'])){
 				return false;
+			}else{
+				$authsession = new AuthSession();
+				$authsession->createAuthSessionFromArray($this->session['session']);
 			}
 			$secsignidapi = new SecSignIDApi($this->server,
 											 $this->serverport, 				$this->fallback, $this->fallbackport);
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
-			return $authSessionState === AuthSession::PENDING;
-		}catch(Exception $e){
+			return $authSessionState == AuthSession::PENDING || $authSessionState == AuthSession::FETCHED;
+		}catch(\Exception $e){
+			if($e->getCode() === 400){
+				return false;
+			}
 			throw $e;
 		}
 	}
@@ -145,9 +161,11 @@ class API implements IAPI {
 	 */
 	public function cancelAuthSession(){
 		try{
-			$authsession = $_SESSION['session'];
-			if($authsession === null){
-				return;
+			if(empty($this->session['session'])){
+				return false;
+			}else{
+				$authsession = new AuthSession();
+				$authsession->createAuthSessionFromArray($this->session['session']);
 			}
 			$secsignidapi = new SecSignIDApi($this->server,
 											 $this->serverport, 				$this->fallback, $this->fallbackport);

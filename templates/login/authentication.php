@@ -54,7 +54,7 @@ session_start();
                     <p class="secUi-pageError__errorCodeContainer">Error #<span id="secUi-pageError__errorCode"></span></p>
                     <p id="secUi-pageError__errorMsg"></p>
 
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageError__cancelbtn">Cancel</button>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageError__cancelbtn">Back</button>
                 </div>
 
 <!-- Authentication Page for Accesspass -->
@@ -82,7 +82,7 @@ session_start();
                         </p>
                     </div>
 
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageAccesspass__cancelbtn">Cancel</button>
+                    <button style='display: none' class="secUi-main__button secUi-custbutton" id="secUi-pageAccesspass__cancelbtn">Cancel</button>
                 </div>
 
 <!-- About Page -->

@@ -56,7 +56,6 @@ class UserController extends Controller {
 	 * Sets a SecSign ID for the current user.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * 
 	 * @param string $secsignid
 	 */
@@ -75,7 +74,6 @@ class UserController extends Controller {
 	 * Disables the current users 2FA.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function disableID(){
 		$this->changeUserState(false, $this->userId);
@@ -86,7 +84,6 @@ class UserController extends Controller {
 	/**
 	 * Gets all users joined with their corresponding SecSign IDs.
 	 * 
-	 * @NoCSRFRequired
 	 */
 	public function usersWithIds(){
 		$data = $this->mapper->getUsersAndIds();
@@ -111,7 +108,6 @@ class UserController extends Controller {
 	/**
 	 * Saves all changes made in the user management screen.
 	 * 
-	 * @NoCSRFRequired
 	 * 
 	 * @param array $data
 	 */
@@ -129,7 +125,6 @@ class UserController extends Controller {
 	/**
 	 * Gets all users.
 	 * 
-	 * @NoCSRFRequired
 	 */
 	public function getUsers(){
 		$ids = $this->mapper->findAll();
@@ -143,7 +138,6 @@ class UserController extends Controller {
 	 * Finds the SecSign ID for the current user.
 	 * 
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function findCurrent(){
 		$current = $this->mapper->find($this->userId);

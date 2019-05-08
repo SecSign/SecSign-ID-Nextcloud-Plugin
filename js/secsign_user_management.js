@@ -18,9 +18,6 @@
             let row = $("#" + uid);
             let secsignid = row.find(".ssid input").val();
             let enabled = row.find("#enabled input").is(':checked') ? 1 : 0;
-            if (!secsignid) {
-                enabled = 0;
-            }
             updates.push({
                 uid: uid,
                 secsignid: secsignid,
@@ -56,27 +53,14 @@
     function addUserRow(user) {
         let html = '';
         let displayname = user.displayname == null ? user.uid : user.displayname;
-        let secsignid = !user.secsignid ? "-" : user.secsignid;
+        let checked = user.enabled==1 ? 'checked' : '';
         html += "<tr id='" + user.uid + "'>";
         html += "   <td>" + user.uid + "</td>";
         html += "   <td class='displayname'>" + displayname + "</td>";
-        if (secsignid !== "-") {
-            html += "   <td class='center ssid'><input type='text' value='" + secsignid + "'></td>";
-            if (user.enabled == 1) {
-                html += "<td id='enabled' class='center'>";
-                html += "<input type='checkbox' class='checkbox' checked id='cb" + user.uid + "'>"
-                html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
-            } else {
-                html += "<td id='enabled' class='center'>";
-                html += "<input type='checkbox' class='checkbox' id='cb" + user.uid + "'>"
-                html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
-            }
-        } else {
-            html += "<td class='center ssid'><input type='text' placeholder='None'></td>";
-            html += "<td id='enabled' class='center'>";
-            html += "<input type='checkbox' class='checkbox' disabled id='cb" + user.uid + "'>"
-            html += "<label class='enforce' for='cb" + user.uid + "'></label></td>"
-        }
+        html += "   <td class='center ssid'><input type='text' placeholder='None' value='" + user.secsignid + "'></td>";
+        html += "<td id='enabled' class='center'>";
+        html += "<input type='checkbox' class='checkbox' "+checked+" id='cb" + user.uid + "'>"
+        html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
         html += "<td id='check' class='icon-checkmark' hidden></td>";
         html += "</tr>";
         return html;
@@ -176,6 +160,8 @@
                 row.find(".checkbox").prop("disabled", true);
                 row.find(".checkbox").prop("checked", true);
                 row.find("label").html("2FA enforced");
+            }
+            if(user.enabled==1 && !user.secsignid || user.enforced){
                 if (!user.secsignid) {
                     row.find(".ssid").append("<span class='icon-error '></span>");
                     $("#enforced_warning").show();
@@ -233,13 +219,12 @@
     }
 
     function save_onboarding() {
-        $.post(OC.generateUrl("/apps/secsignid/onboarding/"),
-        {
+        $.post(OC.generateUrl("/apps/secsignid/onboarding/"), {
             data: {
                 enabled: $("#enable_onboarding").prop("checked"),
                 suffix: $("#onboarding_suffix").val()
             }
-        }).success(function (){
+        }).success(function () {
             $("#save_onboarding").html("Saved");
             $("#save_onboarding").fadeOut(3000);
         }).fail(function () {
@@ -291,7 +276,7 @@
             .success(function (data) {
                 check.prop("checked", data.enabled);
                 suffix.val(data.suffix);
-                $("#onboarding_example").html("Schema example: john.doe@"+suffix.val())
+                $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
                 if (data.enabled) {
                     input.show();
                 }
@@ -305,8 +290,8 @@
                 input.hide();
             }
         });
-        suffix.change(function (){
-            $("#onboarding_example").html("Schema example: john.doe@"+suffix.val())
+        suffix.change(function () {
+            $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
             save.val("Save");
             save.show();
         })
@@ -354,7 +339,8 @@
         });
         $("#save_onboarding").click(function () {
             save_onboarding();
-        })
+        });
+        $("#two_factor_auth_link").prop('href', OC.generateUrl('/settings/admin/security'));
     }
 
     getServer();

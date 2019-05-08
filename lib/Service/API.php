@@ -67,9 +67,9 @@ class API implements IAPI {
 			return $authsession;
 		}
 		try{
-			return $secsignidapi->requestAuthSession($secsignid,'SecSign Nextcloud Plugin', $this->url);
+			return $secsignidapi->requestAuthSession($secsignid,'NextCloud', $this->url);
 		}catch(\Exception $e){
-			throw($e);
+			throw $e;
 		}
 	}
 
@@ -91,6 +91,9 @@ class API implements IAPI {
 			$authSessionState = $secsignidapi->getAuthSessionState($authsession);
 			return $authSessionState == AuthSession::AUTHENTICATED;
 		}catch(Exception $e){
+			if($e->getCode() === 400){
+				return false;
+			}
 			throw $e;
 		}
 	}
@@ -105,7 +108,11 @@ class API implements IAPI {
 		$authsession->createAuthSessionFromArray($session);
 		$secsignidapi = new SecSignIDApi($this->server,
 											 $this->serverport, 				$this->fallback, $this->fallbackport);
-		return $secsignidapi->getAuthSessionState($authsession);
+		try{
+			return $secsignidapi->getAuthSessionState($authsession);
+		}catch(\Exception $e){
+			throw $e;
+		}
 	}
 
 	/**
@@ -150,7 +157,7 @@ class API implements IAPI {
 			if($e->getCode() === 500 && strpos($e->getMessage(),"exist") !== false){
 				return array(null, "exists" => false);
 			}else{
-				throw($e);
+				throw $e;
 			}
 		}
 		

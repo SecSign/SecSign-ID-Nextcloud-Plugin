@@ -80,8 +80,10 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Returns either the enrollment or the authentication template
 	 */
 	public function getTemplate(IUser $user): Template {
-		if( ($this->onboarding && $this->id === null) ||
-			($this->id !== null && !$this->userService->getUserValue("logged_in", $this->userId, 0) === 1)){
+		$logged_in = $this->userService->getUserValue("logged_in", $this->userId, 0);
+		$has_secsignid = ($this->id === null || empty($this->id->getSecsignid()));
+		if(($this->onboarding && $has_secsignid)
+			||	($this->id !== null && $logged_in == 0)){
 			return new Template('secsignid', 'login/enrollment');
 		}else{
 			return new Template('secsignid', 'login/authentication');
@@ -95,9 +97,9 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 			$session =  json_decode($challenge, true);
 			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
 				if(!$this->onboardingController->hasID()){
-					$this->onboardingController->setOnboardingID($this);
+					$this->onboardingController->setOnboardingID($this->id);
 				}
-				if(!$this->userService->getUserValue("logged_in", $this->userId, 0) === 1){
+				if($this->userService->getUserValue("logged_in", $this->userId, 0) == 0){
 					$this->userService->setUserValue("logged_in", $this->userId, 1);
 				}
 				return true;

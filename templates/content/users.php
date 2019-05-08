@@ -116,8 +116,7 @@ style('secsignid','tablestyle');
 			<div>
 				<p style="margin-bottom: 8px">This option allows you to activate SecSign 2FA for all users without
 				having to create and enter a SecSign ID for each user. Simply choose a suffix and all users will be
-				prompted to create a SecSign ID consisting of their username + '@suffix‘ when they try to log in the next time. If the automatically
-				assigned SecSign ID exists already, the username will be incremented.</p>
+				prompted to create a SecSign ID consisting of their username + '@suffix‘ when they try to log in the next time. Make sure that <a style="text-decoration: underline" id='two_factor_auth_link'>Two-Factor authentication</a> is enforced for all users that you wish to assign a SecSign ID to.</p>
 				<div>
 					<input type='checkbox' class='checkbox' id='enable_onboarding'>
 					<label for='enable_onboarding'>Enable onboarding for all users.</label>					

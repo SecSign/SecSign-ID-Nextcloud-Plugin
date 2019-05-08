@@ -8,17 +8,9 @@ namespace OCA\SecSignID\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\IUser;
-use OCP\ISession;
-use OCA\SecSignID\Service\AuthSession;
+use OCA\SecSignID\Service\SecsignService;
 
 use OCP\AppFramework\Controller;
-use OCA\SecSignID\Service\IAPI;
-use OCA\SecSignID\Db\IDMapper;
-use OCA\SecSignID\Db\ID;
-
-use OCA\SecSignID\Service\PermissionService;
 
 /**
  * The SecSignController links to required templates and handles requests to the server.
@@ -26,53 +18,53 @@ use OCA\SecSignID\Service\PermissionService;
 class SecsignController extends Controller {
 	private $userId;
 
-	/** @var IAPI */
-	private $iapi;
+	private $secsign;
 
-	private $mapper;
+	use Errors;
 
-	private $permission;
-
-	private $session;
-
-	public function __construct($AppName, IRequest $request,		
-								$UserId, IAPI $iapi,
-								IDMapper $mapper, PermissionService $permission, ISession $session){
+	public function __construct($AppName, IRequest $request, $UserId, SecSignService $secsign){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
-		$this->iapi = $iapi;
-		$this->mapper = $mapper;
-		$this->permission = $permission;
-		$this->session = $session;
+		$this->secsign = $secsign;
 	}
 
 	/**
+	 * @NoCSRFRequired
      * @NoAdminRequired
      * @PublicPage
+	 * 
+	 * @UserRateThrottle(limit=105, period=100)
+     * @AnonRateThrottle(limit=105, period=100)
      */
 	public function state(){
-		$accepted = $this->iapi->isSessionAccepted();
-		return array('accepted' => $accepted);
+		return $this->handleSecsignException( function () {
+			return $this->secsign->state();
+		});	
 	}
 
 	/**
      * @NoAdminRequired
      * @PublicPage
+	 * @NoCSRFRequired
 	 * 
 	 * @param array $session 
      */
 	public function sessionState($session){
-		return $this->iapi->getAuthState($session);
+		return $this->handleSecsignException( function () use ($session){
+			return $this->secsign->sessionState($session);
+		});		
 	}
 
 	/**
      * @NoAdminRequired
      * @PublicPage
+	 * @NoCSRFRequired
 	 * @UseSession
      */
 	public function idExists(){
-		$secsignid = $this->getID();
-		return $this->givenIdExists($secsignid);
+		return $this->handleSecsignException( function () {
+			return $this->secsign->idExists();
+		});	
 	}
 
 	/**
@@ -81,47 +73,49 @@ class SecsignController extends Controller {
 	 * @param string $secsignid
      */
 	public function givenIdExists($secsignid){
-		$values = $this->iapi->idExists($secsignid);
-		if(!empty($values['session'])){
-			$this->session['session'] = $values['session'];
-		}
-		return $values;
+		return $this->handleSecsignException( function () use ($secsignid) {
+			return $this->secsign->givenIdExists($secsignid);
+		});	
 	}
 
 	/**
 	 * Cancels the pending authsession-.
 	 * 
+	 * @NoCSRFRequired
 	 * @NoAdminRequired
      * @PublicPage
 	 */
 	public function cancel(){
-		$this->iapi->cancelAuthSession();
+		return $this->handleSecsignException( function () {
+			return $this->secsign->cancel();
+		});	
 	}
 
 	/**
 	 * Cancels the pending authsession-.
 	 * 
+	 * @NoCSRFRequired
 	 * @NoAdminRequired
      * @PublicPage
 	 * 
 	 * @param array $session
 	 */
 	public function cancelSession($session){
-		$this->iapi->cancelSession($session);
+		return $this->handleSecsignException( function () use($session) {
+			return $this->secsign->cancelSession($session);
+		});	
 	}
 
 	/**
 	 * Return the current secsignid
 	 * 
+	 * @NoCSRFRequired
 	 * @NoAdminRequired
      * @PublicPage
 	 */
 	public function getID(){
-		$current = $this->mapper->find($this->userId);
-		if(isset($current)){
-			return $current->getSecsignid();
-		}else{
-			return $this->userId . "@" . $this->permission->getAppValue("onboarding_suffix","test");
-		}		
+		return $this->handleSecsignException( function () {
+			return $this->secsign->getID();
+		});		
 	}
 }

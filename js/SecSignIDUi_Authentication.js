@@ -102,6 +102,7 @@
                     if (data) {
                         if (data.error != undefined) {
                             //show error
+                            console.log(data);
                             setErrorMessage(data["errormsg"]);
                         } else {
                             //display accesspass
@@ -133,8 +134,8 @@
                             loader(false, function () {});
                         }
                     }
-                }).error(function (data, message){
-                    setError(3002);
+                }).error(function (data){
+                    setErrorMessage(data.responseJSON.message);
                 });
         };
 
@@ -427,7 +428,7 @@
         });
 
         $('a.two-factor-secondary').on('click', function (){
-            loader(true, null);
+            loader(true, function(){});
             cancelAuthSession();
         });
 

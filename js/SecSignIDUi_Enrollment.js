@@ -160,7 +160,9 @@
                         }
                     }
                 }
-            )
+            ).error(function (data){
+                setErrorMessage(data.responseJSON.message);
+            });
         };
 
         //cancel the auth session
@@ -172,6 +174,8 @@
                                 session: array
                             }).success(function () {
                                     logger(DEBUG, "Canceled AuthSession");
+                                }).error(function (data){
+                                    setErrorMessage(data.responseJSON.message);
                                 });
             }
         };
@@ -186,7 +190,7 @@
         var requestIdExistsOnServer = function (id, callback) {
             logger(DEBUG, 'request if id exists to ' + settings.restApiEnrollment);
             $.get(OC.generateUrl("/apps/secsignid/exists/"))
-                .done(function (data) {
+                .success(function (data) {
                     logger(DEBUG, 'api response while testing if ID exists: ' + data);
                     if (data.exists === "true" || data.exists === true) {
                         $('.secUi-pageAccesspass__accesspass').prop("src", "data:image/png;base64," + data.session.authsessionicondata);
@@ -201,11 +205,8 @@
                     logger(ERROR, 'unknown api response while testing if ID exists: ' + data);
                     callback(null);
                     return;
-                })
-                .fail(function (jqXHR, textStatus, errorThrown, data) {
-                    logger(ERROR, 'api response failed while testing if ID exists: ' + errorThrown + " - " + data);
-                    callback(null);
-                    return;
+                }).error(function (data){
+                    setErrorMessage(data.responseJSON.message);
                 });
         };
         var requestIdExistsOnServerPolling = function (id, callback) {

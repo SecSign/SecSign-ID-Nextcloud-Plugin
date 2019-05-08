@@ -7,15 +7,9 @@ namespace OCA\SecSignID\Controller;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\IUser;
-use OCP\IUserManager;
-use OCP\IGroupManager;
-use OCP\Template;
-
 use OCP\AppFramework\Controller;
-use OCA\SecSignID\Service\PermissionService;
-use OCA\SecSignID\Service\QRCode;
+
+use OCA\SecSignID\Service\ConfigService;
 
 /**
  * The SecSignController links to required templates and handles requests to the server.
@@ -23,19 +17,15 @@ use OCA\SecSignID\Service\QRCode;
 class ConfigController extends Controller {
 	private $userId;
 
-	private $manager;
+	private $config;
 
-	private $permissions;
-
-	private $groupmanager;
+	use Errors;
 
 	public function __construct($AppName, IRequest $request,		
-								$UserId, IUserManager $manager, PermissionService $permission, IGroupManager $groupmanager){
+								$UserId, ConfigService $config){
 		parent::__construct($AppName, $request);
-		$this->userId = $UserId;
-		$this->manager = $manager;
-		$this->permissions = $permission;
-		$this->groupmanager = $groupmanager;
+		$this->userId = $userId;
+		$this->config = $config;
 	}
 
 
@@ -46,20 +36,9 @@ class ConfigController extends Controller {
 	 * @param array $address
 	 */
 	public function saveServer($server){
-		if(!empty($server)){
-			if(!empty($server[server])){
-				$this->permissions->setAppValue("server",$server["server"]);
-			}
-			if(!empty($server[fallback])){
-				$this->permissions->setAppValue("fallback",$server["fallback"]);
-			}
-			if(!empty($server[serverport])){
-				$this->permissions->setAppValue("serverport",$server["serverport"]);
-			}
-			if(!empty($server[fallbackport])){
-				$this->permissions->setAppValue("fallbackport",$server["fallbackport"]);
-			}
-		}
+		return $this->handleInvalidInput(function () use ($server){
+			return $this->config->saveServer($server);
+		});
 	}
 
 	/**
@@ -69,9 +48,9 @@ class ConfigController extends Controller {
 	 * @param array $address
 	 */
 	public function saveServerMobile($server){
-		if(!empty($server)){
-			$this->permissions->setAppValue("mobileurl", $server);
-		}
+		return $this->handleInvalidInput(function () use ($server){
+			return $this->config->saveServerMobile($server);
+		});
 	}
 
 	/**
@@ -79,12 +58,7 @@ class ConfigController extends Controller {
 	 * 
 	 */
 	public function getServer(){
-		return [
-			server => (string) $this->permissions->getAppValue("server", "https://httpapi.secsign.com"),
-			fallback => (string) $this->permissions->getAppValue("fallback", "https://httpapi2.secsign.com"),
-			serverport => (int) $this->permissions->getAppValue("serverport", 443),
-			fallbackport => (int) $this->permissions->getAppValue("fallbackport", 443)
-		];
+		return $this->config->getServer();
 	}
 
 	/**
@@ -93,7 +67,7 @@ class ConfigController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getServerMobile(){
-		return (string) $this->permissions->getAppValue("mobileurl", "id1.secsign.com");
+		return $this->config->getServerMobile();
 	}
 
 
@@ -103,35 +77,36 @@ class ConfigController extends Controller {
 	 * @PublicPage
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @UserRateThrottle(limit=5, period=100)
+	 * @AnonRateThrottle(limit=3, period=100)
 	 */
 	public function getQR(){
-		$secsignid = $this->userId . "@" . $this->permissions->getAppValue("onboarding_suffix","test");		
-		$serverurl = $this->permissions->getAppValue("mobileurl","id1.secsign.com");
-		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
-		QRCode::png($uri);
+		return $this->config->getQR();
 	}
 
 	/**
 	 * Gets QR code for given secsignid.
 	 * 
 	 * @NoAdminRequired
+	 * @UserRateThrottle(limit=5, period=100)
 	 * 
 	 * @param string $secsignid
 	 */
 	public function getQRForId($secsignid){
-		$serverurl = $this->permissions->getAppValue("mobileurl", "id1.secsign.com");
-		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
-		QRCode::png($uri);
+		return $this->handleInvalidInput(function () use ($secsignid){
+			return $this->config->getQRForId($secsignid);
+		});
 	}
 
 	/**
 	 * Allows users to edit the settings of their SecSign 2FA
 	 * 
-	 * 
 	 * @param boolean $allow
 	 */
 	public function allowUserEdit($allow){
-		$this->permissions->setAppValue("allowEdit", $allow);
+		return $this->handleInvalidInput(function () use ($allow){
+			return $this->config->allowUserEdit($allow);
+		});
     }
 
     /**
@@ -139,7 +114,7 @@ class ConfigController extends Controller {
 	 * 
 	 */
 	public function getAllowUserEdit(){
-		return $this->permissions->getAppValue("allowEdit", false);
+		return $this->config->getAllowUserEdit();
 	}
 
 
@@ -149,14 +124,7 @@ class ConfigController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function canUserEdit(){
-		$user = $this->manager->get($this->userId);
-		$groups = $this->groupmanager->getUserGroups($user);
-		foreach ($groups as &$group){
-			if($group->getGID() === "admin"){
-				return true;
-			}
-		}
-		return $this->permissions->getAppValue("allowEdit", false);
+		return $this->config->canUserEdit();
 	}
 
 	/**
@@ -165,10 +133,7 @@ class ConfigController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getOnboarding(){
-		return [
-			enabled => $this->permissions->getAppValue("onboarding_enabled", false),
-			suffix => $this->permissions->getAppValue("onboarding_suffix", "")
-		];
+		return $this->config->getOnboarding();
 	}
 
 	/**
@@ -178,9 +143,8 @@ class ConfigController extends Controller {
 	 * @param array data
 	 */
 	public function changeOnboarding($data){
-		$enabled = $data["enabled"] === "true" ? true : false;
-		$suffix = $data["suffix"];
-		$this->permissions->setAppValue("onboarding_enabled", $enabled);
-		$this->permissions->setAppValue("onboarding_suffix", $suffix);
+		return $this->handleInvalidInput(function () use ($data){
+			return $this->config->changeOnboarding($data);
+		});
 	}
 }

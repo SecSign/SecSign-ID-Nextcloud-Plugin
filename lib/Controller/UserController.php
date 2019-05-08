@@ -20,6 +20,7 @@ use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
 use OCA\SecSignID\Provider\SecSign2FA;
 use OCA\SecSignID\Service\PermissionService;
+use OCA\SecSignID\Service\UserService;
 use OCA\SecSignID\Service\QRCode;
 
 /**
@@ -38,9 +39,11 @@ class UserController extends Controller {
 
 	private $enforce;
 
+	private $userservice;
+
 	public function __construct($AppName, IRequest $request,		
 								$UserId, 
-								IDMapper $mapper, IUserManager $manager, IRegistry $registry, MandatoryTwoFactor $enforce, SecSign2FA $provider){
+								IDMapper $mapper, IUserManager $manager, IRegistry $registry, MandatoryTwoFactor $enforce, SecSign2FA $provider, UserService $userservice){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
@@ -48,6 +51,7 @@ class UserController extends Controller {
 		$this->registry = $registry;
 		$this->enforce = $enforce;
 		$this->provider = $provider;
+		$this->userservice = $userservice;
 	}
 
 
@@ -113,6 +117,10 @@ class UserController extends Controller {
 	 */
 	public function saveChanges($data){
 		foreach($data as &$user){
+			$previous = $this->mapper->find($user['uid']);
+			if($previous->getSecsignid() !== $user['secsignid']){
+				$this->userservice->setUserValue('logged_in', $user['uid'], 0);
+			}
 			$id = new ID();
 			$id->setUserId($user['uid']);
 			$id->setSecsignid($user['secsignid']);

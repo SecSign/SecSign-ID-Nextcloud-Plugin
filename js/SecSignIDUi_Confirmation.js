@@ -213,7 +213,9 @@
                         }
                     }
                 }
-            )
+            ).error(function (data){
+                setErrorMessage(data.responseJSON.message);
+            });
         };
 
         //cancel the auth session
@@ -239,7 +241,7 @@
             $.post(OC.generateUrl("/apps/secsignid/exists/"),{
                 secsignid: settings.userSecSignId
             })
-                .done(function (data) {
+                .success(function (data) {
                     logger(DEBUG, 'api response while testing if ID exists: ' + data);
                     if (data.exists === "true" || data.exists === true) {
                         $('.secUi-pageAccesspass__accesspass').prop("src", "data:image/png;base64," + data.session.authsessionicondata);
@@ -255,10 +257,9 @@
                     callback(null);
                     return;
                 })
-                .fail(function (jqXHR, textStatus, errorThrown, data) {
-                    logger(ERROR, 'api response failed while testing if ID exists: ' + errorThrown + " - " + data);
+                .error(function (data){
+                    setErrorMessage(data.responseJSON.message);
                     callback(null);
-                    return;
                 });
         };
         var requestIdExistsOnServerPolling = function (id, callback) {

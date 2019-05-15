@@ -1,4 +1,7 @@
-// Examples
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 .icon-error {
     @include icon-color('error', 'actions', ff00000, 1, true);
     // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
@@ -132,6 +135,16 @@ td.icon-checkmark {
     width: 200px;
 }
 
+@media only screen and (max-width: 770px) {
+    .sec_content_header {
+        margin-left: 30px;
+    }
+  }
+
+.sec_content_header {
+    padding-top: 2px;
+}
+
 .nav-ul {
     display: table;
     table-layout: fixed;
@@ -170,7 +183,8 @@ a{
     font-size: 110%;
 }
 
+
 .secsign-content {
     border: 2px solid var(--color-border-dark);
-    max-width: 1200px;
+    max-width: 800px;
 }

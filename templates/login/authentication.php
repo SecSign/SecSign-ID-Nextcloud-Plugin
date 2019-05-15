@@ -1,3 +1,7 @@
+<!--
+- @author SecSign Technologies Inc.
+- @copyright 2019 SecSign Technologies Inc.
+-->
 <?php
 script('secsignid','SecSignIDUi_Authentication');
 script('secsignid','authentication_script');
@@ -50,7 +54,7 @@ session_start();
 
 <!-- Authentication Page for Errors -->
                 <div id="secUi-pageError" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#error" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/developers/frequently-asked-questions/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-pageError__errorCodeContainer">Error #<span id="secUi-pageError__errorCode"></span></p>
                     <p id="secUi-pageError__errorMsg"></p>
 
@@ -59,7 +63,7 @@ session_start();
 
 <!-- Authentication Page for Accesspass -->
                 <div id="secUi-pageAccesspass" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#accesspass" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/developers/frequently-asked-questions/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
 
                     <div id="secUi-pageAccesspass__noaccesspassicon">
                         <p class="secUi-main__text">

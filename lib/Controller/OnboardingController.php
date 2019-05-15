@@ -18,7 +18,7 @@ use OCP\AppFramework\Controller;
 use OCA\SecSignID\Service\IAPI;
 use OCA\SecSignID\Db\IDMapper;
 use OCA\SecSignID\Db\ID;
-use OCA\SecSignID\Controller\SecsignController;
+use OCA\SecSignID\Service\SecsignService;
 
 /**
  * The SecSignController links to required templates and handles requests to the server.
@@ -32,17 +32,17 @@ class OnboardingController extends Controller {
 
     private $registry;
     
-    private $secsignController;
+    private $secsignService;
 
 	public function __construct($AppName, IRequest $request,		
 								$UserId, 
-								IDMapper $mapper, IUserManager $manager, IRegistry $registry, SecsignController $secsignController){
+								IDMapper $mapper, IUserManager $manager, IRegistry $registry, SecsignService $secsignService){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
 		$this->manager = $manager;
 		$this->registry = $registry;
-		$this->secsignController = $secsignController;
+		$this->secsignService = $secsignService;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class OnboardingController extends Controller {
 	public function setOnboardingID($provider){
 		$entity = new ID();
 		$entity->setUserId($this->userId);
-		$secsignid = $this->secsignController->getID();
+		$secsignid = $this->secsignService->getID();
 		$entity->setSecsignid($secsignid);
 		$entity->setEnabled(1);
 		$this->changeUserState(true, $this->userId, $provider);

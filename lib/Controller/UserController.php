@@ -118,7 +118,7 @@ class UserController extends Controller {
 	public function saveChanges($data){
 		foreach($data as &$user){
 			$previous = $this->mapper->find($user['uid']);
-			if($previous->getSecsignid() !== $user['secsignid']){
+			if(isset($previous) && $previous->getSecsignid() !== $user['secsignid']){
 				$this->userservice->setUserValue('logged_in', $user['uid'], 0);
 			}
 			$id = new ID();

@@ -1,3 +1,7 @@
+<!--
+- @author SecSign Technologies Inc.
+- @copyright 2019 SecSign Technologies Inc.
+-->
 <?php
 script('secsignid','SecSignIDUi_Enrollment');
 script('secsignid','onboarding_script');
@@ -50,7 +54,7 @@ session_start();
 
 <!-- Enrollment Page for downloading apps (1) -->
                 <div id="secUi-pageApps" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#apps" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         Please download and install the SecSignID App from one of the following App stores
                     <p>
@@ -108,7 +112,7 @@ session_start();
 
 <!-- Enrollment Page for displaying QR Code Create with polling (2) -->
                 <div id="secUi-pageQr" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrapp" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         Open the SecSignID app and click/tap on <strong>+</strong>, then on <strong>start QR-Code pairing</strong> and scan the following code
                     <p>
@@ -137,7 +141,7 @@ session_start();
 
 <!-- Enrollment Page for showing manual enrollment for desktop apps (3) -->
                 <div id="secUi-pageQrDesktop" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrdesktop" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         <a href="#" class="secUi-pageQr__link secUi-main__button secUi-custbutton">Create your new ID on <strong>this</strong> device</a>
                     <p>
@@ -183,7 +187,7 @@ session_start();
 
 <!-- Enrollment Page for assigning an existing ID (4) -->
                 <div id="secUi-pageExistingID" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#newexisting" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         Insert your existing SecSignID or create a new one to assign to your user account
                     <p>
@@ -194,7 +198,7 @@ session_start();
 
 <!-- Enrollment Page for claiming existing ID (5) -->
                 <div id="secUi-pageClaim" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#claim" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         If the SecSignID <strong class="secUi-main__displayid"></strong> is yours and you have it already set up on your device, click next. The authentication will start immediately.
                     <p>
@@ -215,7 +219,7 @@ session_start();
 
 <!-- Enrollment Page for Errors (1) -->
                 <div id="secUi-pageError" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#error" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/developers/frequently-asked-questions/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-pageError__errorCodeContainer">Error #<span id="secUi-pageError__errorCode"></span></p>
                     <p id="secUi-pageError__errorMsg"></p>
 
@@ -224,7 +228,7 @@ session_start();
 
 <!-- Authentication Page for Accesspass (2) -->
                 <div id="secUi-pageAccesspass" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#accesspass" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
 
                     <div id="secUi-pageAccesspass__noaccesspassicon">
                         <p class="secUi-main__text">

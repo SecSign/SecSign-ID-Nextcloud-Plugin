@@ -1,12 +1,12 @@
 <?php
 /**
- * List of all necessary routes.
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
  */
 return [
     'routes' => [
-	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'], 
-		/* Secsign stuff */
+	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'], 
+		/* Secsign API */
 	   ['name' => 'secsign#state', 'url' => '/state/', 'verb' => 'GET'],
 	   ['name' => 'secsign#sessionState', 'url' => '/state/', 'verb' => 'POST'],
 	   ['name' => 'secsign#cancel', 'url' => '/cancel/', 'verb' => 'POST'],
@@ -14,7 +14,7 @@ return [
 	   ['name' => 'secsign#idExists', 'url' => '/exists/', 'verb' => 'GET'],
 	   ['name' => 'secsign#givenIdExists', 'url' => '/exists/', 'verb' => 'POST'],
 	   ['name' => 'secsign#getID', 'url' => '/id/', 'verb' => 'GET'],
-	   /* Config */
+	   /* User Config */
 	   ['name' => 'user#setID', 'url' => '/id/enable/', 'verb' => 'POST'],
 	   ['name' => 'user#disableID', 'url' => '/id/disable/', 'verb' => 'POST'],
 	   ['name' => 'user#getUsers', 'url' => '/ids/', 'verb' => 'GET'],
@@ -25,9 +25,10 @@ return [
 	   ['name' => 'config#allowUserEdit', 'url' => '/allowEdit/', 'verb' => 'POST'],
 	   ['name' => 'config#getAllowUserEdit', 'url' => '/allowEdit/', 'verb' => 'GET'],
 	   ['name' => 'config#canUserEdit', 'url' => '/canEdit/', 'verb' => 'GET'],
+	   /* Onboarding */
 	   ['name' => 'config#getOnboarding', 'url' => '/onboarding/', 'verb' => 'GET'],
 	   ['name' => 'config#changeOnboarding', 'url' => '/onboarding/', 'verb' => 'POST'],
-	   /* Server addresses */
+	   /* Server Config */
 	   ['name' => 'config#saveServer', 'url' => '/server/', 'verb' => 'POST'],
 	   ['name' => 'config#saveServerMobile', 'url' => '/server/mobile/', 'verb' => 'POST'],
 	   ['name' => 'config#getServer', 'url' => '/server/', 'verb' => 'GET'],

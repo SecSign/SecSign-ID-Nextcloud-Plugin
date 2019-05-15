@@ -24,7 +24,7 @@ class ConfigController extends Controller {
 	public function __construct($AppName, IRequest $request,		
 								$UserId, ConfigService $config){
 		parent::__construct($AppName, $request);
-		$this->userId = $userId;
+		$this->userId = $UserId;
 		$this->config = $config;
 	}
 

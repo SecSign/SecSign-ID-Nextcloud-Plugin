@@ -78,10 +78,10 @@ class ConfigService {
 	 */
 	public function getServer(){
 		return [
-			server => (string) $this->permissions->getAppValue("server", "https://httpapi.secsign.com"),
-			fallback => (string) $this->permissions->getAppValue("fallback", "https://httpapi2.secsign.com"),
-			serverport => (int) $this->permissions->getAppValue("serverport", 443),
-			fallbackport => (int) $this->permissions->getAppValue("fallbackport", 443)
+			"server" => (string) $this->permissions->getAppValue("server", "https://httpapi.secsign.com"),
+			"fallback" => (string) $this->permissions->getAppValue("fallback", "https://httpapi2.secsign.com"),
+			"serverport" => (int) $this->permissions->getAppValue("serverport", 443),
+			"fallbackport" => (int) $this->permissions->getAppValue("fallbackport", 443)
 		];
 	}
 
@@ -154,8 +154,8 @@ class ConfigService {
 	 */
 	public function getOnboarding(){
 		return [
-			enabled => $this->permissions->getAppValue("onboarding_enabled", false),
-			suffix => $this->permissions->getAppValue("onboarding_suffix", "")
+			"enabled" => $this->permissions->getAppValue("onboarding_enabled", false),
+			"suffix" => $this->permissions->getAppValue("onboarding_suffix", "")
 		];
 	}
 

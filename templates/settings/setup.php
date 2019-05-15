@@ -3,10 +3,10 @@
 - @copyright 2019 SecSign Technologies Inc.
 -->
 <?php
-script('secsignid','confirmation_script');
+script('secsignid', 'confirmation_script');
 script('secsignid', 'SecSignIDUi_Confirmation');
-style('secsignid','lds_roller');
-style('secsignid','settings');
+style('secsignid', 'lds_roller');
+style('secsignid', 'settings');
 style('secsignid', 'SecSignIDUi');
 ?>
 
@@ -68,7 +68,7 @@ style('secsignid', 'SecSignIDUi');
 
                 <!-- Enrollment Page for assigning an existing ID (4) -->
                 <div id="secUi-pageExistingID" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#newexisting" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         Insert your existing SecSignID or create a new one to assign to your user account
                     <p>
@@ -79,7 +79,7 @@ style('secsignid', 'SecSignIDUi');
 
                 <!-- Enrollment Page for displaying QR Code Create with polling (2) -->
                 <div id="secUi-pageQr" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrapp" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         Open the SecSignID app and click/tap on <strong>+</strong>, then on <strong>start QR-Code pairing</strong> and scan the following code
                     <p>
@@ -103,7 +103,7 @@ style('secsignid', 'SecSignIDUi');
 
 <!-- Authentication Page for Errors -->
                 <div id="secUi-pageError" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#error" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/developers/frequently-asked-questions/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-pageError__errorCodeContainer">Error #<span id="secUi-pageError__errorCode"></span></p>
                     <p id="secUi-pageError__errorMsg"></p>
 
@@ -112,7 +112,7 @@ style('secsignid', 'SecSignIDUi');
 
 <!-- Authentication Page for Accesspass -->
                 <div id="secUi-pageAccesspass" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#accesspass" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
 
                     <div id="secUi-pageAccesspass__noaccesspassicon">
                         <p class="secUi-main__text">
@@ -139,7 +139,7 @@ style('secsignid', 'SecSignIDUi');
                 </div>
 
                 <div id="secUi-pageQrDesktop" class="secUi-page">
-                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrdesktop" class="secUi-main__helplink secUi-custcolor">Help</a></div>
+                    <div class="secUi-main__helpcontainer"><a target="_blank" href="https://www.secsign.com/try-secsign-id-now/" class="secUi-main__helplink secUi-custcolor">Help</a></div>
                     <p class="secUi-main__text">
                         <a href="#" class="secUi-pageQr__link secUi-main__button secUi-custbutton">Create your new ID on <strong>this</strong> device</a>
                     <p>

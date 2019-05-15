@@ -234,7 +234,7 @@
 
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
-        $(".nav-ul a").removeClass("selected");
+        $("#app-navigation li a").removeClass("selected");
 
         $("#" + tabName).css("display", "block");
         evt.addClass("selected");

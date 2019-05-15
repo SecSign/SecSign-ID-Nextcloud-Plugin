@@ -8,36 +8,33 @@ style('secsignid','lds_roller');
 style('secsignid','tablestyle');
 ?>
 
-<div class="section" id="sec">
-	<h2 style="padding-left: 12px">SecSign ID</h2>
-	<div class="secsign-content">
-		<nav id="nav-heading">
-			<div class="navgroup">
-				<ul class="nav-ul">
-					<li>
-						<a class="selected" id="btn_management">
-							<span>User Management</span>
-						</a>
-					</li>
-					<li>
-						<a id="btn_permissions">
-							<span>User permissions</span>
-						</a>
-					</li>
-					<li>
-						<a id="btn_settings">
-							<span>Configuration</span>
-						</a>
-					</li>
-					<li>
-						<a id="btn_onboarding">
-							<span>Onboarding</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
+<div id="app-navigation">
+	<ul>
+		<li>
+			<a class="selected" id="btn_management">
+				<span>User Management</span>
+			</a>
+		</li>
+		<li>
+			<a id="btn_permissions">
+				<span>User permissions</span>
+			</a>
+		</li>
+		<li>
+			<a id="btn_settings">
+				<span>Configuration</span>
+			</a>
+		</li>
+		<li>
+			<a id="btn_onboarding">
+				<span>Onboarding</span>
+			</a>
+		</li>
+	</ul>
+</div>
+	<div id="app-content" class="secsign-content">
 		<div id="user_permissions" class="tabcontent" style="display: none">
+			<h2 class="sec_content_header">User Permissions</h2>
 			<div>
 				<p style="margin-bottom: 8px">Choose whether non-admin users are allowed edit their SecSign ID settings.
 					This includes enabling and disabling 2FA as well as editing their assigned SecSign ID. Note that
@@ -48,6 +45,7 @@ style('secsignid','tablestyle');
 			</div>
 		</div>
 		<div id="user_management" class="tabcontent" style="display: block">
+			<h2 class="sec_content_header">User Management</h2>
 			<p>View all users and manage their SecSign ID two-factor authentication. Changes can be saved using the
 				"Save" button
 				below.</p>
@@ -83,6 +81,7 @@ style('secsignid','tablestyle');
 			</div>
 		</div>
 		<div id="secsign_settings" class="tabcontent" style="display: none">
+			<h2 class="sec_content_header">Configuration</h2>
 			<p style="margin-top: 8px; margin-bottom: 8px; font-size: 110%;text-decoration: underline">SecSign ID
 				server: </p>
 			<p>Edit this setting to change which ID server will be used. This is necessary to connect to an in-house
@@ -113,10 +112,11 @@ style('secsignid','tablestyle');
 			</div>
 		</div>
 		<div id="user_onboarding" class="tabcontent" style="display: none">
+			<h2 class="sec_content_header">Onboarding</h2>
 			<div>
 				<p style="margin-bottom: 8px">This option allows you to activate SecSign 2FA for all users without
 				having to create and enter a SecSign ID for each user. Simply choose a suffix and all users will be
-				prompted to create a SecSign ID consisting of their username + '@suffix‘ when they try to log in the next time. Make sure that <a style="text-decoration: underline" id='two_factor_auth_link'>Two-Factor authentication</a> is enforced for all users that you wish to assign a SecSign ID to.</p>
+				prompted to create a SecSign ID consisting of their username + '@suffix‘ when they try to log in the next time. Make sure that <a style="text-decoration: underline" id='two_factor_auth_link'>Two-Factor authentication</a> is enforced or enabled for all users that you wish to assign a SecSign ID to.</p>
 				<div>
 					<input type='checkbox' class='checkbox' id='enable_onboarding'>
 					<label for='enable_onboarding'>Enable onboarding for all users.</label>					
@@ -129,5 +129,5 @@ style('secsignid','tablestyle');
 				</div>
 			</div>
 		</div>
-	</div>
+                
 </div>

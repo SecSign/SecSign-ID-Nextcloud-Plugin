@@ -29,6 +29,11 @@
     --animation-quick: 100ms;
 }
 
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
+
 .secUi-custappcolor:hover{color: #fff; background-color: #e21221;}
 .secUi-custborder{border-color: #e21221;}
 

@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author SecSign Technologies Inc.
+ * @copyright 2019 SecSign Technologies Inc.
+ */
 declare(strict_types=1);
 
 namespace OCA\SecSignID\Migration;

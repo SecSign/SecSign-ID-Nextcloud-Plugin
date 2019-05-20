@@ -4,11 +4,21 @@
     <id>secsignid</id>
     <name>SecSign ID</name>
     <summary>Plugin to enable use of SecSign 2FA</summary>
-    <description><![CDATA[This Plugin enables the use of the SecSign ID two-factor authentication to provide
-a safe and easy to use additional layer of security.
-    
-To use the SecSign 2FA, simply create a SecSign ID and
-link it to your NextCloud via the settings. To find out more, visit [www.secsign.com](https://www.secsign.com/developers/nextcloud-two-factor-authentication/).]]></description>
+    <description><![CDATA[This app makes it possible to use the SecSign two-factor authentication SecSign ID
+to authenticate users in Nextcloud.
+
+Once installed, go to **Settings/Security** and add an existing SecSign ID to enable 2FA
+for yourself. Make sure to also generate backup codes, so you always have a backup plan.
+
+Admins can go to the SecSign ID tab and manage the SecSign IDs for every user and enable/disable
+two-factor authentication.
+
+With the new User Onboarding feature, enabling SecSign 2FA for all users is a very easy process. Simply enable User Onboarding and then choose a suffix for your users SecSign IDs. Make sure to either enforce 2FA for the user groups which should use SecSign 2FA or enable it for single users. Only users with Two-Factor Authentication enabled in the NextCloud settings can use SecSign 2FA.
+
+If you do not already have a SecSign ID, go to [secsign.com](https://www.secsign.com/try-secsign-id-now/) to learn
+how to create and use one.
+
+[PHP QR Code library](http://phpqrcode.sourceforge.net/) was used for the creating QR codes. Many thanks to the developers.]]></description>
     <version>0.2.0</version>
     <licence>agpl</licence>
     <author mail="support@secsign.com" homepage="https://www.secsign.com">SecSign Technologies Inc.</author>
@@ -16,11 +26,16 @@ link it to your NextCloud via the settings. To find out more, visit [www.secsign
     <category>security</category>
     <bugs>https://github.com/SecSign/SecSign-ID-Nextcloud-Plugin/issues</bugs>
     <repository>https://github.com/SecSign/SecSign-ID-Nextcloud-Plugin.git</repository>
-    <screenshot small-thumbnail="https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/access_pass_screenshot_thumb.png">
-        <![CDATA[https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/access_pass_screenshot.png]]>
+    <screenshot small-thumbnail="https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_access_pass_thumb.png">
+        <![CDATA[https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_access_pass.png]]>
     </screenshot>
+    <screenshot>https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_user_management.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_user_permissions.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_configuration.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_onboarding.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/SecSign/SecSign-ID-Nextcloud-Plugin/master/screenshots/screenshot_personal_settings.png</screenshot>
     <dependencies>
-        <nextcloud min-version="14" max-version="15"/>
+        <nextcloud min-version="14" max-version="16"/>
     </dependencies>
      <two-factor-providers>
         <provider>OCA\SecSignID\Provider\SecSign2FA</provider>

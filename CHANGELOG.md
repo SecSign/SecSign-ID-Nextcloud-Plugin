@@ -1,7 +1,12 @@
 ## [Unreleased]
 ### Added
+- User settings by group
+
+## 0.2.0 - 2019-05-20
+### Added
 - Onboarding for users
 - Choose a specific SecSign ID server to query
+- Designed along NextCloud guidelines
 
 ## 0.1.3 - 2019-03-18
 ### Added

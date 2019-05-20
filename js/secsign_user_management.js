@@ -54,10 +54,11 @@
         let html = '';
         let displayname = user.displayname == null ? user.uid : user.displayname;
         let checked = user.enabled==1 ? 'checked' : '';
+        let secsignid = user.secsignid == null ? "" : user.secsignid;
         html += "<tr id='" + user.uid + "'>";
         html += "   <td>" + user.uid + "</td>";
         html += "   <td class='displayname'>" + displayname + "</td>";
-        html += "   <td class='center ssid'><input type='text' placeholder='None' value='" + user.secsignid + "'></td>";
+        html += "   <td class='center ssid'><input type='text' placeholder='None' value='" + secsignid + "'></td>";
         html += "<td id='enabled' class='center'>";
         html += "<input type='checkbox' class='checkbox' "+checked+" id='cb" + user.uid + "'>"
         html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";

@@ -41,9 +41,11 @@ class UserController extends Controller {
 
 	private $userservice;
 
+	private $groupManager;
+
 	public function __construct($AppName, IRequest $request,		
 								$UserId, 
-								IDMapper $mapper, IUserManager $manager, IRegistry $registry, MandatoryTwoFactor $enforce, SecSign2FA $provider, UserService $userservice){
+								IDMapper $mapper, IUserManager $manager, IGroupmanager $groupManager, IRegistry $registry, MandatoryTwoFactor $enforce, SecSign2FA $provider, UserService $userservice){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->mapper = $mapper;
@@ -52,6 +54,7 @@ class UserController extends Controller {
 		$this->enforce = $enforce;
 		$this->provider = $provider;
 		$this->userservice = $userservice;
+		$this->groupManager = $groupManager;
 	}
 
 
@@ -94,6 +97,7 @@ class UserController extends Controller {
 		foreach($data as &$user){
 			$user['enabled'] = $this->getUserState($user['uid']) ? "1" : "0";
 			$user['enforced'] = $this->enforcedForUser($user['uid']) ? "1":"0";
+			$user['groups'] = $this->groupsForUser($user['uid']);
 		}
 		return $data;
 	}
@@ -107,6 +111,17 @@ class UserController extends Controller {
 	private function enforcedForUser($uid): bool {
 		$user = $this->manager->get($uid);
 		return $this->enforce->isEnforcedFor($user);
+	}
+
+	/**
+	 * Gets group names for user
+	 * 
+	 * @param string $uid of user
+	 * @return array group names
+	 */
+	private function groupsForUser($uid): array {
+		$user = $this->manager->get($uid);
+		return $this->groupManager->getUserGroupIds($user);
 	}
 
 	/**

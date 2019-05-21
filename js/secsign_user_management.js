@@ -53,14 +53,14 @@
     function addUserRow(user) {
         let html = '';
         let displayname = user.displayname == null ? user.uid : user.displayname;
-        let checked = user.enabled==1 ? 'checked' : '';
+        let checked = user.enabled == 1 ? 'checked' : '';
         let secsignid = user.secsignid == null ? "" : user.secsignid;
         html += "<tr id='" + user.uid + "'>";
         html += "   <td>" + user.uid + "</td>";
         html += "   <td class='displayname'>" + displayname + "</td>";
         html += "   <td class='center ssid'><input type='text' placeholder='None' value='" + secsignid + "'></td>";
         html += "<td id='enabled' class='center'>";
-        html += "<input type='checkbox' class='checkbox' "+checked+" id='cb" + user.uid + "'>"
+        html += "<input type='checkbox' class='checkbox' " + checked + " id='cb" + user.uid + "'>"
         html += "<label class='enforce' for='cb" + user.uid + "'></label></td>";
         html += "<td id='check' class='icon-checkmark' hidden></td>";
         html += "</tr>";
@@ -150,7 +150,24 @@
      */
     function showTable(data) {
         users = data;
+        let groups = []
         let html = '';
+        data.forEach(user => {
+            if (user.groups.length === 0) {
+                if (!groups['no group']) {
+                    groups['no group'] = [];
+                }
+                groups['no group'].push(user);
+            } else {
+                user.groups.forEach(group => {
+                    if (!groups[group]) {
+                        groups[group] = [];
+                    }
+                    groups[group].push(user);
+                });
+            }
+        });
+        console.log(groups);
         data.forEach(user => {
             html += addUserRow(user);
         });
@@ -162,7 +179,7 @@
                 row.find(".checkbox").prop("checked", true);
                 row.find("label").html("2FA enforced");
             }
-            if(user.enabled==1 && !user.secsignid || user.enforced){
+            if (user.enabled == 1 && !user.secsignid || user.enforced) {
                 if (!user.secsignid) {
                     row.find(".ssid").append("<span class='icon-error '></span>");
                     $("#enforced_warning").show();

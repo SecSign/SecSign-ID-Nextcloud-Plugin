@@ -50,10 +50,20 @@ class ConfigService {
 				$this->permissions->setAppValue("fallback",$server["fallback"]);
 			}
 			if(!empty($server['serverport'])){
-				$this->permissions->setAppValue("serverport",$server["serverport"]);
+				$port = (int) $server['serverport'];
+				if($port < 65535 && $port > 0){
+					$this->permissions->setAppValue("serverport", $port);
+				}else{
+					throw new InvalidInputException("Port number must be between 0 and 65535");
+				}
 			}
 			if(!empty($server['fallbackport'])){
-				$this->permissions->setAppValue("fallbackport",$server["fallbackport"]);
+				$port = (int) $server["fallbackport"];
+				if($port < 65535 && $port > 0){
+					$this->permissions->setAppValue("fallbackport", $port);
+				}else{
+					throw new InvalidInputException("Port number must be between 0 and 65535");
+				}
 			}
 		}else{
             throw new InvalidInputException("Server data cannot be empty. Please try again.");

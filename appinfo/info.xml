@@ -19,7 +19,7 @@ If you do not already have a SecSign ID, go to [secsign.com](https://www.secsign
 how to create and use one.
 
 [PHP QR Code library](http://phpqrcode.sourceforge.net/) was used for the creating QR codes. Many thanks to the developers.]]></description>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <licence>agpl</licence>
     <author mail="support@secsign.com" homepage="https://www.secsign.com">SecSign Technologies Inc.</author>
     <namespace>SecSignID</namespace>

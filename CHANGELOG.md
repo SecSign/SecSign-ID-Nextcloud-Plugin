@@ -2,6 +2,14 @@
 ### Added
 - User settings by group
 
+## 0.2.2 - 2019-05-22
+### Added
+- Fixed issues displaying some icons and the QR code
+
+## 0.2.1 - 2019-05-22
+### Added
+- Fixed issues with logging level and wrong http server information being displayed
+
 ## 0.2.0 - 2019-05-20
 ### Added
 - Onboarding for users

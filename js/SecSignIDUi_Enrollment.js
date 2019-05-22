@@ -435,7 +435,7 @@
 
                         if (settings.enrollmentMode == QRSIMPLE) {
                             //ask server for a simple qr Code
-                            $('.secUi-pageQr__code').attr('src', OC.generateUrl("/apps/secsignid/qr/"));
+                            $('.secUi-pageQr__code').attr('src', OC.generateUrl(`/apps/secsignid/qr/${settings.userSecSignId}/`));
                             setAppState('pageQrSimple');
 
                             //set up polling for SecSignId existance during enrollment

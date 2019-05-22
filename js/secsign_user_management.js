@@ -252,8 +252,8 @@
         }).success(function () {
             $("#save_server").html("Saved");
             $("#save_server").fadeOut(3000);
-        }).fail(function () {
-            alert("An error has occured, please try again");
+        }).fail(function (error) {
+            console.log(`Error: ${error.responseJSON.message}`);
         })
     }
 

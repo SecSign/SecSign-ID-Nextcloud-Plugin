@@ -56,6 +56,9 @@ class ConfigController extends Controller {
 	/**
 	 * Gets server data
 	 * 
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @NoAdminRequired
 	 */
 	public function getServer(){
 		return $this->config->getServer();
@@ -88,7 +91,9 @@ class ConfigController extends Controller {
 	 * Gets QR code for given secsignid.
 	 * 
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 * @UserRateThrottle(limit=5, period=100)
+	 * @AnonRateThrottle(limit=3, period=100)
 	 * 
 	 * @param string $secsignid
 	 */

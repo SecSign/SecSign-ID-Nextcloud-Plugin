@@ -254,6 +254,8 @@ box-sizing: border-box;
     fill: white;
     float: left;
     max-height: 24px;
+    width: 30px;
+    height: 20px;
     padding: 5px 6px;
 }
 

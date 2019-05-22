@@ -99,13 +99,13 @@ style('secsignid','tablestyle');
 				<label style="margin-right: 9px" for="ssid_server">Server:</label>
 				<input class="server_input server" type='text' placeholder="SecSign ID server" id='ssid_server'>
 				<label for="ssid_server_port">Port:</label>
-				<input class="server_input port" type='text' placeholder="Server port" id='ssid_server_port'>
+				<input class="server_input port" type='number' max='65535' min='0' placeholder="Server port" id='ssid_server_port'>
 			</div>
 			<div>
 				<label for="ssid_fallback">Fallback:</label>
 				<input class="server_input server " type='text' placeholder="SecSign ID server" id='ssid_fallback'>
 				<label for="ssid_fallback_port">Port:</label>
-				<input class="server_input port" type='text' placeholder="Fallback port" id='ssid_fallback_port'>
+				<input class="server_input port" type='number' max='65535' min='0' placeholder="Fallback port" id='ssid_fallback_port'>
 				<button id="save_server" hidden>Save</button>
 			</div>
 			<p>To implement User Onboarding on an in-house server, please enter the URL to the mobile API. This is not

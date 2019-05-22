@@ -65,6 +65,12 @@ style('secsignid','tablestyle');
 				<div></div>
 				<div></div>
 			</div>
+			<div class="sec_filter">
+				<label for="sec_select_group" id="sec_select_label">Filter by group:</label>
+				<select id="sec_select_group">
+					<option value="All groups">All groups</option>
+				</select>
+			</div>
 			<div>
 				<table id="table" hidden>
 					<thead>

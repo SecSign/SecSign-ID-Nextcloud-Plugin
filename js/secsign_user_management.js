@@ -8,6 +8,7 @@
     'use strict';
     let users;
     let changedUsers = [];
+    let groups = [];
 
     /**
      * Returns an array of objects holding the values for each changed User
@@ -150,24 +151,8 @@
      */
     function showTable(data) {
         users = data;
-        let groups = []
         let html = '';
-        data.forEach(user => {
-            if (user.groups.length === 0) {
-                if (!groups['no group']) {
-                    groups['no group'] = [];
-                }
-                groups['no group'].push(user);
-            } else {
-                user.groups.forEach(group => {
-                    if (!groups[group]) {
-                        groups[group] = [];
-                    }
-                    groups[group].push(user);
-                });
-            }
-        });
-        console.log(groups);
+        initGroups(data);
         data.forEach(user => {
             html += addUserRow(user);
         });
@@ -192,6 +177,51 @@
                 changedEnabled($('input', this).is(":checked"), user);
             });
         });
+    }
+
+    /**
+     * Initiates group list and filters
+     * 
+     * @param {array} users
+     */
+    function initGroups(users) {
+        users.forEach(user => {
+            if (user.groups.length === 0) {
+                if (!groups['no group']) {
+                    groups['no group'] = [];
+                }
+                groups['no group'].push(user);
+            } else {
+                user.groups.forEach(group => {
+                    if (!groups[group]) {
+                        groups[group] = [];
+                    }
+                    groups[group].push(user);
+                });
+            }
+        });
+        console.log(groups);
+        Object.keys(groups).forEach(group => {
+            let html = `<option value="${group}">${group}</option>`
+            console.log(html);
+            $('#sec_select_group').append(html);
+        });
+    }
+
+    /**
+     * Filters the user list by group
+     * 
+     * @param {string} group 
+     */
+    function getGroupList(group) {
+        if (group === 'All groups') {
+            $('tbody tr').show();
+        } else {
+            $('tbody tr').hide();
+            groups[group].forEach(user => {
+                $('tr#' + user.uid).show();
+            });
+        }
     }
 
     /**
@@ -359,6 +389,9 @@
             save_onboarding();
         });
         $("#two_factor_auth_link").prop('href', OC.generateUrl('/settings/admin/security'));
+        $('#sec_select_group').on('change', function () {
+            getGroupList(this.value);
+        })
     }
 
     getServer();

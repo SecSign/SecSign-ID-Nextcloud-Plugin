@@ -56,6 +56,9 @@ class ConfigController extends Controller {
 	/**
 	 * Gets server data
 	 * 
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @NoAdminRequired
 	 */
 	public function getServer(){
 		return $this->config->getServer();

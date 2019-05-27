@@ -160,7 +160,7 @@
                         }
                     }
                 }
-            ).error(function (data){
+            ).error(function (data) {
                 setErrorMessage(data.responseJSON.message);
             });
         };
@@ -168,15 +168,15 @@
         //cancel the auth session
         var cancelAuthSession = function () {
             var val = $("#secUi-pageAccesspass_session").val();
-            if(val){
+            if (val) {
                 var array = JSON.parse(val);
-                            $.post(OC.generateUrl('/apps/secsignid/cancelSession/'), {
-                                session: array
-                            }).success(function () {
-                                    logger(DEBUG, "Canceled AuthSession");
-                                }).error(function (data){
-                                    setErrorMessage(data.responseJSON.message);
-                                });
+                $.post(OC.generateUrl('/apps/secsignid/cancelSession/'), {
+                    session: array
+                }).success(function () {
+                    logger(DEBUG, "Canceled AuthSession");
+                }).error(function (data) {
+                    setErrorMessage(data.responseJSON.message);
+                });
             }
         };
 
@@ -189,7 +189,9 @@
         //checks if id does exist on the server
         var requestIdExistsOnServer = function (id, callback) {
             logger(DEBUG, 'request if id exists to ' + settings.restApiEnrollment);
-            $.get(OC.generateUrl("/apps/secsignid/exists/"))
+            $.post(OC.generateUrl("/apps/secsignid/exists/"), {
+                    secsignid: settings.userSecSignId
+                })
                 .success(function (data) {
                     logger(DEBUG, 'api response while testing if ID exists: ' + data);
                     if (data.exists === "true" || data.exists === true) {
@@ -205,7 +207,7 @@
                     logger(ERROR, 'unknown api response while testing if ID exists: ' + data);
                     callback(null);
                     return;
-                }).error(function (data){
+                }).error(function (data) {
                     setErrorMessage(data.responseJSON.message);
                 });
         };
@@ -280,11 +282,11 @@
 
             //remove unused pages
             if (settings.enrollmentCustomIdAllowed) {
-                $('#secUi-pageApps__newIDbtn').remove();
+                //$('#secUi-pageApps__newIDbtn').remove();
             } else {
                 logger(DEBUG, 'switch off enrollment with custom ID');
-                $('#secUi-pageExistingID').remove();
-                $('#secUi-pageApps__existingIDbtn').remove();
+                //$('#secUi-pageExistingID').remove();
+                //$('#secUi-pageApps__existingIDbtn').remove();
             }
 
             //handle custom custom color
@@ -398,7 +400,7 @@
                 case "cancelAuth":
                     setProgress(10);
                     cancelAuthSession();
-                    window.location.href =  $('a.two-factor-secondary:eq(1)').attr("href");
+                    window.location.href = $('a.two-factor-secondary:eq(1)').attr("href");
                     $('.secUi-page').hide();
                     //$('#secUi-' + initialAppstate).show();
                     loader(true, function () {});
@@ -577,7 +579,7 @@
         //create new ID button points to QR code generation
         $('#secUi-main__container').on('click', '#secUi-pageApps__newIDbtn', function () {
             loader(true, function () {
-                setAppState('prepareQr');
+                setAppState('pageExistingID');
             });
         });
 
@@ -659,8 +661,8 @@
             });
         });
 
-        $('a.two-factor-secondary').on('click', function (){
-            loader(true, function(){});
+        $('a.two-factor-secondary').on('click', function () {
+            loader(true, function () {});
             cancelAuthSession();
         });
 

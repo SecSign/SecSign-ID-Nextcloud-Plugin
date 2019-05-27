@@ -64,10 +64,9 @@ class OnboardingController extends Controller {
 	 * @PublicPage
 	 * 
 	 */
-	public function setOnboardingID($provider){
+	public function setOnboardingID($provider, $secsignid){
 		$entity = new ID();
 		$entity->setUserId($this->userId);
-		$secsignid = $this->secsignService->getID();
 		$entity->setSecsignid($secsignid);
 		$entity->setEnabled(1);
 		$this->changeUserState(true, $this->userId, $provider);

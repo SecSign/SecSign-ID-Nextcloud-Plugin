@@ -266,19 +266,7 @@
         });
     }
 
-    function save_onboarding() {
-        $.post(OC.generateUrl("/apps/secsignid/onboarding/"), {
-            data: {
-                enabled: $("#enable_onboarding").prop("checked"),
-                suffix: $("#onboarding_suffix").val()
-            }
-        }).success(function () {
-            $("#save_onboarding").html("Saved");
-            $("#save_onboarding").fadeOut(3000);
-        }).fail(function () {
-            alert("An error has occured, please try again");
-        });
-    }
+    
 
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
@@ -315,21 +303,42 @@
         })
     }
 
+    function save_onboarding() {
+        var data = {
+            data: {
+                enabled: $("#enable_onboarding").prop("checked"),
+                suffix: $("#onboarding_suffix").val(),
+                allowed: $("#enable_onboarding_choice").prop("checked"),
+                groups: []
+            }
+        };
+        console.log(data);
+        $.post(OC.generateUrl("/apps/secsignid/onboarding/"), data).success(function () {
+            $("#save_onboarding").html("Saved");
+            $("#save_onboarding").fadeOut(3000);
+        }).fail(function () {
+            alert("An error has occured, please try again");
+        });
+    }
+
     function getOnboarding() {
         let check = $("#enable_onboarding");
+        let checkChoice = $("#enable_onboarding_choice");
         let input = $(".onboarding_input");
         let suffix = $("#onboarding_suffix");
         let save = $("#save_onboarding");
         $.get(OC.generateUrl("/apps/secsignid/onboarding/"))
             .success(function (data) {
+                console.log(data);
                 check.prop("checked", data.enabled);
+                checkChoice.prop("checked", data.allowed);
                 suffix.val(data.suffix);
                 $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
                 if (data.enabled) {
                     input.show();
                 }
             });
-        check.change(function () {
+        var onchange = function () {
             save.val("Save");
             save.show();
             if (check.prop("checked")) {
@@ -337,7 +346,9 @@
             } else {
                 input.hide();
             }
-        });
+        }
+        check.change(onchange);
+        checkChoice.change(onchange);
         suffix.change(function () {
             $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
             save.val("Save");
@@ -361,6 +372,18 @@
         $("#ssid_server_mobile").change(function () {
             $("#save_server_mobile").show();
         })
+    }
+
+    function dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
     }
 
     function addOnClicks() {

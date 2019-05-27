@@ -116,6 +116,17 @@ class API implements IAPI {
 	}
 
 	/**
+	 * Gets the SecSignID of a given session
+	 * 
+	 * @return string
+	 */
+	public function getSecSignID($session): string{
+		$authsession = new AuthSession();
+		$authsession->createAuthSessionFromArray($session);
+		return $authsession->getSecSignID();
+	}
+
+	/**
 	 * Checks if there is an existing pending authentication session.
 	 * 
 	 * @return boolean

@@ -102,6 +102,41 @@ class ConfigService {
 		return (string) $this->permissions->getAppValue("mobileurl", "id1.secsign.com");
 	}
 
+	/**
+	 * Gets the settings for choosing an id during enrollment
+	 */
+	public function getIdChoiceAllowedForUsers(){
+		$enabled = $this->permissions->getAppValue("choice_enabled", false);
+		$groups = json_decode($this->permissions->getAppValue("choice_groups", json_encode([])));
+		return [
+			"allowed" => $enabled,
+			"groups" => $groups
+		];
+	}
+
+	/**
+	 * Gets the settings for choosing an id during enrollment for current user
+	 */
+	public function getIdChoiceAllowed(){
+		$enabled = $this->permissions->getAppValue("choice_enabled", false);
+		$groups = json_decode($this->permissions->getAppValue("choice_groups", json_encode([])));
+		$user = $this->manager->get($this->userId);
+		$usergroups = $this->groupmanager->getUserGroupIds($user);
+		$groupAllowed = array_intersect($groups, $usergroups) or empty($groups);
+		return $enabled and $groupAllowed;
+	}
+
+	/**
+	 * Saves settings for id choice during enrollement
+	 * 
+	 * @param int $allowed
+	 * @param array $groups
+	 */
+	public function setIdChoiceAllowed($allowed, $groups){
+		$this->permissions->setAppValue("choice_enabled", boolval($allowed));
+		$this->permissions->setAppValue("choice_groups", json_encode($groups));
+	}
+
 
 	/**
 	 * Gets QR code for new SecSignID
@@ -149,23 +184,21 @@ class ConfigService {
 	 * @NoAdminRequired
 	 */
 	public function canUserEdit(){
-		$user = $this->manager->get($this->userId);
-		$groups = $this->groupmanager->getUserGroups($user);
-		foreach ($groups as &$group){
-			if($group->getGID() === "admin"){
-				return true;
-			}
-		}
-		return $this->permissions->getAppValue("allowEdit", false);
+		$allow = getAllowUserEdit();
+		$isAdmin = $this->groupmanager->isAdmin($this->userId);
+		return $$allow or $isAdmin;
 	}
 
 	/**
 	 * Gets the status of user onbaording
 	 */
 	public function getOnboarding(){
+		$choice = $this->getIdChoiceAllowedForUsers();
 		return [
 			"enabled" => $this->permissions->getAppValue("onboarding_enabled", false),
-			"suffix" => $this->permissions->getAppValue("onboarding_suffix", "")
+			"suffix" => $this->permissions->getAppValue("onboarding_suffix", ""),
+			"allowed" => $choice["allowed"],
+			"groups" => $choice["groups"]
 		];
 	}
 
@@ -176,6 +209,7 @@ class ConfigService {
 	 */
 	public function changeOnboarding($data){
         if(!empty($data)){
+			$this->setIdChoiceAllowed(data["allowed"], data["groups"]);
             if(isset($data['enabled'])){
                 $enabled = $data["enabled"] === "true" ? true : false;
                 if(isset($data['suffix'])){

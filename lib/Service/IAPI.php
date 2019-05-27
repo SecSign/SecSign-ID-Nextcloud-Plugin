@@ -45,6 +45,13 @@ interface IAPI {
 	public function getAuthState($session): string;
 
 	/**
+	 * Gets the SecSignID of a given session
+	 * 
+	 * @return string
+	 */
+	public function getSecSignID($session): string;
+
+	/**
 	 * Checks if there is an existing pending authentication session.
 	 * 
 	 * @return boolean

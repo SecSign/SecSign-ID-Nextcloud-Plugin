@@ -69,7 +69,13 @@ class SecsignController extends Controller {
 
 	/**
      * @NoAdminRequired
+     * @PublicPage
+	 * @NoCSRFRequired
 	 * @UseSession
+	 * 
+	 * @UserRateThrottle(limit=105, period=100)
+     * @AnonRateThrottle(limit=105, period=100)
+	 * 
 	 * @param string $secsignid
      */
 	public function givenIdExists($secsignid){

@@ -28,6 +28,9 @@ return [
 	   /* Onboarding */
 	   ['name' => 'config#getOnboarding', 'url' => '/onboarding/', 'verb' => 'GET'],
 	   ['name' => 'config#changeOnboarding', 'url' => '/onboarding/', 'verb' => 'POST'],
+	   ['name' => 'config#getIdChoiceAllowed', 'url' => '/onboarding/choice/', 'verb' => 'GET'],
+	   ['name' => 'config#getIdChoiceAllowedForUsers', 'url' => '/onboarding/choice/all/', 'verb' => 'GET'],
+	   ['name' => 'config#setIdChoiceAllowed', 'url' => '/onboading/choice/', 'verb' => 'POST'],
 	   /* Server Config */
 	   ['name' => 'config#saveServer', 'url' => '/server/', 'verb' => 'POST'],
 	   ['name' => 'config#saveServerMobile', 'url' => '/server/mobile/', 'verb' => 'POST'],

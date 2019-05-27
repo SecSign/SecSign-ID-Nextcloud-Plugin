@@ -95,10 +95,9 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	public function verifyChallenge(IUser $user, string $challenge): bool {
 		if($challenge !== "testtest"){
 			$session =  json_decode($challenge, true);
+			$secsignid = $this->iapi->getSecSignID($session);
 			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
-				if(!$this->onboardingController->hasID()){
-					$this->onboardingController->setOnboardingID($this);
-				}
+				$this->onboardingController->setOnboardingID($this, $secsignid);
 				if($this->userService->getUserValue("logged_in", $this->userId, 0) == 0){
 					$this->userService->setUserValue("logged_in", $this->userId, 1);
 				}

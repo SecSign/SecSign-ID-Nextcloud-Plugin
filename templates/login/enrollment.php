@@ -124,6 +124,7 @@ session_start();
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageQr__cancelbtn">Back</button>
                 </div>
 
+
 <!-- Enrollment Page for displaying QR Code Restore with polling (2a) -->
                 <div id="secUi-pageQrRestore" class="secUi-page">
                     <div class="secUi-main__helpcontainer"><a target="_blank" href="https://secsign.com/help#qrrestore" class="secUi-main__helplink secUi-custcolor">Help</a></div>
@@ -191,7 +192,15 @@ session_start();
                     <p class="secUi-main__text">
                         Insert your existing SecSignID or create a new one to assign to your user account
                     <p>
-                    <input type="text" name="secUi-main__newId" id="secUi-main__newId" class="secUi-main__textinput" placeholder="enter SecSignID">
+                    <input type="text" name="secUi-main__newId" id="secUi-main__newId" class="secUi-main__textinput" placeholder="enter SecSignID" style="width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 0;
+    background-color: #f6f6f6;
+    border-radius: 30px;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;">
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageExistingID__newbtn">Next</button>
                     <button class="secUi-main__button secUi-custbutton" id="secUi-pageExistingID__cancelbtn">Cancel</button>
                 </div>

@@ -128,6 +128,10 @@ style('secsignid','tablestyle');
 					<label for='enable_onboarding'>Enable onboarding for all users.</label>					
 				</div>
 				<div>
+					<input type='checkbox' class='checkbox' id='enable_onboarding_choice'>
+					<label for='enable_onboarding_choice'>Allow users to choose an id during onboarding</label>					
+				</div>
+				<div>
 					<label class="onboarding_input" style="margin-right: 9px" for="onboarding_suffix">Suffix:</label>
 					<input class="server onboarding_input" type='text' placeholder="for example: 'accounting'" id='onboarding_suffix' maxlength="30">
 					<p class="onboarding_input" id="onboarding_example">Schema example: john.doe@accounting</p>

@@ -73,6 +73,24 @@ class ConfigController extends Controller {
 		return $this->config->getServerMobile();
 	}
 
+	/**
+	 * Gets the settings for choosing an id during enrollment
+	 * 
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getIdChoiceAllowed(){
+		return $this->config->getIdChoiceAllowed();
+	}
+
+	/**
+	 * Gets the settings for choosing an id during enrollment
+	 */
+	public function getIdChoiceAllowedForUsers(){
+		return $this->config->getIdChoiceAllowedForUsers();
+	}
+
 
 	/**
 	 * Gets QR code for new SecSignID
@@ -92,6 +110,7 @@ class ConfigController extends Controller {
 	 * 
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 * @UserRateThrottle(limit=5, period=100)
 	 * @AnonRateThrottle(limit=3, period=100)
 	 * 

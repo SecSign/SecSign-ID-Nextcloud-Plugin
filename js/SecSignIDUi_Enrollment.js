@@ -281,12 +281,14 @@
             }
 
             //remove unused pages
+            console.log(settings.enrollmentCustomIdAllowed)
             if (settings.enrollmentCustomIdAllowed) {
-                //$('#secUi-pageApps__newIDbtn').remove();
+                $('#secUi-pageApps__existingIDbtn').remove();
             } else {
                 logger(DEBUG, 'switch off enrollment with custom ID');
-                //$('#secUi-pageExistingID').remove();
-                //$('#secUi-pageApps__existingIDbtn').remove();
+                $('#secUi-pageExistingID').remove();
+                $('#secUi-pageApps__newIDbtn').remove();
+                console.log($('#secUi-pageExistingID'))
             }
 
             //handle custom custom color

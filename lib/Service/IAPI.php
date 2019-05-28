@@ -52,6 +52,14 @@ interface IAPI {
 	public function getSecSignID($session): string;
 
 	/**
+	 * Validates if a given Authsession is the same as the Authsession used for
+	 * identification. This is necessary to prevent Authsesssion data injection.
+	 * 
+	 * @return bool
+	 */
+	public function validateSession($session): bool;
+
+	/**
 	 * Checks if there is an existing pending authentication session.
 	 * 
 	 * @return boolean

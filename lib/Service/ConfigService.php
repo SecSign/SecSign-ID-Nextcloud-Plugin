@@ -106,10 +106,10 @@ class ConfigService {
 	 * Gets the settings for choosing an id during enrollment
 	 */
 	public function getIdChoiceAllowedForUsers(){
-		$enabled = $this->permissions->getAppValue("choice_enabled", false);
+		$allowed = $this->permissions->getAppValue("choice_enabled", false);
 		$groups = json_decode($this->permissions->getAppValue("choice_groups", json_encode([])));
 		return [
-			"allowed" => $enabled,
+			"allowed" => $allowed,
 			"groups" => $groups
 		];
 	}
@@ -129,11 +129,12 @@ class ConfigService {
 	/**
 	 * Saves settings for id choice during enrollement
 	 * 
-	 * @param int $allowed
+	 * @param string $allowed
 	 * @param array $groups
 	 */
 	public function setIdChoiceAllowed($allowed, $groups){
-		$this->permissions->setAppValue("choice_enabled", boolval($allowed));
+		$enable = $allowed === "true" ? true : false;
+		$this->permissions->setAppValue("choice_enabled", $enable);
 		$this->permissions->setAppValue("choice_groups", json_encode($groups));
 	}
 
@@ -184,7 +185,7 @@ class ConfigService {
 	 * @NoAdminRequired
 	 */
 	public function canUserEdit(){
-		$allow = getAllowUserEdit();
+		$allow = $this->getAllowUserEdit();
 		$isAdmin = $this->groupmanager->isAdmin($this->userId);
 		return $$allow or $isAdmin;
 	}
@@ -209,7 +210,6 @@ class ConfigService {
 	 */
 	public function changeOnboarding($data){
         if(!empty($data)){
-			$this->setIdChoiceAllowed(data["allowed"], data["groups"]);
             if(isset($data['enabled'])){
                 $enabled = $data["enabled"] === "true" ? true : false;
                 if(isset($data['suffix'])){
@@ -224,7 +224,9 @@ class ConfigService {
         }else{
             throw new InvalidInputException('Input was empty. Please try again.');
         }		
-		
+		$allowed = $data["allowed"];
+		$groups = $data["groups"];
+		$this->setIdChoiceAllowed($allowed, $groups);
 		$this->permissions->setAppValue("onboarding_enabled", $enabled);
         $this->permissions->setAppValue("onboarding_suffix", $suffix);
         return true;

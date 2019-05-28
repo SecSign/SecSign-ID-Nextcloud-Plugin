@@ -105,8 +105,8 @@ session_start();
                             Windows Store
                         </a>
                     </div>
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageApps__newIDbtn">Create new SecSignID</button>
-                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageApps__existingIDbtn">Assign SecSignID</button>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageApps__newIDbtn">Choose an ID</button>
+                    <button class="secUi-main__button secUi-custbutton" id="secUi-pageApps__existingIDbtn">Use assigned ID</button>
                 </div>
 
 
@@ -195,9 +195,9 @@ session_start();
                     <input type="text" name="secUi-main__newId" id="secUi-main__newId" class="secUi-main__textinput" placeholder="enter SecSignID" style="width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    border: 0;
+    border: 2px solid #0082c9;
     background-color: #f6f6f6;
-    border-radius: 30px;
+    border-radius: 20px;
     margin: 20px 0;
     font-size: 16px;
     text-align: center;">

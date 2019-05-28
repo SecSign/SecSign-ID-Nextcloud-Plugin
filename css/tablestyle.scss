@@ -12,6 +12,28 @@
     z-index: 2;
 }
 
+.icon_descending {
+    @include icon-color('icon-triangle-s', 'actions', 000000, 1, true);
+    // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
+    // background-image: var(--icon-menu)
+}
+
+.icon_ascending {
+    @include icon-color('icon-triangle-s', 'actions', 000000, 1, true);
+    // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
+    // background-image: var(--icon-menu)
+    
+}
+
+.sort_indicator {
+    width: 10px;
+    height: 8px;
+    margin-left: 5px;
+    display: float;
+    vertical-align: middle;
+    opacity: 0.3;
+}
+
 td > input {
     width: 180px;
 }
@@ -121,6 +143,19 @@ td.icon-checkmark {
     display: none;
     padding: 6px 12px;
     border-top: none;
+}
+
+#onboarding_suffix{
+    border: 0px;
+}
+
+.text_field_border{
+    padding: 8px;
+    border: 1px solid var(--color-border-dark);
+}
+
+th[id^='sec-th']{
+    cursor: pointer;
 }
 
 #secsign_settings input{

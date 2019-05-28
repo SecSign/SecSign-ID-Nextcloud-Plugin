@@ -153,6 +153,17 @@ class API implements IAPI {
 	}
 
 	/**
+	 * Validates if a given Authsession is the same as the Authsession used for
+	 * identification. This is necessary to prevent Authsesssion data injection.
+	 * 
+	 * @return bool
+	 */
+	public function validateSession($session): bool{
+		return $this->session['session'] == $session;
+	}
+
+
+	/**
 	 * Checks if an ID exists on the server by requesting an auth session. If an error occurs,
 	 * it returns false, else it returns the Authsession that was started.
 	 * 

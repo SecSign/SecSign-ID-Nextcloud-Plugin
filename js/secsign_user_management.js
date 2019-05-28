@@ -185,6 +185,7 @@
      * @param {array} users
      */
     function initGroups(users) {
+        groups = [];
         users.forEach(user => {
             if (user.groups.length === 0) {
                 if (!groups['no group']) {
@@ -232,7 +233,7 @@
             function (data) {
                 showTable(data);
                 $(".lds-roller").hide();
-                $("#table").show();
+                $(".table").show();
                 $("#save_changes").click(function () {
                     saveChanges();
                 })
@@ -314,10 +315,9 @@
         };
         console.log(data);
         $.post(OC.generateUrl("/apps/secsignid/onboarding/"), data).success(function () {
-            $("#save_onboarding").html("Saved");
-            $("#save_onboarding").fadeOut(3000);
-        }).fail(function () {
-            alert("An error has occured, please try again");
+            $("#save_onboarding").html("Saved").fadeOut(3000);
+        }).fail(function (error) {
+            console.error(error.responseJSON.message);
         });
     }
 
@@ -333,13 +333,13 @@
                 check.prop("checked", data.enabled);
                 checkChoice.prop("checked", data.allowed);
                 suffix.val(data.suffix);
-                $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
+                $("#onboarding_example").html("John.doe@" + suffix.val())
                 if (data.enabled) {
                     input.show();
                 }
             });
         var onchange = function () {
-            save.val("Save");
+            save.html("Save");
             save.show();
             if (check.prop("checked")) {
                 input.show();
@@ -372,6 +372,70 @@
         $("#ssid_server_mobile").change(function () {
             $("#save_server_mobile").show();
         })
+    }
+
+    function refreshList(){
+        $("tr").not("#sec_header_row").removeClass("icon_descending")
+        $("tr").not("#sec_header_row").removeClass("icon_ascending")
+        $("tr").not("#sec_header_row").remove()
+        showTable(users);
+    }
+
+    var sort_property;
+
+    function addSorts(){
+        $('#sec-th-username').on("click", function (){
+            if(sort_property == 'uid'){
+                sort_property = '-uid';
+                $(this).find(".sort_indicator").removeClass("icon_ascending");
+                $(this).find(".sort_indicator").addClass("icon_descending");
+            }else{
+                sort_property = 'uid';
+                $(this).find(".sort_indicator").removeClass("icon_descending");
+                $(this).find(".sort_indicator").addClass("icon_ascending");
+            }
+            users = users.sort(dynamicSort(sort_property));
+            refreshList();
+        });
+        $('#sec-th-displayname').on("click", function (){
+            if(sort_property == 'displayname'){
+                sort_property = '-displayname';
+                $(this).find(".sort_indicator").removeClass("icon_ascending");
+                $(this).find(".sort_indicator").addClass("icon_descending");
+            }else{
+                $(this).find(".sort_indicator").removeClass("icon_descending");
+                $(this).find(".sort_indicator").addClass("icon_ascending");
+                sort_property = 'displayname';
+            }
+            users = users.sort(dynamicSort(sort_property));
+            refreshList();
+        });
+        $('#sec-th-secsignid').on("click", function (){
+            if(sort_property == 'secsignid'){
+                sort_property = '-secsignid';
+                $(this).find(".sort_indicator").removeClass("icon_ascending");
+                $(this).find(".sort_indicator").addClass("icon_descending");
+            }else{
+                $(this).find(".sort_indicator").removeClass("icon_descending");
+                $(this).find(".sort_indicator").addClass("icon_ascending");
+                sort_property = 'secsignid';
+            }
+            users = users.sort(dynamicSort(sort_property));
+            refreshList();
+        });
+        $('#sec-th-2fa').on("click", function (){
+            if(sort_property == 'enabled'){
+                sort_property = '-enabled';
+                $(this).find(".sort_indicator").removeClass("icon_ascending");
+                $(this).find(".sort_indicator").addClass("icon_descending");
+            }else{
+                $(this).find(".sort_indicator").removeClass("icon_descending");
+                $(this).find(".sort_indicator").addClass("icon_ascending");
+                sort_property = 'enabled';
+            }
+            users = users.sort(dynamicSort(sort_property));
+            refreshList();
+        });
     }
 
     function dynamicSort(property) {
@@ -422,5 +486,6 @@
     addOnClicks();
     getUsers();
     getPermissions();
+    addSorts();
 
 })(OC, window, jQuery);

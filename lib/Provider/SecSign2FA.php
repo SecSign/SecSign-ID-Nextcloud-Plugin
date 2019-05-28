@@ -93,22 +93,21 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	 * Checks if the challenge (the json encoded Authsession) is authenticated
 	 */
 	public function verifyChallenge(IUser $user, string $challenge): bool {
-		if($challenge !== "testtest"){
+		if(!empty($challenge)){
 			$session =  json_decode($challenge, true);
-			$secsignid = $this->iapi->getSecSignID($session);
-			if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
-				$this->onboardingController->setOnboardingID($this, $secsignid);
-				if($this->userService->getUserValue("logged_in", $this->userId, 0) == 0){
-					$this->userService->setUserValue("logged_in", $this->userId, 1);
+			if($this->iapi->validateSession($session)){
+				$secsignid = $this->iapi->getSecSignID($session);
+				if((int) $this->iapi->getAuthState($session) === (int) AuthSession::AUTHENTICATED){
+					$this->onboardingController->setOnboardingID($this, $secsignid);
+					if($this->userService->getUserValue("logged_in", $this->userId, 0) == 0){
+						$this->userService->setUserValue("logged_in", $this->userId, 1);
+					}
+					return true;
 				}
-				return true;
-			}else{
-				return false;
-			}		
-		}else if ($challenge !== null && $this->iapi->isSessionAccepted()) {
-			return true;
+			}
 		}
 		return false;
+		
 	}
 	/**
 	 * Decides whether 2FA is enabled for the given user

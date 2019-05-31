@@ -4,7 +4,6 @@
 -->
 <?php
 script('secsignid','secsign_user_management');
-style('secsignid','lds_roller');
 style('secsignid','tablestyle');
 ?>
 
@@ -47,31 +46,30 @@ style('secsignid','tablestyle');
 	<div id="user_management" class="tabcontent" style="display: block">
 		<h2 class="sec_content_header">User Management</h2>
 		<p>View all users and manage their SecSign ID two-factor authentication. Changes can be saved using the
-			"Save" button
+			"Save changes" button
 			below.</p>
 		<p id="enforced_warning" hidden style="color: var(--color-warning);">Some users with enforced two-factor
 			authentication do not have a SecSign ID assigned. This will prevent them from logging in unless Onboarding
 			is activated.</p>
 		<div id="changes">
-			<h1 id="total_changes">Total changes: 0</h2><button id="save_changes">Save changes</button>
+			<button id="save_changes" style="display: none;">Save 0 changes</button>
 		</div>
 
-		<div class="lds-roller">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
+		<div class="secUi-main__barload">
+			<div class="secUi-custbgcolor"></div>
+			<div class="secUi-custbgcolor"></div>
+			<div class="secUi-custbgcolor"></div>
 		</div>
 		<div class="table" hidden>
 			<div class="sec_filter">
 				<label for="sec_select_group" id="sec_select_label">Filter by group:</label>
 				<select id="sec_select_group">
-					<option value="All groups">All groups</option>
+					<option id="sec_select_all" value="All groups">All groups</option>
 				</select>
+			</div>
+			<div class="sec_search">
+				<label for="sec_search_input">Search for user:</label>
+				<input id="sec_search_input" type="text" placeholder="Username, displayname or SecSign ID">
 			</div>
 			<table id="table">
 				<thead>

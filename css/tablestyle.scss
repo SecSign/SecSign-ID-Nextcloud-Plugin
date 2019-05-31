@@ -12,29 +12,29 @@
     z-index: 2;
 }
 
-.icon_descending {
-    @include icon-color('icon-triangle-s', 'actions', 000000, 1, true);
+.icon_ascending {
+    @include icon-color('triangle-s', 'actions', "0082C9", 1, true);
     // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
     // background-image: var(--icon-menu)
 }
 
-.icon_ascending {
-    @include icon-color('icon-triangle-s', 'actions', 000000, 1, true);
+.icon_descending {
+    @include icon-color('triangle-n', 'actions', "0082C9", 1, true);
     // --icon-menu: url('/svg/core/actions/menu/ffffff?v=1');
     // background-image: var(--icon-menu)
-    
+
 }
 
 .sort_indicator {
-    width: 10px;
-    height: 8px;
-    margin-left: 5px;
-    display: float;
+    width: 20px;
+    height: 20px;
+    float: right;
+    position: absolute;
     vertical-align: middle;
-    opacity: 0.3;
 }
 
-td > input {
+
+td>input {
     width: 180px;
 }
 
@@ -66,10 +66,16 @@ table {
 
 #save_changes {
     float: right;
+    display: block;
 }
 
 #total_changes {
-    display: inline-block;
+    float: right, top;
+    display: block;
+}
+
+#sec_search_input {
+    width: 300px;
 }
 
 button {
@@ -90,7 +96,7 @@ button {
 th {
     font-weight: bold;
     font-size: 110%;
-    color:   var(--color-primary);
+    color: var(--color-primary);
 }
 
 td {
@@ -145,20 +151,20 @@ td.icon-checkmark {
     border-top: none;
 }
 
-#onboarding_suffix{
+#onboarding_suffix {
     border: 0px;
 }
 
-.text_field_border{
+.text_field_border {
     padding: 8px;
     border: 1px solid var(--color-border-dark);
 }
 
-th[id^='sec-th']{
+th[id^='sec-th'] {
     cursor: pointer;
 }
 
-#secsign_settings input{
+#secsign_settings input {
     margin-left: 8px;
 }
 
@@ -174,7 +180,7 @@ th[id^='sec-th']{
     .sec_content_header {
         margin-left: 30px;
     }
-  }
+}
 
 .sec_content_header {
     padding-top: 2px;
@@ -189,14 +195,14 @@ th[id^='sec-th']{
     border-bottom: 2px solid var(--color-border-dark);
 }
 
-.nav-ul a{
+.nav-ul a {
     padding: 14px 16px;
     transition: 0.3s;
     float: left;
     font-weight: bold;
 }
 
-a{
+a {
     transition: var(--animation-quick);
 }
 
@@ -222,4 +228,58 @@ a{
 .secsign-content {
     border: 2px solid var(--color-border-dark);
     max-width: 800px;
+}
+
+.secUi-main__barload {
+    display: block;
+    position: relative;
+    margin: 30px auto 10px auto;
+    width: 64px;
+    height: 60px;
+}
+
+.secUi-main__barload div {
+    display: inline-block;
+    position: absolute;
+    left: 6px;
+    width: 13px;
+    background: var(--color-primary);
+    animation: secUi-main__barload 1.5s infinite;
+    border-radius: 3px;
+}
+
+.secUi-main__barload div:nth-child(1) {
+    left: 6px;
+    animation-delay: -0.24s;
+}
+
+.secUi-main__barload div:nth-child(2) {
+    left: 26px;
+    animation-delay: -0.12s;
+}
+
+.secUi-main__barload div:nth-child(3) {
+    left: 45px;
+    animation-delay: 0;
+}
+
+@keyframes secUi-main__barload {
+    0% {
+        top: 0px;
+        height: 60px;
+    }
+
+    50% {
+        top: 10px;
+        height: 40px;
+    }
+
+    100% {
+        top: 0px;
+        height: 60px;
+    }
+}
+
+.secUi-custbgcolor {
+    background-color: var(--color-primary);
 }

@@ -9,6 +9,29 @@
     let users;
     let changedUsers = [];
     let groups = [];
+    let filtered = [];
+    let currentGroup = 'All groups';
+    let currentFilter = '';
+    let UserList = class {
+        constructor(users) {
+            this.users = users;
+            this.filteredUsers = users;
+            this.changedUsers = [];
+            this.groups = initGroups(users);
+            this.sortProperty = '';
+        }
+
+        get users() {
+            return this.filteredUsers;
+        }
+
+        sortUsers(sorter) {
+            this.sortProperty = sorter
+            this.users.sort(sortBy(sorter));
+        }
+
+
+    }
 
     /**
      * Returns an array of objects holding the values for each changed User
@@ -39,6 +62,7 @@
             function (data) {
                 changedUsers = [];
                 alert("Successfully updated users!");
+                users = data;
                 showTable(data);
                 $("#edited").hide();
                 showChanges();
@@ -73,9 +97,20 @@
      * Updates the indicator showing how many users were modified
      */
     function showChanges() {
-        let changes = $('#total_changes');
-        let val_string = changes.text().replace(/[0-9]/g, '');
-        changes.text(val_string + changedUsers.length);
+        let changes = $('#save_changes');
+        let length = changedUsers.length;
+        if(length === 0){
+            changes.hide();
+        }else{
+            changes.show();
+            let val_string = changes.html().replace(/[0-9]/g, length);
+            if(length === 1){
+                val_string = val_string.replace('changes', 'change');
+            }else{ if(length === 2 && !val_string.includes('s'))
+                val_string += 's';
+            }
+            changes.html(val_string);
+        }
     }
 
 
@@ -92,8 +127,8 @@
             $("#" + user.uid).find("#check").hide();
             if (changedUsers.length == 0) {
                 $("#edited").hide();
-                showChanges();
             }
+            showChanges();
         } else if (!changedUsers.includes(user.uid)) {
             // User was changed for the first time
             changedUsers.push(user.uid);
@@ -150,13 +185,15 @@
      * @param {[]} data the array of users
      */
     function showTable(data) {
-        users = data;
         let html = '';
-        initGroups(data);
         data.forEach(user => {
+            if (!user.displayname) {
+                user.displayname = user.uid;
+            }
             html += addUserRow(user);
         });
         $("#tbody").html(html);
+        $("#enforced_warning").hide();
         users.forEach(user => {
             let row = $("#" + user.uid);
             if (user.enforced === "1") {
@@ -164,7 +201,7 @@
                 row.find(".checkbox").prop("checked", true);
                 row.find("label").html("2FA enforced");
             }
-            if (user.enabled == 1 && !user.secsignid || user.enforced) {
+            if ((user.enabled == 1 && !user.secsignid )|| user.enforced  === "1") {
                 if (!user.secsignid) {
                     row.find(".ssid").append("<span class='icon-error '></span>");
                     $("#enforced_warning").show();
@@ -201,28 +238,49 @@
                 });
             }
         });
-        console.log(groups);
+        showGroups(groups);
+        return groups
+    }
+
+    function showGroups(groups) {
+        var select = $('#sec_select_group');
+        select.find("option").not("#sec_select_all").remove();
         Object.keys(groups).forEach(group => {
             let html = `<option value="${group}">${group}</option>`
-            console.log(html);
-            $('#sec_select_group').append(html);
+            select.append(html);
         });
     }
 
     /**
-     * Filters the user list by group
+     * Filters the user list by group and search filter
      * 
      * @param {string} group 
      */
-    function getGroupList(group) {
+    function filterUsers(group, filter) {
+        currentGroup = group;
+        filtered = [];
+        $('tbody tr').hide();
         if (group === 'All groups') {
-            $('tbody tr').show();
+            users.forEach(user => {
+                if (fitsFilter(user, filter)) {
+                    $('tr#' + user.uid).show();
+                    filtered.push(user);
+                }
+            });
         } else {
-            $('tbody tr').hide();
-            groups[group].forEach(user => {
-                $('tr#' + user.uid).show();
+            users.forEach(user => {
+                if (groups[group].includes(user) && fitsFilter(user, filter)) {
+                    $('tr#' + user.uid).show();
+                    filtered.push(user);
+                }
             });
         }
+    }
+
+    function fitsFilter(user, filter){
+        return user.uid.includes(filter) ||
+        (user.displayname && user.displayname.includes(filter)) ||
+        (user.secsignid && user.secsignid.includes(filter));
     }
 
     /**
@@ -231,8 +289,11 @@
     function getUsers() {
         $.get(OC.generateUrl('/apps/secsignid/ids/users/'),
             function (data) {
-                showTable(data);
-                $(".lds-roller").hide();
+                users = [...data];
+                filtered = [...users];
+                initGroups(users);
+                showTable(users);
+                $(".secUi-main__barload").hide();
                 $(".table").show();
                 $("#save_changes").click(function () {
                     saveChanges();
@@ -267,7 +328,7 @@
         });
     }
 
-    
+
 
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
@@ -313,7 +374,6 @@
                 groups: []
             }
         };
-        console.log(data);
         $.post(OC.generateUrl("/apps/secsignid/onboarding/"), data).success(function () {
             $("#save_onboarding").html("Saved").fadeOut(3000);
         }).fail(function (error) {
@@ -329,7 +389,6 @@
         let save = $("#save_onboarding");
         $.get(OC.generateUrl("/apps/secsignid/onboarding/"))
             .success(function (data) {
-                console.log(data);
                 check.prop("checked", data.enabled);
                 checkChoice.prop("checked", data.allowed);
                 suffix.val(data.suffix);
@@ -374,77 +433,52 @@
         })
     }
 
-    function refreshList(){
-        $("tr").not("#sec_header_row").removeClass("icon_descending")
-        $("tr").not("#sec_header_row").removeClass("icon_ascending")
+    function refreshList(except) {
+        $("th").not(except).find(".sort_indicator").removeClass("icon_ascending");
+        $("th").not(except).find(".sort_indicator").removeClass("icon_descending");
         $("tr").not("#sec_header_row").remove()
         showTable(users);
+        filterUsers(currentGroup, currentFilter);
     }
 
     var sort_property;
 
-    function addSorts(){
-        $('#sec-th-username').on("click", function (){
-            if(sort_property == 'uid'){
-                sort_property = '-uid';
-                $(this).find(".sort_indicator").removeClass("icon_ascending");
-                $(this).find(".sort_indicator").addClass("icon_descending");
-            }else{
-                sort_property = 'uid';
-                $(this).find(".sort_indicator").removeClass("icon_descending");
-                $(this).find(".sort_indicator").addClass("icon_ascending");
-            }
-            users = users.sort(dynamicSort(sort_property));
-            refreshList();
+    function sortBy(sortBy, header, users) {
+        if (sort_property == sortBy) {
+            sort_property = '-' + sortBy;
+            $(header).find(".sort_indicator").switchClass("icon_ascending", "icon_descending");
+        } else {
+            sort_property = sortBy;
+            $(header).find(".sort_indicator").switchClass("icon_descending", "icon_ascending");
+        }
+        users = users.sort(dynamicSort(sort_property));
+        filtered = filtered.sort(dynamicSort(sort_property));
+        refreshList(header);
+    }
+
+
+    function addSorts() {
+        $('#sec-th-username').on("click", function () {
+            sortBy('uid', this, users);
         });
-        $('#sec-th-displayname').on("click", function (){
-            if(sort_property == 'displayname'){
-                sort_property = '-displayname';
-                $(this).find(".sort_indicator").removeClass("icon_ascending");
-                $(this).find(".sort_indicator").addClass("icon_descending");
-            }else{
-                $(this).find(".sort_indicator").removeClass("icon_descending");
-                $(this).find(".sort_indicator").addClass("icon_ascending");
-                sort_property = 'displayname';
-            }
-            users = users.sort(dynamicSort(sort_property));
-            refreshList();
+        $('#sec-th-displayname').on("click", function () {
+            sortBy('displayname', this, users);
         });
-        $('#sec-th-secsignid').on("click", function (){
-            if(sort_property == 'secsignid'){
-                sort_property = '-secsignid';
-                $(this).find(".sort_indicator").removeClass("icon_ascending");
-                $(this).find(".sort_indicator").addClass("icon_descending");
-            }else{
-                $(this).find(".sort_indicator").removeClass("icon_descending");
-                $(this).find(".sort_indicator").addClass("icon_ascending");
-                sort_property = 'secsignid';
-            }
-            users = users.sort(dynamicSort(sort_property));
-            refreshList();
+        $('#sec-th-secsignid').on("click", function () {
+            sortBy('secsignid', this, users);
         });
-        $('#sec-th-2fa').on("click", function (){
-            if(sort_property == 'enabled'){
-                sort_property = '-enabled';
-                $(this).find(".sort_indicator").removeClass("icon_ascending");
-                $(this).find(".sort_indicator").addClass("icon_descending");
-            }else{
-                $(this).find(".sort_indicator").removeClass("icon_descending");
-                $(this).find(".sort_indicator").addClass("icon_ascending");
-                sort_property = 'enabled';
-            }
-            users = users.sort(dynamicSort(sort_property));
-            refreshList();
+        $('#sec-th-2fa').on("click", function () {
+            sortBy('enabled', this, users);
         });
     }
 
     function dynamicSort(property) {
         var sortOrder = 1;
-        if(property[0] === "-") {
+        if (property[0] === "-") {
             sortOrder = -1;
             property = property.substr(1);
         }
-        return function (a,b) {
+        return function (a, b) {
             var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
             return result * sortOrder;
         }
@@ -477,7 +511,11 @@
         });
         $("#two_factor_auth_link").prop('href', OC.generateUrl('/settings/admin/security'));
         $('#sec_select_group').on('change', function () {
-            getGroupList(this.value);
+            filterUsers(this.value, currentFilter);
+        });
+        $('#sec_search_input').on('keyup', function () {
+            currentFilter = $(this).val();
+            filterUsers(currentGroup, currentFilter);
         })
     }
 

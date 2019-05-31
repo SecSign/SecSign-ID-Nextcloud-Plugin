@@ -7,7 +7,6 @@ jQuery(document).ready(function (OC, $) {
         ssid = data;
         $.get(OC.generateUrl("/apps/secsignid/server/")).success(function (server) {
             $.get(OC.generateUrl("/apps/secsignid/onboarding/choice/")).success(function (choice_allowed){
-                console.log(choice_allowed);
                 secsignUi = $('#secUi-container').secsignUi({
                     //Authentication
                     serviceName: "NextCloud",

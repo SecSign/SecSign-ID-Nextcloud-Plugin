@@ -99,15 +99,16 @@
     function showChanges() {
         let changes = $('#save_changes');
         let length = changedUsers.length;
-        if(length === 0){
+        if (length === 0) {
             changes.hide();
-        }else{
+        } else {
             changes.show();
             let val_string = changes.html().replace(/[0-9]/g, length);
-            if(length === 1){
+            if (length === 1) {
                 val_string = val_string.replace('changes', 'change');
-            }else{ if(length === 2 && !val_string.includes('s'))
-                val_string += 's';
+            } else {
+                if (length === 2 && !val_string.includes('s'))
+                    val_string += 's';
             }
             changes.html(val_string);
         }
@@ -201,7 +202,7 @@
                 row.find(".checkbox").prop("checked", true);
                 row.find("label").html("2FA enforced");
             }
-            if ((user.enabled == 1 && !user.secsignid )|| user.enforced  === "1") {
+            if ((user.enabled == 1 && !user.secsignid) || user.enforced === "1") {
                 if (!user.secsignid) {
                     row.find(".ssid").append("<span class='icon-error '></span>");
                     $("#enforced_warning").show();
@@ -245,10 +246,18 @@
     function showGroups(groups) {
         var select = $('#sec_select_group');
         select.find("option").not("#sec_select_all").remove();
+        var groupChecks = $('#sec_group_list');
         Object.keys(groups).forEach(group => {
             let html = `<option value="${group}">${group}</option>`
             select.append(html);
+            let groupname = group.replace(' ', '_');
+            html = `<li><input type="checkbox" class="group_list checkbox" id="sec_group_cb_${groupname}"><label for="sec_group_cb_${groupname}">${group}</label></li>`;
+            groupChecks.append(html);
         });
+        $('.group_list').on('change', function () {
+            $('#save_allow_enable').show();
+        })
+
     }
 
     /**
@@ -277,10 +286,10 @@
         }
     }
 
-    function fitsFilter(user, filter){
+    function fitsFilter(user, filter) {
         return user.uid.includes(filter) ||
-        (user.displayname && user.displayname.includes(filter)) ||
-        (user.secsignid && user.secsignid.includes(filter));
+            (user.displayname && user.displayname.includes(filter)) ||
+            (user.secsignid && user.secsignid.includes(filter));
     }
 
     /**
@@ -295,6 +304,7 @@
                 showTable(users);
                 $(".secUi-main__barload").hide();
                 $(".table").show();
+                $(document).scrollTop(0);
                 $("#save_changes").click(function () {
                     saveChanges();
                 })
@@ -303,22 +313,59 @@
 
     function getPermissions() {
         $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
-            function (allow) {
+            function (data) {
+                console.log(data)
                 let check = $("#allow_user_enable");
                 check.prop("disabled", false);
-                check.prop("checked", allow);
+                check.prop("checked", data.allow);
                 check.change(function () {
                     $("#save_allow_enable").show();
-                })
+                    if ($(this).prop('checked')) {
+                        $('#allow_user_groups').prop('disabled', false);
+                        $('#sec_group_selector').show();
+                    } else {
+                        $('#allow_user_groups').prop('disabled', true);
+                        $('#sec_group_selector').hide();
+                    }
+                });
+                let groups = $('#allow_user_groups');
+                groups.prop('disabled', !data.allow);
+                groups.change(function () {
+                    $("#save_allow_enable").show();
+                    if ($(this).prop('checked')) {
+                        $('#sec_group_selector').show();
+                    } else {
+                        $('#sec_group_selector').hide();
+                    }
+                });
+                if(data.allowGroups){
+                    groups.prop('checked', data.allowGroups)
+                    $("#sec_group_selector").show();
+                    if(data.groups){
+                        data.groups.forEach(group => {
+                            let name = group.replace(' ', '_');
+                            $('#sec_group_cb_'+name).prop('checked', true);
+                        });
+                    }
+                    
+                }
+                
             });
     }
 
     function save_allow_enable() {
         let check = $("#allow_user_enable");
+        let allowGroups = $("#allow_user_groups");
         let save = $("#save_allow_enable");
-        $.post(OC.generateUrl("/apps/secsignid/allowEdit/"), {
-                allow: check.prop("checked")
-            },
+        let data = {
+            data: {
+                allow: check.prop("checked"),
+                allowGroups: allowGroups.prop('checked'),
+                groups: getSelectedGroups()
+            }
+        };
+        console.log(data);
+        $.post(OC.generateUrl("/apps/secsignid/allowEdit/"), data,
             function () {
                 save.html("Saved");
                 save.fadeOut(3000);
@@ -328,14 +375,25 @@
         });
     }
 
+    function getSelectedGroups(){
+        let selected = [];
+        $('.group_list').each(function(index) {
+            if($(this).prop('checked')){
+                let group = $(this).prop('id').replace('sec_group_cb_','').replace('_', ' ');
+                selected.push(group);
+            }
+        });
+        return selected;
+    }
+
 
 
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
         $("#app-navigation li a").removeClass("selected");
-
         $("#" + tabName).css("display", "block");
         evt.addClass("selected");
+        window.history.replaceState("string", tabName, '#' + tabName);
     }
 
     function save_server() {
@@ -391,6 +449,10 @@
             .success(function (data) {
                 check.prop("checked", data.enabled);
                 checkChoice.prop("checked", data.allowed);
+                if(!data.enabled){
+                    checkChoice.prop('disabled', true);
+                    input.hide();
+                }
                 suffix.val(data.suffix);
                 $("#onboarding_example").html("John.doe@" + suffix.val())
                 if (data.enabled) {
@@ -402,14 +464,16 @@
             save.show();
             if (check.prop("checked")) {
                 input.show();
+                checkChoice.prop('disabled', false)
             } else {
                 input.hide();
+                checkChoice.prop('disabled', true);
             }
         }
         check.change(onchange);
         checkChoice.change(onchange);
-        suffix.change(function () {
-            $("#onboarding_example").html("Schema example: john.doe@" + suffix.val())
+        suffix.on('keyup', function () {
+            $("#onboarding_example").html("John.doe@" + suffix.val())
             save.val("Save");
             save.show();
         })
@@ -525,5 +589,14 @@
     getUsers();
     getPermissions();
     addSorts();
+    let tab = window.location.hash ? window.location.hash : '#user_management';
+    let btn = '#btn' + tab.substring(tab.indexOf('_'));
+    console.log(tab, btn, $(btn).length);
+    if ($(btn).length) {
+        openTab($(btn), tab.split('#')[1]);
+    } else {
+        openTab($('#btn_management'), 'user_management');
+    }
+
 
 })(OC, window, jQuery);

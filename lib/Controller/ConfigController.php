@@ -125,11 +125,11 @@ class ConfigController extends Controller {
 	/**
 	 * Allows users to edit the settings of their SecSign 2FA
 	 * 
-	 * @param boolean $allow
+	 * @param array $data
 	 */
-	public function allowUserEdit($allow){
-		return $this->handleInvalidInput(function () use ($allow){
-			return $this->config->allowUserEdit($allow);
+	public function allowUserEdit($data){
+		return $this->handleInvalidInput(function () use ($data){
+			return $this->config->allowUserEdit($data);
 		});
     }
 

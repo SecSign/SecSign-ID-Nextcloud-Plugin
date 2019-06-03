@@ -164,10 +164,15 @@ class ConfigService {
 	 * Allows users to edit the settings of their SecSign 2FA
 	 * 
 	 * 
-	 * @param boolean $allow
+	 * @param array $data
 	 */
-	public function allowUserEdit($allow){
-        $this->permissions->setAppValue("allowEdit", $allow);
+	public function allowUserEdit($data){
+		$allow = $data['allow']  === "true" ? true : false;
+		$allow_groups= $data['allowGroups'] === "true" ? true : false;
+		$allow_for = json_encode($data['groups']);
+		$this->permissions->setAppValue("allowEdit", $allow);
+		$this->permissions->setAppValue("allowGroups", $allow_groups);
+		$this->permissions->setAppValue("allowEditGroups", $allow_for);
     }
 
     /**
@@ -175,7 +180,15 @@ class ConfigService {
 	 * 
 	 */
 	public function getAllowUserEdit(){
-		return $this->permissions->getAppValue("allowEdit", false);
+		$allow = $this->permissions->getAppValue("allowEdit", false);
+		$allow_groups = $this->permissions->getAppValue("allowGroups", false);
+		$groups = json_decode($this->permissions->getAppValue("allowEditGroups", '{}'));
+		$data = [
+			'allow' => $allow,
+			'allowGroups' => $allow_groups,
+			'groups' => $groups
+		];
+		return $data;
 	}
 
 
@@ -185,9 +198,23 @@ class ConfigService {
 	 * @NoAdminRequired
 	 */
 	public function canUserEdit(){
-		$allow = $this->getAllowUserEdit();
-		$isAdmin = $this->groupmanager->isAdmin($this->userId);
-		return $$allow or $isAdmin;
+		$data = $this->getAllowUserEdit();
+		$allow = $data['allow'];
+		$allow_groups = $data['allowGroups'];
+		if(!$allow_groups){
+			return $allow;
+		}else{
+			$user = $this->manager->get($this->userId);
+			$usergroups = $this->groupmanager->getUserGroupIds($user);
+			foreach($data['groups'] as &$group){
+				if($group == 'no group' && empty($usergroups)){
+					return true;
+				}else if(in_array($group, $usergroups)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -314,7 +314,6 @@
     function getPermissions() {
         $.get(OC.generateUrl('/apps/secsignid/allowEdit/'),
             function (data) {
-                console.log(data)
                 let check = $("#allow_user_enable");
                 check.prop("disabled", false);
                 check.prop("checked", data.allow);
@@ -364,7 +363,6 @@
                 groups: getSelectedGroups()
             }
         };
-        console.log(data);
         $.post(OC.generateUrl("/apps/secsignid/allowEdit/"), data,
             function () {
                 save.html("Saved");
@@ -591,7 +589,6 @@
     addSorts();
     let tab = window.location.hash ? window.location.hash : '#user_management';
     let btn = '#btn' + tab.substring(tab.indexOf('_'));
-    console.log(tab, btn, $(btn).length);
     if ($(btn).length) {
         openTab($(btn), tab.split('#')[1]);
     } else {

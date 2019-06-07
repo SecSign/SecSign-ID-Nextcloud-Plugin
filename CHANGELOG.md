@@ -1,10 +1,14 @@
 ## [Unreleased]
 ### Added
+- Onboarding settings for each group
+
+## 0.2.3 - 2019-06-07
+### Added
 - Option to allow users to choose a SecSign ID during onboarding
 - Filter users in User Management by group or a search term
 - Sort users table
-- Slight UI and wording improvements
-
+- UI and wording improvements
+- Editing permissions per group
 
 ## 0.2.2 - 2019-05-22
 ### Added

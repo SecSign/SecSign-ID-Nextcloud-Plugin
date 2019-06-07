@@ -102,7 +102,6 @@
                     if (data) {
                         if (data.error != undefined) {
                             //show error
-                            console.log(data);
                             setErrorMessage(data["errormsg"]);
                         } else {
                             //display accesspass

@@ -123,7 +123,7 @@ class ConfigService {
 		$user = $this->manager->get($this->userId);
 		$usergroups = $this->groupmanager->getUserGroupIds($user);
 		$groupAllowed = array_intersect($groups, $usergroups) or empty($groups);
-		return $enabled and $groupAllowed;
+		return $enabled; //and $groupAllowed;
 	}
 
 	/**

@@ -65,6 +65,7 @@ class ConfigService {
 					throw new InvalidInputException("Port number must be between 0 and 65535");
 				}
 			}
+			return true;
 		}else{
             throw new InvalidInputException("Server data cannot be empty. Please try again.");
         }
@@ -78,6 +79,7 @@ class ConfigService {
 	public function saveServerMobile($server){
 		if(!empty($server)){
 			$this->permissions->setAppValue("mobileurl", $server);
+			return True;
 		}else{
             throw new InvalidInputException("Server address cannot be empty. Please try again");
         }
@@ -87,11 +89,15 @@ class ConfigService {
 	 * Gets server data
 	 */
 	public function getServer(){
+		$server = (string) $this->permissions->getAppValue("server", "https://httpapi.secsign.com");
+		$fallback = (string) $this->permissions->getAppValue("fallback", "https://httpapi2.secsign.com");
+		$serverport = (int) $this->permissions->getAppValue("serverport", 443);
+		$fallbackport = (int) $this->permissions->getAppValue("fallbackport", 443);
 		return [
-			"server" => (string) $this->permissions->getAppValue("server", "https://httpapi.secsign.com"),
-			"fallback" => (string) $this->permissions->getAppValue("fallback", "https://httpapi2.secsign.com"),
-			"serverport" => (int) $this->permissions->getAppValue("serverport", 443),
-			"fallbackport" => (int) $this->permissions->getAppValue("fallbackport", 443)
+			"server" => $server,
+			"fallback" => $fallback,
+			"serverport" => $serverport,
+			"fallbackport" => $fallbackport
 		];
 	}
 
@@ -144,9 +150,7 @@ class ConfigService {
 	 */
 	public function getQR(){
 		$secsignid = $this->userId . "@" . $this->permissions->getAppValue("onboarding_suffix","test");		
-		$serverurl = $this->permissions->getAppValue("mobileurl","id1.secsign.com");
-		$uri =  "com.secsign.secsignid://create?idserverurl=".$serverurl."&secsignid=". $secsignid;
-		QRCode::png($uri);
+		return getQRForId($secsignid);
 	}
 
 	/**
@@ -193,7 +197,7 @@ class ConfigService {
 
 
 	/**
-	 * Gets status of editing permissions for current user. Always returns true if user is an admin.
+	 * Gets status of editing permissions for current user.
 	 * 
 	 * @NoAdminRequired
 	 */

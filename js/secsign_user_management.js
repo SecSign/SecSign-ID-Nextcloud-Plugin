@@ -431,7 +431,7 @@
             }
         };
         $.post(OC.generateUrl("/apps/secsignid/onboarding/"), data).success(function () {
-            $("#save_onboarding").html("Saved").fadeOut(3000);
+            $("#save_onboarding").val("Saved").fadeOut(3000);
         }).fail(function (error) {
             console.error(error.responseJSON.message);
         });
@@ -458,7 +458,7 @@
                 }
             });
         var onchange = function () {
-            save.html("Save");
+            save.val("Save");
             save.show();
             if (check.prop("checked")) {
                 input.show();

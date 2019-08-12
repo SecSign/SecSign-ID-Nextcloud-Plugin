@@ -153,6 +153,7 @@ td.icon-checkmark {
 
 #onboarding_suffix {
     border: 0px;
+    background: transparent;
 }
 
 .text_field_border {
@@ -179,6 +180,12 @@ th[id^='sec-th'] {
 @media only screen and (max-width: 770px) {
     .sec_content_header {
         margin-left: 30px;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .sec_content_header {
+        padding-left: 50px;
     }
 }
 

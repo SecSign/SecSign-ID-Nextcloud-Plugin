@@ -206,7 +206,7 @@ class ConfigService {
 		$allow = $data['allow'];
 		$allow_groups = $data['allowGroups'];
 		if(!$allow_groups){
-			return $allow;
+			return $allow || $this->groupmanager->isAdmin($this->userId);
 		}else{
 			$user = $this->manager->get($this->userId);
 			$usergroups = $this->groupmanager->getUserGroupIds($user);

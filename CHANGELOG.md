@@ -2,6 +2,11 @@
 ### Added
 - Onboarding settings for each group
 
+## 0.3.0 - 2019-08-12
+### Added
+- Support for 2FA Provider setup at first login (for Nextcloud 17+)
+- Some design improvements 
+
 ## 0.2.3 - 2019-06-07
 ### Added
 - Option to allow users to choose a SecSign ID during onboarding

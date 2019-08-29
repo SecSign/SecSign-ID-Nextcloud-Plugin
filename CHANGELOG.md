@@ -2,6 +2,10 @@
 ### Added
 - Onboarding settings for each group
 
+## 0.2.4 - 2019-08-29
+### Added
+- Fixed configuration issue
+
 ## 0.2.3 - 2019-06-07
 ### Added
 - Option to allow users to choose a SecSign ID during onboarding

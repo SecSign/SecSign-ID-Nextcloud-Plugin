@@ -25,6 +25,10 @@ class ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'P' => 
+        array (
+            'Prophecy\\' => 9,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -51,6 +55,10 @@ class ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Prophecy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -58,16 +66,6 @@ class ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Prophecy\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
-            ),
         ),
     );
 
@@ -544,7 +542,6 @@ class ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit3d98297bd68bc2cd9ddfa1ae6ce8ab0b::$classMap;
 
         }, null, ClassLoader::class);

@@ -2,6 +2,11 @@
 ### Added
 - Onboarding settings for each group
 
+
+## 0.2.5 - 2019-11-18
+### Fixed
+- Issue regarding integrity check
+
 ## 0.2.4 - 2019-08-29
 ### Added
 - Fixed configuration issue

@@ -2,6 +2,9 @@
 ### Added
 - Onboarding settings for each group
 
+## 0.2.6 - 2020-03-30
+### Added
+- Updated to allow installation in NC versions 17 and 18
 
 ## 0.2.5 - 2019-11-18
 ### Fixed

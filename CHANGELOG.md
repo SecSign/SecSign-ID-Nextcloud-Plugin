@@ -2,6 +2,10 @@
 ### Added
 - Onboarding settings for each group
 
+## 0.3.1 - 2020-03-30
+### Added
+- Support for NextCloud 18
+
 ## 0.3.0 - 2019-11-11
 ### Added
 - Support for 2FA Provider setup at first login (for Nextcloud 17+)

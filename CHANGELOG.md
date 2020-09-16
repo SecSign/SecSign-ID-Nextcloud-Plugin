@@ -2,6 +2,10 @@
 ### Added
 - Onboarding settings for each group
 
+## 0.3.2 - 2020-09-15
+### Added
+- Support for NextCloud 19
+
 ## 0.3.1 - 2020-03-30
 ### Added
 - Support for NextCloud 18

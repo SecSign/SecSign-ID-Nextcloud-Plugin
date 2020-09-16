@@ -3,16 +3,16 @@
     "hashes": {
         ".gitignore": "0a2685d81180dfbbb6bc61b1ba9ad2eb58085023be918a4ceeaeb79da3c6e6fe0002c5bd17320e8a4837abcb49ec14d34e60fce9d6e6e9e0a1b21ef8ea575037", 
         ".vscode/launch.json": "7dc67866e34224bd2231b8cfd5097db027bd750db79b054dd8f0d24d89794f03a0bdc7f2d6002b86ec7955c1f4ea147036748deaf0102b7fd1320b3eda0efe0c", 
-        "CHANGELOG.md": "6678ae06de4757a2e23dddcb282261875e60ef1857183bb9be9f4d8fcb5b396320b6f7948f75d3e0709ac5a757ea8bdbfdff89885f59a82b2c82d3149f58060e", 
+        "CHANGELOG.md": "7d07cfff30be8d3e7d50c2bf07f71e68b6dd38695a94c43075d204c92cdb49361a7c8d35b256e376165b183b185bb8c0140ad6e866b3dc3bfed37296cff2ddcc", 
         "COPYING": "a0a86214ea153fb07ff35ceec0848dd1703eae22de036a825efc8394e50f65e3044832f3b49cf7e45a39edc470bdf738abc36a3a78ca7df3a6e73c14eaef94a8", 
         "Makefile": "dc3ead9f89c24ec766286f0963a1891ac66a7d50d7c2230b32a83f553c48136a42675df34a17684ae87fd1a5979d1a0e7ad2fcd54afcb2e1df4e1780b50e472f", 
         "README.md": "20452ce1ea86b1144314aec1e42acb7604e0fe959479f81ccffbfa5e4f953c4b5ce3fdaa12204d05eb5b50f002b6d94a18616a3f0c64834251524c79dbb46a1c", 
         "appinfo/app.php": "ea438ebed43ef5ae139e54cd4170419ec6571c4bd4e4b41fe1b52bc7e7537e766780156e972c8098fdd8614586ad94fdb486823f0b75afc8848b81eebbe027a0", 
-        "appinfo/info.xml": "b3b73c8362f2f859f1e1138e52e2a601daf1d005774c1dcb2123606d4fa566f600917d29bafb9e9666c324f96e889cdf5bf256b1ad42e8bd764d1e3c50079191", 
+        "appinfo/info.xml": "8aec68c6370fa95b8ebefc96b85421e6a92e41aad879ed2f567b12ac76337cb424b08425df74962a3e986e10f97bd330e04da3343a09459baff6453477858ae0", 
         "appinfo/routes.php": "e494531beb4fac848c27a8f703935a0e45a627ca768bee3d952866eead718a5edcaf872520ffdcfcdc9434bf1ffe2a560ba4eadf0efa7ee7a900020d6e1fe0dd", 
         "build/tools/composer.phar": "5d543aeddd567e81b08bd86782531c4ee6595f0fc3aa09fd3ad2bf9724584b3062e3b5597c00b8143cb4241165576c10294a5a95061281fd83e0312947d03079", 
         "composer.json": "6135cb3e9d2a3d3e3e66387de63341682d449a13ece66a888a733937fdec395102af2341cd91881cdd38638eebb3511e0717933ecbdb8846efbb4dbe23739437", 
-        "composer.lock": "a2a00b1c5fb889327e4000efb1f9b3f2f55f984ccd805b4f3b837fc40500ee00a5b315555a25412eccbfc453210373d50966e5e48b19594e17f1e5bfc034a769", 
+        "composer.lock": "0c9cd578f54e77eb613fca2086462e895f0929ab1f72af05db923c27691afed03a05ec71da575bde4846eaa6f87d1b8bb6334094cfa34ce231247cbc8d25f52a", 
         "css/SecSignIDUi.css": "058d716d918af9343bd3bdccdd232917f6ad0847c53b0d88bc63c11d437d68ebb50f0bfb261ecee30f80d8add196cc5ef7f72d1145a9ad1d8ceefc59c35f4a03", 
         "css/lds_roller.css": "6152782b5459b985233a8901065ee4f6c127109a5b70c78f26791e3bc6426c324767f36f152626bd8021a928a69f50c2cfc2730b3fdc10ab2f549a88292a061d", 
         "css/settings.scss": "bc3179b740f740c54cc2cf913762e5535ec18664c4f3afdf60c7018b8d389dc20c3dbab415596d7efbacaa65e33985d80a5df8917ea692ab0225fe3a1fe629c8", 
@@ -44,7 +44,8 @@
         "lib/Exceptions/SecsignException.php": "17ed166aa2390531929866585ab322de0295aa126a907a98bf4424c84538eccedf7db230c6f637d39a939932a3628e1efa24643a73deef1f4b006c7928feca41", 
         "lib/Migration/Version5.php": "07bd3d5306979920c935f6e0cf4675ea47e9e4d0f6035d08f68834e448cc8330596b36c16401aea6ed85f99caa1c42a086f6a71eb2e2fea6c554be6474b1c9a6", 
         "lib/Migration/Version9.php": "97da07160a0f201bf3060ff57c8fc349fbb1b6d33db2305a45cf6ad4b694f0b08e87bba8af26eabf8d32ace72d04b2b6f4be173debcb529dae83edea0dac63f5", 
-        "lib/Provider/SecSign2FA.php": "1c23c2aeec1e8996a87dc5b685f00dd4efe0e5989f8b5a98878e7f7895dfbbaa65ccb7011a122425a442f9098be01f4b1e0f4fa15d191b920e0cd7081286f37b", 
+        "lib/Provider/LoginSetupProvider.php": "cbc04fc329189857ce7e9316ec1e9ca2ff4ca38fccd6b1784c8a2fa41daae5dc39ed4d7658901201d19781e354a97f641aa3299f36cc7f60ebc2c204db2fd755", 
+        "lib/Provider/SecSign2FA.php": "087656921801b2bd6b8d61e32dea3604f212e347b1777f04cbee0d5a0f980069285b9e622f75051c1694ae8cb2ac97a97bf710f7a9355427bd5fb5eef270a1d0", 
         "lib/Service/API.php": "a383318f21f29ce9d8741cd6472534d121a34a88bfc0a5a679b38ba502e57e8f071d06b172c7106f2d9151c381aae75475ad8c71591b0c3ea497bd5de59eda01", 
         "lib/Service/AuthSession.php": "dcaee347cdf06d2ea21bbcb958eff23436f8be48fcd0580d4b2ecdbea9467974c292dfee46464d269619b88f263a55aa792714efb25ecef478ba51dff6a6f029", 
         "lib/Service/ConfigService.php": "d059aebc5f6586612deb0c29c9449176babf6d6a58276374ce9de4ca7d041c8d00b3bffa70b1afbca4d3964358385c0d46f6edd0ed644b585883c56011922356", 
@@ -83,7 +84,7 @@
         "vendor/composer/autoload_psr4.php": "51efc8a02d0eb470a3aa93a5a4f67c43ee2972b7a8544c3a4f8d2ac89db04f92438c0feace03185a75f24702a20d47014173cf37f67276521d21236e1c2f5d30", 
         "vendor/composer/autoload_real.php": "8ddcdcf0cbde55fdfe67e5a290792aa10a1f0dc70eec9ffadf4fb5dd7564728d0437ebe275e8c66e060e570a8aa977719b8d4af4c4afe3eac9a791f6a2d00342", 
         "vendor/composer/autoload_static.php": "6da3155df0ee73998df5b16909d713be4e5f8e192fdae7ede8f9b9e7cbfc6acaff80f19f539d9a948c0134d46674ba506a4f41e040837bc9dda7c9845f754b0f", 
-        "vendor/composer/installed.json": "2141a04e8a44e6e4c68f3880b5784d51f9d791dea13e5144474b219668fc04f96ef190ca0b4e9cc52ccf31d80e9bb77e6d20172bf0b5bfee755490a67ad1e13f", 
+        "vendor/composer/installed.json": "b99c1899adcdabe48fe641c320112c0c523ceee588553067dc93cff2f357eb30d1625aa47d2e5316ebcddda418f173c21036137c0c417c05f356865dfc0d967b", 
         "vendor/doctrine/instantiator/.doctrine-project.json": "1de8f6b0d82b2c4a08f699b1e1c9bd844f13b0f8e6dfe9cd1b53eb1c3697f1a3258f423438bf0b726ae209316246fa90e0120bea9a081acae1fdf9c519673f24", 
         "vendor/doctrine/instantiator/.github/FUNDING.yml": "c675e4c863e301753ce3f87d82ff9d3d7c659dd763b3b815b357a2bdb092df802baca98eb814052fea3dc970b92398f0d8cc9ee069ad55632dd8e217c159cb9d", 
         "vendor/doctrine/instantiator/CONTRIBUTING.md": "a967cb5e0074b3a363616343bb6b668ccbc7c5d7588f524b73f0cbba2d41b7c7d0796245fbde62ca6acda2b47d5edb9a27a595f3c6692b9bd4f48d7d9d312ec0", 
@@ -1453,5 +1454,5 @@
         "vendor/webmozart/assert/psalm.xml": "3c1a3d7fec3cb8c4133a71859eff40793754db089ba0da0789996a7685c53404071fc1ab552400c5c8639801dff9cb57180ddd51c97c0db950f82d2c74b0fdc9", 
         "vendor/webmozart/assert/src/Assert.php": "5fa6cf13c8d13bf00f360421b77aa4c7b3c89b73cb8f1ebd25960c03ac42be0d9fcdbac96e34a5edbe6af8786e7d196b74084a2547b78400b10a91ac1343060a"
     }, 
-    "signature": "tZz6mjgmTZL0eoVeiqM3N1piMPOP7XIAqM/viydgfNuCHKC2QYCgLk30jvFtKjPGQmfCeYHZ9XC+Au1sbWU/O8bfA7hKRjhcr8nmzQU+IUihwxApFGOxsZZU1nG7s8jiN0Yn1ZEIMQEiZJOzTB4SUp39OsW8XU26GhECYUL/lKgWwe/P77skeHgwtoI7Gs52cZ+s79y+NFpyNffphxOkiCTFszuLa+gWLh0E/Vvyv5nnNN+fclA2733uiaQCiyir80jGbyyjY8pj5zQOJpwzOpG2lwLv7M/8/R9qLCDRwceHtqhgRXYnWEHQKpOInidK4mMXXALBVy3OiN4uCFHw6yUog8EtxESR6JELKg0Sxvf7jujTluCX6Xl77rE0OadWw8kPUfn4agWFwxaiTDIEgpsGvrEnBqAlkVZ9iDhwXmmQVko95VBawj6OQ9jSA5tcK12xMM2Ma+G9kBX3vNaUAp2dxcPmY3NjFwichgyXDG0vlhLsuEDRceaZSI9N7uSmTlek4gCGtaOD8zpFkcwoW6FyIIc6CgvGWCKuhKZ26A69Ljf1Ci2a2tIq4c982YXyucLexNOAeoS3g38PwcRMCScLDgq/BKRvKiG1HljrygSFZDEupx9DWbyPtTpS639FlYQlLhxoh+HpntlviRfnQbVi6FnZp6hjwL0NpYCaKzQ="
+    "signature": "vzlKxpRN6Fg084TS+rFbIz2GgyhTbrW3JQq6rgbXp/TdYc/Q53qtj/4Hhzq9Al90bU9GIsleR0qyq4qgQwORV48tad5fcuRZ32ih58Pw+Tpi1nf+J6PgECMoFo/aWhGEGsx83C82IlqdSUIA9MCJ1fqM0uGfnRxDlcg2gqVjucW3ds2sjRhlsq6I6yNz77qJnaKKALb5hFlroQy4EMQVHjWt2bFn7LS9Qo8vI+3gA/Whw7q60bK42aqThRSQPdPqeYcBl8a4NZfk1eUXWZpQIJ2D1j1UFU8lI/NYfSx4UjmB2E68Cu5gHzRNQGrORmfwFD6ugPHoXatPElRu4RVzUiRRhr0fBSOppqAGR6yrUPEoL0l4Xijd2282VfvtqVPdN86KAIYnX40Wkj5tahNogPZWrtZUiAtrou62aRcs1sNdaefwDEOgxo0M3ZABfpk3Ue5BqQl474QjnxjQSD66vP6DCeXuDsffglQelk0CbEkswo9giMSKIz7LawJSGxkdngILBkK4uj81MfO74iIsBdn9ep9HV1X/Y7eRp4c/llclM5KkORqhROQIHDuksw7+/BAZRD+o1ZYl8BLf+72wZ8kmX0JUBPo7NBP3BZcp6aTJbjbBOrJtA04yfNoEIJsF+jSqXP3JmZ4NluvcfWHmVbpKDtWz56RtMBMxG26bv+s="
 }

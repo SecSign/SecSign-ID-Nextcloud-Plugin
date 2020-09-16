@@ -6,6 +6,8 @@
 namespace OCA\SecSignID\Provider;
 
 use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
+use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
+use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCA\SecSignID\Service\IAPI;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
@@ -23,7 +25,7 @@ use OCA\SecSignID\Controller\OnboardingController;
  * SecSign2FA is starts an authentication session once a user has
  * entered a correct username password combination.
  */
-class SecSign2FA implements IProvider, IDeactivatableByAdmin {
+class SecSign2FA implements IProvider, IDeactivatableByAdmin, IActivatableAtLogin {
 
 	/** @var IAPI */
 	private $iapi;
@@ -122,5 +124,12 @@ class SecSign2FA implements IProvider, IDeactivatableByAdmin {
 	public function disableFor(IUser $user){
 		$this->mapper->disableUser($user->getUID());
 		$this->registry->disableProviderFor($this, $user);
+	}
+
+	/**
+	 * Allows Users to set up two-factor authentication at login when enforced.
+	 */
+	public function getLoginSetup(IUser $user): ILoginSetupProvider{
+		return new LoginSetupProvider();
 	}
 }

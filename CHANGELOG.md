@@ -2,15 +2,19 @@
 ### Added
 - Onboarding settings for each group
 
-## 0.2.6 - 2020-03-30
+## 0.3.1 - 2020-03-30
 ### Added
-- Updated to allow installation in NC versions 17 and 18
+- Support for NextCloud 18
 
-## 0.2.5 - 2019-11-18
-### Fixed
-- Issue regarding integrity check
+## 0.3.0 - 2019-11-11
+### Added
+- Support for 2FA Provider setup at first login (for Nextcloud 17+)
+- Some design improvements 
 
-## 0.2.4 - 2019-08-29
+### Removed
+- Support for NextCloud &lt;17
+
+## 0.2.3 - 2019-08-29
 ### Added
 - Fixed configuration issue
 

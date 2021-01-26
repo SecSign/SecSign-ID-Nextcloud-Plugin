@@ -33,13 +33,38 @@
 
     }
 
+	// extracted from jquery 3.5.1
+    function escapeSelector(sel) {
+		// Css string/identifier serialization
+		// https://drafts.csswg.org/cssom/#common-serializing-idioms
+		let rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g;
+		let fcssescape = function( ch, asCodePoint ) {
+		    if ( asCodePoint ) {
+		
+				// U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+				if ( ch === "\0" ) {
+				    return "\uFFFD";
+				}
+			
+				// Control characters and (dependent upon position) numbers get escaped as code points
+				return ch.slice( 0, -1 ) + "\\" +
+			    	ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
+		    }
+		
+		    // Other potentially-special ASCII characters get backslash-escaped
+		    return "\\" + ch;
+		};
+
+        return ( sel + "" ).replace( rcssescape, fcssescape );
+    }
+
     /**
      * Returns an array of objects holding the values for each changed User
      */
     function getChanges() {
         let updates = [];
         changedUsers.forEach(uid => {
-            let row = $("#" + uid);
+            let row = getUserTableRow(uid);
             let secsignid = row.find(".ssid input").val();
             let enabled = row.find("#enabled input").is(':checked') ? 1 : 0;
             updates.push({
@@ -122,10 +147,10 @@
      */
     function changedEnabled(val, user) {
         let user_enabled = user.enabled == 1;
-        if (user_enabled == val && $("#" + user.uid).find(".ssid input").val() == user.secsignid) {
+        if (user_enabled == val && getUserTableRow(user.uid).find(".ssid input").val() == user.secsignid) {
             // All changes were reverted
             changedUsers.splice(changedUsers.indexOf(user.uid), 1);
-            $("#" + user.uid).find("#check").hide();
+            getUserTableRow(user.uid).find("#check").hide();
             if (changedUsers.length == 0) {
                 $("#edited").hide();
             }
@@ -133,7 +158,7 @@
         } else if (!changedUsers.includes(user.uid)) {
             // User was changed for the first time
             changedUsers.push(user.uid);
-            $("#" + user.uid).find("#check").show();
+            getUserTableRow(user.uid).find("#check").show();
             if (changedUsers.length == 1) {
                 $("#edited").show();
             }
@@ -147,7 +172,7 @@
      * @param {Object} user the user corresponding to the modified row
      */
     function changedID(val, user) {
-        let row = $("#" + user.uid);
+        let row = getUserTableRow(user.uid);
         let enabled = row.find("#enabled input").is(':checked') ? 1 : 0;
         let secsignid = user.secsignid == null ? '' : user.secsignid;
         let user_enabled = user.enabled == null ? false : user.enabled;
@@ -155,7 +180,7 @@
             val == secsignid && user.secsignid == null) {
             // All changes were reverted
             changedUsers.splice(changedUsers.indexOf(user.uid), 1);
-            $("#" + user.uid).find("#check").hide();
+            getUserTableRow(user.uid).find("#check").hide();
             if (changedUsers.length == 0) {
                 $("#edited").hide();
             }
@@ -169,7 +194,7 @@
             if (!changedUsers.includes(user.uid)) {
                 // User was changed for the first time
                 changedUsers.push(user.uid);
-                $("#" + user.uid).find("#check").show();
+                getUserTableRow(user.uid).find("#check").show();
                 if (changedUsers.length == 1) {
                     $("#edited").show();
                 }
@@ -180,6 +205,11 @@
             }
         }
     }
+
+
+	function getUserTableRow(userId) {
+		return $("#" + escapeSelector(userId));
+	}
 
     /**
      * Creates the html for a table for a given array of users
@@ -196,7 +226,7 @@
         $("#tbody").html(html);
         $("#enforced_warning").hide();
         users.forEach(user => {
-            let row = $("#" + user.uid);
+            let row = getUserTableRow(user.uid);
             if (user.enforced === "1") {
                 row.find(".checkbox").prop("disabled", true);
                 row.find(".checkbox").prop("checked", true);
@@ -389,7 +419,7 @@
     function openTab(evt, tabName) {
         $(".tabcontent").css("display", "none");
         $("#app-navigation li a").removeClass("selected");
-        $("#" + tabName).css("display", "block");
+        getUserTableRow(tabName).css("display", "block");
         evt.addClass("selected");
         window.history.replaceState("string", tabName, '#' + tabName);
     }
